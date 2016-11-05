@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven ${maven.version}
+Built-By: ${user.name}
+Build-Jdk: ${java.version}
+Specification-Title: ${project.name}
+Specification-Version: ${project.version}
+Specification-Vendor: ${project.organization.name}
+Implementation-Title: ${project.name}
+Implementation-Version: ${project.version}
+Implementation-Vendor-Id: ${project.groupId}
+Implementation-Vendor: ${project.organization.name}
+Implementation-URL: ${project.url}
