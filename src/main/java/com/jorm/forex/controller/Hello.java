@@ -1,4 +1,4 @@
-package com.jorm.controller;
+package com.jorm.forex.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
