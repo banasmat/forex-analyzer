@@ -6,10 +6,14 @@ import java.util.Map;
 
 public class TrendFinder {
 
-	private Double minDifference = 1.0;
+	private Double minDifference = null;
 	
 	//TODO consider using Map in the interface (client classes should make sure the order is ok)
 	public Date findTrendStart(LinkedHashMap<Date, Double> data) {
+		
+		if(null == minDifference){
+			throw new RuntimeException("Please set minDifference");
+		}
 		
 		Date result = null;
 		
@@ -45,7 +49,9 @@ public class TrendFinder {
 
 	public void setMinDifference(double d) {
 		
-		//TODO this probably shouldn't be changable between findStart and findEnd
+		if(null != minDifference){
+			throw new RuntimeException("minDifference has already been set to: " + minDifference.toString());
+		}
 		
 		minDifference = d;
 	}

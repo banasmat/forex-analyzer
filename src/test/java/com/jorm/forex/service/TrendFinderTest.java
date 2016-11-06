@@ -26,10 +26,37 @@ public class TrendFinderTest {
 	private static DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		trendFinder = new TrendFinder();
 	}
 
+	@Test(expected=RuntimeException.class)
+	public void shouldBeAbleToSetMinDifferenceOnlyOnce(){
+		trendFinder.setMinDifference(1d);
+		trendFinder.setMinDifference(1d);
+	}
+	
+	@Test(expected=RuntimeException.class)
+	@UseDataProvider("dataProviderTrendStart")
+	public void shouldThrowException_GivenThatMinDifferenceIsNotSet(LinkedHashMap<Date, Double> data, Double minDifference, Date result){
+		trendFinder.findTrendStart(data);
+	}
+	
+	@Test
+	@UseDataProvider("dataProviderTrendStart")
+ 	public void shouldFindTrendStart_GivenThanMinDifferenceIsSufficient(LinkedHashMap<Date, Double> data, Double minDifference, Date result){
+		trendFinder.setMinDifference(minDifference);
+		assertEquals(result, trendFinder.findTrendStart(data));
+	}
+	
+	@Test
+	@UseDataProvider("dataProviderTrendStartNotExists")
+	public void shouldNotFindTrendStart_GivenThanMinDifferenceIsNotSufficient(LinkedHashMap<Date, Double> data, Double minDifference) throws ParseException{
+		trendFinder.setMinDifference(minDifference);
+		assertNull(trendFinder.findTrendStart(data));
+	}
+
+	
 	@DataProvider
 	public static Object[][] dataProviderTrendStart() throws ParseException{
 		
@@ -79,17 +106,4 @@ public class TrendFinderTest {
 		};
 	}
 	
-	@Test
-	@UseDataProvider("dataProviderTrendStart")
- 	public void shouldFindTrendStart_GivenThanMinDifferenceIsSufficient(LinkedHashMap<Date, Double> data, Double minDifference, Date result){
-		trendFinder.setMinDifference(minDifference);
-		assertEquals(result, trendFinder.findTrendStart(data));
-	}
-	
-	@Test
-	@UseDataProvider("dataProviderTrendStartNotExists")
-	public void shouldNotFindTrendStart_GivenThanMinDifferenceIsNotSufficient(LinkedHashMap<Date, Double> data, Double minDifference) throws ParseException{
-		trendFinder.setMinDifference(minDifference);
-		assertNull(trendFinder.findTrendStart(data));
-	}
 }
