@@ -12,37 +12,84 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
+
+@RunWith(DataProviderRunner.class)
 public class TrendFinderTest {
 
 	private TrendFinder trendFinder;
+	
+	private static DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Before
 	public void setUp() throws Exception {
 		trendFinder = new TrendFinder();
 	}
 
-	@Test
- 	public void shouldFindTrendStartInGivenData() throws ParseException{
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); 
+	@DataProvider
+	public static Object[][] dataProviderTrendStart() throws ParseException{
 		
-		LinkedHashMap<Date, Double> data = new LinkedHashMap<Date, Double>(){
+		return new Object[][]{
 			{
-				put(dateFormat.parse("01/01/1990"), 1.12);
-				put(dateFormat.parse("02/01/1990"), 1.08);
-				put(dateFormat.parse("03/01/1990"), 1.06);
-				put(dateFormat.parse("04/01/1990"), 1.10);
-				put(dateFormat.parse("05/01/1990"), 1.16);
-				put(dateFormat.parse("06/01/1990"), 1.14);
-				put(dateFormat.parse("07/01/1990"), 1.12);
-				put(dateFormat.parse("08/01/1990"), 1.16);
-				put(dateFormat.parse("09/01/1990"), 1.20);
-				put(dateFormat.parse("10/01/1990"), 1.22);
+				new LinkedHashMap<Date, Double>(){
+					{
+						put(dateFormat.parse("01/01/1990"), 1.12);
+						put(dateFormat.parse("02/01/1990"), 1.08);
+						put(dateFormat.parse("03/01/1990"), 1.06);
+						put(dateFormat.parse("04/01/1990"), 1.10);
+						put(dateFormat.parse("05/01/1990"), 1.16);
+						put(dateFormat.parse("06/01/1990"), 1.14);
+						put(dateFormat.parse("07/01/1990"), 1.12);
+						put(dateFormat.parse("08/01/1990"), 1.16);
+						put(dateFormat.parse("09/01/1990"), 1.20);
+						put(dateFormat.parse("10/01/1990"), 1.22);
+					}
+				},
+				0.15,
+				dateFormat.parse("03/01/1990")
 			}
 		};
+	}
+	
+	@DataProvider
+	public static Object[][] dataProviderTrendStartNotExists() throws ParseException{
 		
-		trendFinder.setMinDifference(0.15);
-		
-		assertEquals(dateFormat.parse("03/01/1990"), trendFinder.findTrendStart(data));
+		return new Object[][]{
+			{
+				new LinkedHashMap<Date, Double>(){
+					{
+						put(dateFormat.parse("01/01/1990"), 1.12);
+						put(dateFormat.parse("02/01/1990"), 1.08);
+						put(dateFormat.parse("03/01/1990"), 1.06);
+						put(dateFormat.parse("04/01/1990"), 1.10);
+						put(dateFormat.parse("05/01/1990"), 1.16);
+						put(dateFormat.parse("06/01/1990"), 1.14);
+						put(dateFormat.parse("07/01/1990"), 1.12);
+						put(dateFormat.parse("08/01/1990"), 1.16);
+						put(dateFormat.parse("09/01/1990"), 1.20);
+						put(dateFormat.parse("10/01/1990"), 1.22);
+					}
+				},
+				1d
+			}
+		};
+	}
+	
+	@Test
+	@UseDataProvider("dataProviderTrendStart")
+ 	public void shouldFindTrendStart_GivenThanMinDifferenceIsSufficient(LinkedHashMap<Date, Double> data, Double minDifference, Date result){
+		trendFinder.setMinDifference(minDifference);
+		assertEquals(result, trendFinder.findTrendStart(data));
+	}
+	
+	@Test
+	@UseDataProvider("dataProviderTrendStartNotExists")
+	public void shouldNotFindTrendStart_GivenThanMinDifferenceIsNotSufficient(LinkedHashMap<Date, Double> data, Double minDifference) throws ParseException{
+		trendFinder.setMinDifference(minDifference);
+		assertNull(trendFinder.findTrendStart(data));
 	}
 }
