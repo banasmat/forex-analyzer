@@ -78,6 +78,24 @@ public class TrendFinderTest {
 				},
 				0.15,
 				dateFormat.parse("03/01/1990")
+			},
+			{
+				new LinkedHashMap<Date, Double>(){
+					{
+						put(dateFormat.parse("01/01/1990"), 2.00);
+						put(dateFormat.parse("02/01/1990"), 2.05);
+						put(dateFormat.parse("03/01/1990"), 2.06);
+						put(dateFormat.parse("04/01/1990"), 2.00);
+						put(dateFormat.parse("05/01/1990"), 1.96);
+						put(dateFormat.parse("06/01/1990"), 1.85);
+						put(dateFormat.parse("07/01/1990"), 1.89);
+						put(dateFormat.parse("08/01/1990"), 1.82);
+						put(dateFormat.parse("09/01/1990"), 1.65);
+						put(dateFormat.parse("10/01/1990"), 1.90);
+					}
+				},
+				0.2,
+				dateFormat.parse("03/01/1990")
 			}
 		};
 	}
@@ -99,6 +117,23 @@ public class TrendFinderTest {
 						put(dateFormat.parse("08/01/1990"), 1.16);
 						put(dateFormat.parse("09/01/1990"), 1.20);
 						put(dateFormat.parse("10/01/1990"), 1.22);
+					}
+				},
+				1d
+			},
+			{
+				new LinkedHashMap<Date, Double>(){
+					{
+						put(dateFormat.parse("01/01/1990"), 2.00);
+						put(dateFormat.parse("02/01/1990"), 2.05);
+						put(dateFormat.parse("03/01/1990"), 2.06);
+						put(dateFormat.parse("04/01/1990"), 2.00);
+						put(dateFormat.parse("05/01/1990"), 1.96);
+						put(dateFormat.parse("06/01/1990"), 1.85);
+						put(dateFormat.parse("07/01/1990"), 1.89);
+						put(dateFormat.parse("08/01/1990"), 1.82);
+						put(dateFormat.parse("09/01/1990"), 1.65);
+						put(dateFormat.parse("10/01/1990"), 1.90);
 					}
 				},
 				1d
