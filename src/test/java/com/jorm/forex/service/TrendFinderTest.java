@@ -31,9 +31,15 @@ public class TrendFinderTest {
 	}
 
 	@Test(expected=RuntimeException.class)
-	public void shouldBeAbleToSetMinDifferenceOnlyOnce(){
-		trendFinder.setMinDifference(1d);
-		trendFinder.setMinDifference(1d);
+	public void shouldBeAbleToSetMinStartDifferenceOnlyOnce(){
+		trendFinder.setMinStartDifference(1d);
+		trendFinder.setMinStartDifference(1d);
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void shouldBeAbleToSetMinEndDifferenceOnlyOnce(){
+		trendFinder.setMinEndDifference(1d);
+		trendFinder.setMinEndDifference(1d);
 	}
 	
 	@Test(expected=RuntimeException.class)
@@ -45,17 +51,23 @@ public class TrendFinderTest {
 	@Test
 	@UseDataProvider("dataProviderTrendStart")
  	public void shouldFindTrendStart_GivenThanMinDifferenceIsSufficient(LinkedHashMap<Date, Double> data, Double minDifference, Date result){
-		trendFinder.setMinDifference(minDifference);
+		trendFinder.setMinStartDifference(minDifference);
 		assertEquals(result, trendFinder.findTrendStart(data));
 	}
 	
 	@Test
 	@UseDataProvider("dataProviderTrendStartNotExists")
-	public void shouldNotFindTrendStart_GivenThanMinDifferenceIsNotSufficient(LinkedHashMap<Date, Double> data, Double minDifference) throws ParseException{
-		trendFinder.setMinDifference(minDifference);
+	public void shouldNotFindTrendStart_GivenThanMinDifferenceIsNotSufficient(LinkedHashMap<Date, Double> data, Double minDifference){
+		trendFinder.setMinStartDifference(minDifference);
 		assertNull(trendFinder.findTrendStart(data));
 	}
 
+	@Test
+	@UseDataProvider("dataProviderTrendEnd")
+	public void shouldFindTrendEnd_GivenThanMinDifferenceIsSufficient(LinkedHashMap<Date, Double> data, Double minDifference, Date result){
+		trendFinder.setMinEndDifference(minDifference);
+		assertEquals(result, trendFinder.findTrendEnd(data));
+	}
 	
 	@DataProvider
 	public static Object[][] dataProviderTrendStart() throws ParseException{
@@ -137,6 +149,52 @@ public class TrendFinderTest {
 					}
 				},
 				1d
+			}
+		};
+	}
+
+	@DataProvider
+	public static Object[][] dataProviderTrendEnd() throws ParseException{
+		
+		return new Object[][]{
+			{
+				new LinkedHashMap<Date, Double>(){
+					{
+						put(dateFormat.parse("03/01/1990"), 1.06);
+						put(dateFormat.parse("04/01/1990"), 1.10);
+						put(dateFormat.parse("05/01/1990"), 1.16);
+						put(dateFormat.parse("06/01/1990"), 1.14);
+						put(dateFormat.parse("07/01/1990"), 1.12);
+						put(dateFormat.parse("08/01/1990"), 1.16);
+						put(dateFormat.parse("09/01/1990"), 1.20);
+						put(dateFormat.parse("10/01/1990"), 1.22);
+						put(dateFormat.parse("11/01/1990"), 1.18);
+						put(dateFormat.parse("12/01/1990"), 1.15);
+						put(dateFormat.parse("13/01/1990"), 1.16);
+						put(dateFormat.parse("14/01/1990"), 1.10);
+						put(dateFormat.parse("15/01/1990"), 1.05);
+					}
+				},
+				0.15,
+				dateFormat.parse("10/01/1990")
+			},
+			{
+				new LinkedHashMap<Date, Double>(){
+					{
+						put(dateFormat.parse("03/01/1990"), 2.06);
+						put(dateFormat.parse("04/01/1990"), 2.00);
+						put(dateFormat.parse("05/01/1990"), 1.96);
+						put(dateFormat.parse("06/01/1990"), 1.85);
+						put(dateFormat.parse("07/01/1990"), 1.89);
+						put(dateFormat.parse("08/01/1990"), 1.82);
+						put(dateFormat.parse("09/01/1990"), 1.65);
+						put(dateFormat.parse("10/01/1990"), 1.90);
+						put(dateFormat.parse("11/01/1990"), 1.95);
+						put(dateFormat.parse("12/01/1990"), 1.85);
+					}
+				},
+				0.2,
+				dateFormat.parse("09/01/1990")
 			}
 		};
 	}
