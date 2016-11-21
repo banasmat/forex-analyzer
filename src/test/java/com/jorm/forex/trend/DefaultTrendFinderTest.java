@@ -1,4 +1,4 @@
-package com.jorm.forex.service;
+package com.jorm.forex.trend;
 
 import static org.junit.Assert.*;
 
@@ -6,28 +6,28 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.jorm.forex.trend.DefaultTrendFinder;
+import com.jorm.forex.util.Format;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 @RunWith(DataProviderRunner.class)
-public class TrendFinderTest {
+public class DefaultTrendFinderTest {
 
-	private TrendFinder trendFinder;
+	private DefaultTrendFinder trendFinder;
 	
-	private static DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	private static DateFormat dateFormat = Format.dateFormat;
 	
 	@Before
 	public void setUp() {
-		trendFinder = new TrendFinder();
+		trendFinder = new DefaultTrendFinder();
 	}
 
 	@Test(expected=RuntimeException.class)

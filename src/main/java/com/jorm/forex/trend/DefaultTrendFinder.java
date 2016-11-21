@@ -1,10 +1,10 @@
-package com.jorm.forex.service;
+package com.jorm.forex.trend;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class TrendFinder {
+public class DefaultTrendFinder implements TrendFinder {
 
 	private Double minStartDifference = null;
 	private Double minEndDifference = null;
@@ -48,7 +48,7 @@ public class TrendFinder {
 		return result;
 	}
 
-	public Object findTrendEnd(LinkedHashMap<Date, Double> data) {
+	public Date findTrendEnd(LinkedHashMap<Date, Double> data) {
 		
 		if(null == minEndDifference){
 			throw new RuntimeException("Please set minDifference");
