@@ -6,11 +6,11 @@ import java.util.Map;
 
 public class DefaultTrendFinder implements TrendFinder {
 
+	//TODO this might be set in findTrendStart, findTrendEnd methods arguments (first make sure that every trend finder should have it - and no other options. Otherwise might create some options class)
 	private Double minStartDifference = null;
 	private Double minEndDifference = null;
 	
 	//TODO consider using Map in the interface (client classes should make sure the order is ok)
-	//FIXME change to DateTime - we might want to look for more precise moments
 	public LocalDateTime findTrendStart(LinkedHashMap<LocalDateTime, Double> data) {
 		
 		if(null == minStartDifference){

@@ -1,27 +1,27 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Trend {
 
-	//TODO this might be datetime?
-	private Date start;
+	private LocalDateTime start;
 	
-	private Date end;
+	private LocalDateTime end;
 
-	public Date getStart() {
+	public LocalDateTime getStart() {
 		return start;
 	}
 
-	public void setStart(Date start) {
+	public void setStart(LocalDateTime start) {
 		this.start = start;
 	}
 
-	public Date getEnd() {
+	public LocalDateTime getEnd() {
 		return end;
 	}
 
-	public void setEnd(Date end) {
+	public void setEnd(LocalDateTime end) {
 		this.end = end;
 	}
 }

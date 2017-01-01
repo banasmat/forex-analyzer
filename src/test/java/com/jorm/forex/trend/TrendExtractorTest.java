@@ -45,12 +45,13 @@ public class TrendExtractorTest {
 		LocalDateTime date1 = LocalDateTime.parse("02-04-1234 00:00:00", dateFormat);
 		LocalDateTime date2 = LocalDateTime.parse("06-08-2032 00:00:00", dateFormat);
 		
+		//fixme should test multiple results
 		when(trendFinder.findTrendStart(data)).thenReturn(date1);
 		
 		when(trendFinder.findTrendEnd(data)).thenReturn(date2);
 		
-		assertEquals(date1, trendExtractor.extractTrends(data)[0].getStart());
-		assertEquals(date2, trendExtractor.extractTrends(data)[0].getEnd());
+		assertEquals(date1, trendExtractor.extractTrends(data).get(0).getStart());
+		assertEquals(date2, trendExtractor.extractTrends(data).get(0).getEnd());
 				
 	}
 }
