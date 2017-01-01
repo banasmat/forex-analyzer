@@ -22,9 +22,12 @@ public class TrendExtractor {
 	
 		ArrayList<Trend> extractedTrends = new ArrayList<Trend>();
 		
+		extractTrendsRecursively(data, extractedTrends);
 		
-		//fixme probably should be moved to recursive method
-		
+		return extractedTrends;
+	}
+	
+	private ArrayList<Trend> extractTrendsRecursively(LinkedHashMap<LocalDateTime, Double> data, ArrayList<Trend> extractedTrends){
 		LocalDateTime startDate = trendFinder.findTrendStart(data);
 		
 		if (null != startDate) {
@@ -42,21 +45,21 @@ public class TrendExtractor {
 				trend.setEnd(endDate);
 				
 				extractedTrends.add(trend);
+				
+				extractTrendsRecursively(data, extractedTrends);
 			}
-			
 		}
 		
 		return extractedTrends;
-		
 	}
 	
-	private void clearAllEntriesBeforeDate(LinkedHashMap<LocalDateTime, Double> data, LocalDateTime breakpoint){
+	private void clearAllEntriesBeforeDate(LinkedHashMap<LocalDateTime, Double> data, LocalDateTime date){
 		for (Iterator<Map.Entry<LocalDateTime, Double>> it = data.entrySet().iterator(); it.hasNext();) {
 			Map.Entry<LocalDateTime, Double> entry = it.next();
-			if (entry.getKey() != breakpoint) {
-				it.remove();
-			} else {
+			if (entry.getKey().isEqual(date)) {
 				break;
+			} else {
+				it.remove();
 			}
 		}
 	}

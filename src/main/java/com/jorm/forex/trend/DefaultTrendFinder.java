@@ -6,7 +6,9 @@ import java.util.Map;
 
 public class DefaultTrendFinder implements TrendFinder {
 
+	
 	//TODO this might be set in findTrendStart, findTrendEnd methods arguments (first make sure that every trend finder should have it - and no other options. Otherwise might create some options class)
+	//FIXME without setters in the interface, it's difficult to use it anyway
 	private Double minStartDifference = null;
 	private Double minEndDifference = null;
 	
