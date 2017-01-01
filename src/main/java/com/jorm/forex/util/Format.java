@@ -1,9 +1,10 @@
 package com.jorm.forex.util;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 public class Format {
 
-	public static DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	//public static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+	
+	public static DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 }

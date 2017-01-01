@@ -1,6 +1,6 @@
 package com.jorm.forex.trend;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -10,22 +10,23 @@ public class DefaultTrendFinder implements TrendFinder {
 	private Double minEndDifference = null;
 	
 	//TODO consider using Map in the interface (client classes should make sure the order is ok)
-	public Date findTrendStart(LinkedHashMap<Date, Double> data) {
+	//FIXME change to DateTime - we might want to look for more precise moments
+	public LocalDateTime findTrendStart(LinkedHashMap<LocalDateTime, Double> data) {
 		
 		if(null == minStartDifference){
 			throw new RuntimeException("Please set minDifference");
 		}
 		
-		Date result = null;
+		LocalDateTime result = null;
 		
 		Double min = null;
 		Double max = null;
 		Double current;
 		
-		Date minDate = null;
-		Date maxDate = null;
+		LocalDateTime minDate = null;
+		LocalDateTime maxDate = null;
 		
-		for(Map.Entry<Date, Double> entry : data.entrySet()){
+		for(Map.Entry<LocalDateTime, Double> entry : data.entrySet()){
 			current = entry.getValue();
 
 			if (null == min || current < min){
@@ -40,7 +41,7 @@ public class DefaultTrendFinder implements TrendFinder {
 						
 			if((max - min) >= minStartDifference){
 				// Return earlier date
-				result = minDate.before(maxDate) ? minDate : maxDate;
+				result = minDate.isBefore(maxDate) ? minDate : maxDate;
 				break;
 			}
 		}
@@ -48,26 +49,26 @@ public class DefaultTrendFinder implements TrendFinder {
 		return result;
 	}
 
-	public Date findTrendEnd(LinkedHashMap<Date, Double> data) {
+	public LocalDateTime findTrendEnd(LinkedHashMap<LocalDateTime, Double> data) {
 		
 		if(null == minEndDifference){
 			throw new RuntimeException("Please set minDifference");
 		}
 		
-		Date result = null;
+		LocalDateTime result = null;
 		
 		Double min = null;
 		Double max = null;
 		Double current;
 		
-		Date minDate = null;
-		Date maxDate = null;
+		LocalDateTime minDate = null;
+		LocalDateTime maxDate = null;
 		
 		Boolean isUpwards = null;
 		
 		Double previousValue = null;
 		
-		for(Map.Entry<Date, Double> entry : data.entrySet()){
+		for(Map.Entry<LocalDateTime, Double> entry : data.entrySet()){
 			current = entry.getValue();
 
 			if(null == previousValue){
