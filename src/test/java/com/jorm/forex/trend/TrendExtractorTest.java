@@ -18,7 +18,6 @@ import org.mockito.junit.MockitoRule;
 
 import com.jorm.forex.util.Format;
 
-import financial_data.DailyDataProvider;
 import model.Trend;
 
 public class TrendExtractorTest {
@@ -43,8 +42,8 @@ public class TrendExtractorTest {
 		LinkedHashMap<LocalDateTime, Double> data = new LinkedHashMap<LocalDateTime, Double>();
 		
 		//TODO use data provider;
-		LocalDateTime date1 = LocalDateTime.parse("02.04.1234 00:00:00", dateFormat);
-		LocalDateTime date2 = LocalDateTime.parse("06.08.2032 00:00:00", dateFormat);
+		LocalDateTime date1 = LocalDateTime.parse("02-04-1234 00:00:00", dateFormat);
+		LocalDateTime date2 = LocalDateTime.parse("06-08-2032 00:00:00", dateFormat);
 		
 		when(trendFinder.findTrendStart(data)).thenReturn(date1);
 		

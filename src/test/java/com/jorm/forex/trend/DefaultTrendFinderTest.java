@@ -78,38 +78,38 @@ public class DefaultTrendFinderTest {
 			{
 				new LinkedHashMap<LocalDateTime, Double>(){
 					{
-						put(LocalDateTime.parse("01.01.1990 00:00:00", dateFormat), 1.12);
-						put(LocalDateTime.parse("02.01.1990 00:00:00", dateFormat), 1.08);
-						put(LocalDateTime.parse("03.01.1990 00:00:00", dateFormat), 1.06);
-						put(LocalDateTime.parse("04.01.1990 00:00:00", dateFormat), 1.10);
-						put(LocalDateTime.parse("05.01.1990 00:00:00", dateFormat), 1.16);
-						put(LocalDateTime.parse("06.01.1990 00:00:00", dateFormat), 1.14);
-						put(LocalDateTime.parse("07.01.1990 00:00:00", dateFormat), 1.12);
-						put(LocalDateTime.parse("08.01.1990 00:00:00", dateFormat), 1.16);
-						put(LocalDateTime.parse("09.01.1990 00:00:00", dateFormat), 1.20);
-						put(LocalDateTime.parse("10.01.1990 00:00:00", dateFormat), 1.22);
+						put(LocalDateTime.parse("01-01-1990 00:00:00", dateFormat), 1.12);
+						put(LocalDateTime.parse("02-01-1990 00:00:00", dateFormat), 1.08);
+						put(LocalDateTime.parse("03-01-1990 00:00:00", dateFormat), 1.06);
+						put(LocalDateTime.parse("04-01-1990 00:00:00", dateFormat), 1.10);
+						put(LocalDateTime.parse("05-01-1990 00:00:00", dateFormat), 1.16);
+						put(LocalDateTime.parse("06-01-1990 00:00:00", dateFormat), 1.14);
+						put(LocalDateTime.parse("07-01-1990 00:00:00", dateFormat), 1.12);
+						put(LocalDateTime.parse("08-01-1990 00:00:00", dateFormat), 1.16);
+						put(LocalDateTime.parse("09-01-1990 00:00:00", dateFormat), 1.20);
+						put(LocalDateTime.parse("10-01-1990 00:00:00", dateFormat), 1.22);
 					}
 				},
 				0.15,
-				LocalDateTime.parse("03.01.1990 00:00:00", dateFormat)
+				LocalDateTime.parse("03-01-1990 00:00:00", dateFormat)
 			},
 			{
 				new LinkedHashMap<LocalDateTime, Double>(){
 					{
-						put(LocalDateTime.parse("01.01.1990 00:00:00", dateFormat), 2.00);
-						put(LocalDateTime.parse("02.01.1990 00:00:00", dateFormat), 2.05);
-						put(LocalDateTime.parse("03.01.1990 00:00:00", dateFormat), 2.06);
-						put(LocalDateTime.parse("04.01.1990 00:00:00", dateFormat), 2.00);
-						put(LocalDateTime.parse("05.01.1990 00:00:00", dateFormat), 1.96);
-						put(LocalDateTime.parse("06.01.1990 00:00:00", dateFormat), 1.85);
-						put(LocalDateTime.parse("07.01.1990 00:00:00", dateFormat), 1.89);
-						put(LocalDateTime.parse("08.01.1990 00:00:00", dateFormat), 1.82);
-						put(LocalDateTime.parse("09.01.1990 00:00:00", dateFormat), 1.65);
-						put(LocalDateTime.parse("10.01.1990 00:00:00", dateFormat), 1.90);
+						put(LocalDateTime.parse("01-01-1990 00:00:00", dateFormat), 2.00);
+						put(LocalDateTime.parse("02-01-1990 00:00:00", dateFormat), 2.05);
+						put(LocalDateTime.parse("03-01-1990 00:00:00", dateFormat), 2.06);
+						put(LocalDateTime.parse("04-01-1990 00:00:00", dateFormat), 2.00);
+						put(LocalDateTime.parse("05-01-1990 00:00:00", dateFormat), 1.96);
+						put(LocalDateTime.parse("06-01-1990 00:00:00", dateFormat), 1.85);
+						put(LocalDateTime.parse("07-01-1990 00:00:00", dateFormat), 1.89);
+						put(LocalDateTime.parse("08-01-1990 00:00:00", dateFormat), 1.82);
+						put(LocalDateTime.parse("09-01-1990 00:00:00", dateFormat), 1.65);
+						put(LocalDateTime.parse("10-01-1990 00:00:00", dateFormat), 1.90);
 					}
 				},
 				0.2,
-				LocalDateTime.parse("03.01.1990 00:00:00", dateFormat)
+				LocalDateTime.parse("03-01-1990 00:00:00", dateFormat)
 			}
 		};
 	}
@@ -121,16 +121,16 @@ public class DefaultTrendFinderTest {
 			{
 				new LinkedHashMap<LocalDateTime, Double>(){
 					{
-						put(LocalDateTime.parse("01.01.1990 00:00:00", dateFormat), 1.12);
-						put(LocalDateTime.parse("02.01.1990 00:00:00", dateFormat), 1.08);
-						put(LocalDateTime.parse("03.01.1990 00:00:00", dateFormat), 1.06);
-						put(LocalDateTime.parse("04.01.1990 00:00:00", dateFormat), 1.10);
-						put(LocalDateTime.parse("05.01.1990 00:00:00", dateFormat), 1.16);
-						put(LocalDateTime.parse("06.01.1990 00:00:00", dateFormat), 1.14);
-						put(LocalDateTime.parse("07.01.1990 00:00:00", dateFormat), 1.12);
-						put(LocalDateTime.parse("08.01.1990 00:00:00", dateFormat), 1.16);
-						put(LocalDateTime.parse("09.01.1990 00:00:00", dateFormat), 1.20);
-						put(LocalDateTime.parse("10.01.1990 00:00:00", dateFormat), 1.22);
+						put(LocalDateTime.parse("01-01-1990 00:00:00", dateFormat), 1.12);
+						put(LocalDateTime.parse("02-01-1990 00:00:00", dateFormat), 1.08);
+						put(LocalDateTime.parse("03-01-1990 00:00:00", dateFormat), 1.06);
+						put(LocalDateTime.parse("04-01-1990 00:00:00", dateFormat), 1.10);
+						put(LocalDateTime.parse("05-01-1990 00:00:00", dateFormat), 1.16);
+						put(LocalDateTime.parse("06-01-1990 00:00:00", dateFormat), 1.14);
+						put(LocalDateTime.parse("07-01-1990 00:00:00", dateFormat), 1.12);
+						put(LocalDateTime.parse("08-01-1990 00:00:00", dateFormat), 1.16);
+						put(LocalDateTime.parse("09-01-1990 00:00:00", dateFormat), 1.20);
+						put(LocalDateTime.parse("10-01-1990 00:00:00", dateFormat), 1.22);
 					}
 				},
 				1d
@@ -138,16 +138,16 @@ public class DefaultTrendFinderTest {
 			{
 				new LinkedHashMap<LocalDateTime, Double>(){
 					{
-						put(LocalDateTime.parse("01.01.1990 00:00:00", dateFormat), 2.00);
-						put(LocalDateTime.parse("02.01.1990 00:00:00", dateFormat), 2.05);
-						put(LocalDateTime.parse("03.01.1990 00:00:00", dateFormat), 2.06);
-						put(LocalDateTime.parse("04.01.1990 00:00:00", dateFormat), 2.00);
-						put(LocalDateTime.parse("05.01.1990 00:00:00", dateFormat), 1.96);
-						put(LocalDateTime.parse("06.01.1990 00:00:00", dateFormat), 1.85);
-						put(LocalDateTime.parse("07.01.1990 00:00:00", dateFormat), 1.89);
-						put(LocalDateTime.parse("08.01.1990 00:00:00", dateFormat), 1.82);
-						put(LocalDateTime.parse("09.01.1990 00:00:00", dateFormat), 1.65);
-						put(LocalDateTime.parse("10.01.1990 00:00:00", dateFormat), 1.90);
+						put(LocalDateTime.parse("01-01-1990 00:00:00", dateFormat), 2.00);
+						put(LocalDateTime.parse("02-01-1990 00:00:00", dateFormat), 2.05);
+						put(LocalDateTime.parse("03-01-1990 00:00:00", dateFormat), 2.06);
+						put(LocalDateTime.parse("04-01-1990 00:00:00", dateFormat), 2.00);
+						put(LocalDateTime.parse("05-01-1990 00:00:00", dateFormat), 1.96);
+						put(LocalDateTime.parse("06-01-1990 00:00:00", dateFormat), 1.85);
+						put(LocalDateTime.parse("07-01-1990 00:00:00", dateFormat), 1.89);
+						put(LocalDateTime.parse("08-01-1990 00:00:00", dateFormat), 1.82);
+						put(LocalDateTime.parse("09-01-1990 00:00:00", dateFormat), 1.65);
+						put(LocalDateTime.parse("10-01-1990 00:00:00", dateFormat), 1.90);
 					}
 				},
 				1d
@@ -162,41 +162,41 @@ public class DefaultTrendFinderTest {
 			{
 				new LinkedHashMap<LocalDateTime, Double>(){
 					{
-						put(LocalDateTime.parse("03.01.1990 00:00:00", dateFormat), 1.06);
-						put(LocalDateTime.parse("04.01.1990 00:00:00", dateFormat), 1.10);
-						put(LocalDateTime.parse("05.01.1990 00:00:00", dateFormat), 1.16);
-						put(LocalDateTime.parse("06.01.1990 00:00:00", dateFormat), 1.14);
-						put(LocalDateTime.parse("07.01.1990 00:00:00", dateFormat), 1.12);
-						put(LocalDateTime.parse("08.01.1990 00:00:00", dateFormat), 1.16);
-						put(LocalDateTime.parse("09.01.1990 00:00:00", dateFormat), 1.20);
-						put(LocalDateTime.parse("10.01.1990 00:00:00", dateFormat), 1.22);
-						put(LocalDateTime.parse("11.01.1990 00:00:00", dateFormat), 1.18);
-						put(LocalDateTime.parse("12.01.1990 00:00:00", dateFormat), 1.15);
-						put(LocalDateTime.parse("13.01.1990 00:00:00", dateFormat), 1.16);
-						put(LocalDateTime.parse("14.01.1990 00:00:00", dateFormat), 1.10);
-						put(LocalDateTime.parse("15.01.1990 00:00:00", dateFormat), 1.05);
+						put(LocalDateTime.parse("03-01-1990 00:00:00", dateFormat), 1.06);
+						put(LocalDateTime.parse("04-01-1990 00:00:00", dateFormat), 1.10);
+						put(LocalDateTime.parse("05-01-1990 00:00:00", dateFormat), 1.16);
+						put(LocalDateTime.parse("06-01-1990 00:00:00", dateFormat), 1.14);
+						put(LocalDateTime.parse("07-01-1990 00:00:00", dateFormat), 1.12);
+						put(LocalDateTime.parse("08-01-1990 00:00:00", dateFormat), 1.16);
+						put(LocalDateTime.parse("09-01-1990 00:00:00", dateFormat), 1.20);
+						put(LocalDateTime.parse("10-01-1990 00:00:00", dateFormat), 1.22);
+						put(LocalDateTime.parse("11-01-1990 00:00:00", dateFormat), 1.18);
+						put(LocalDateTime.parse("12-01-1990 00:00:00", dateFormat), 1.15);
+						put(LocalDateTime.parse("13-01-1990 00:00:00", dateFormat), 1.16);
+						put(LocalDateTime.parse("14-01-1990 00:00:00", dateFormat), 1.10);
+						put(LocalDateTime.parse("15-01-1990 00:00:00", dateFormat), 1.05);
 					}
 				},
 				0.15,
-				LocalDateTime.parse("10.01.1990 00:00:00", dateFormat)
+				LocalDateTime.parse("10-01-1990 00:00:00", dateFormat)
 			},
 			{
 				new LinkedHashMap<LocalDateTime, Double>(){
 					{
-						put(LocalDateTime.parse("03.01.1990 00:00:00", dateFormat), 2.06);
-						put(LocalDateTime.parse("04.01.1990 00:00:00", dateFormat), 2.00);
-						put(LocalDateTime.parse("05.01.1990 00:00:00", dateFormat), 1.96);
-						put(LocalDateTime.parse("06.01.1990 00:00:00", dateFormat), 1.85);
-						put(LocalDateTime.parse("07.01.1990 00:00:00", dateFormat), 1.89);
-						put(LocalDateTime.parse("08.01.1990 00:00:00", dateFormat), 1.82);
-						put(LocalDateTime.parse("09.01.1990 00:00:00", dateFormat), 1.65);
-						put(LocalDateTime.parse("10.01.1990 00:00:00", dateFormat), 1.90);
-						put(LocalDateTime.parse("11.01.1990 00:00:00", dateFormat), 1.95);
-						put(LocalDateTime.parse("12.01.1990 00:00:00", dateFormat), 1.85);
+						put(LocalDateTime.parse("03-01-1990 00:00:00", dateFormat), 2.06);
+						put(LocalDateTime.parse("04-01-1990 00:00:00", dateFormat), 2.00);
+						put(LocalDateTime.parse("05-01-1990 00:00:00", dateFormat), 1.96);
+						put(LocalDateTime.parse("06-01-1990 00:00:00", dateFormat), 1.85);
+						put(LocalDateTime.parse("07-01-1990 00:00:00", dateFormat), 1.89);
+						put(LocalDateTime.parse("08-01-1990 00:00:00", dateFormat), 1.82);
+						put(LocalDateTime.parse("09-01-1990 00:00:00", dateFormat), 1.65);
+						put(LocalDateTime.parse("10-01-1990 00:00:00", dateFormat), 1.90);
+						put(LocalDateTime.parse("11-01-1990 00:00:00", dateFormat), 1.95);
+						put(LocalDateTime.parse("12-01-1990 00:00:00", dateFormat), 1.85);
 					}
 				},
 				0.2,
-				LocalDateTime.parse("09.01.1990 00:00:00", dateFormat)
+				LocalDateTime.parse("09-01-1990 00:00:00", dateFormat)
 			}
 		};
 	}
