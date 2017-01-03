@@ -27,47 +27,24 @@ public class DefaultTrendFinderTest {
 	
 	private DefaultTrendFinder trendFinder;
 		
-	@Before
-	public void setUp() {
-		trendFinder = new DefaultTrendFinder();
-	}
-
-	@Test(expected=RuntimeException.class)
-	public void shouldBeAbleToSetMinStartDifferenceOnlyOnce(){
-		trendFinder.setMinStartDifference(1d);
-		trendFinder.setMinStartDifference(1d);
-	}
-	
-	@Test(expected=RuntimeException.class)
-	public void shouldBeAbleToSetMinEndDifferenceOnlyOnce(){
-		trendFinder.setMinEndDifference(1d);
-		trendFinder.setMinEndDifference(1d);
-	}
-	
-	@Test(expected=RuntimeException.class)
-	@UseDataProvider("dataProviderTrendStart")
-	public void shouldThrowException_GivenThatMinDifferenceIsNotSet(LinkedHashMap<LocalDateTime, Double> data, Double minDifference, LocalDateTime result){
-		trendFinder.findTrendStart(data);
-	}
-	
 	@Test
 	@UseDataProvider("dataProviderTrendStart")
  	public void shouldFindTrendStart_GivenThanMinDifferenceIsSufficient(LinkedHashMap<LocalDateTime, Double> data, Double minDifference, LocalDateTime result){
-		trendFinder.setMinStartDifference(minDifference);
+		trendFinder = new DefaultTrendFinder(new TrendFinderSettings(minDifference));
 		assertEquals(result, trendFinder.findTrendStart(data));
 	}
 	
 	@Test
 	@UseDataProvider("dataProviderTrendStartNotExists")
 	public void shouldNotFindTrendStart_GivenThanMinDifferenceIsNotSufficient(LinkedHashMap<LocalDateTime, Double> data, Double minDifference){
-		trendFinder.setMinStartDifference(minDifference);
+		trendFinder = new DefaultTrendFinder(new TrendFinderSettings(minDifference));
 		assertNull(trendFinder.findTrendStart(data));
 	}
 
 	@Test
 	@UseDataProvider("dataProviderTrendEnd")
 	public void shouldFindTrendEnd_GivenThanMinDifferenceIsSufficient(LinkedHashMap<LocalDateTime, Double> data, Double minDifference, LocalDateTime result){
-		trendFinder.setMinEndDifference(minDifference);
+		trendFinder = new DefaultTrendFinder(new TrendFinderSettings(minDifference));
 		assertEquals(result, trendFinder.findTrendEnd(data));
 	}
 	

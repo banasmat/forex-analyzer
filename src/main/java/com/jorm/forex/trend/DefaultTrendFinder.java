@@ -6,18 +6,14 @@ import java.util.Map;
 
 public class DefaultTrendFinder implements TrendFinder {
 
-	
-	//TODO this might be set in findTrendStart, findTrendEnd methods arguments (first make sure that every trend finder should have it - and no other options. Otherwise might create some options class)
-	//FIXME without setters in the interface, it's difficult to use it anyway
-	private Double minStartDifference = null;
-	private Double minEndDifference = null;
-	
+	private TrendFinderSettings settings;
+
+	public DefaultTrendFinder(TrendFinderSettings settings) {
+		this.settings = settings;
+	}
+
 	//TODO consider using Map in the interface (client classes should make sure the order is ok)
 	public LocalDateTime findTrendStart(LinkedHashMap<LocalDateTime, Double> data) {
-		
-		if(null == minStartDifference){
-			throw new RuntimeException("Please set minDifference");
-		}
 		
 		LocalDateTime result = null;
 		
@@ -41,7 +37,7 @@ public class DefaultTrendFinder implements TrendFinder {
 				maxDate = entry.getKey();
 			}
 						
-			if((max - min) >= minStartDifference){
+			if((max - min) >= settings.getMinStartDifference()){
 				// Return earlier date
 				result = minDate.isBefore(maxDate) ? minDate : maxDate;
 				break;
@@ -52,11 +48,7 @@ public class DefaultTrendFinder implements TrendFinder {
 	}
 
 	public LocalDateTime findTrendEnd(LinkedHashMap<LocalDateTime, Double> data) {
-		
-		if(null == minEndDifference){
-			throw new RuntimeException("Please set minDifference");
-		}
-		
+
 		LocalDateTime result = null;
 		
 		Double min = null;
@@ -94,10 +86,10 @@ public class DefaultTrendFinder implements TrendFinder {
 			}
 						
 			if(null != isUpwards){
-				if(true == isUpwards && (max - current) >= minEndDifference){
+				if(true == isUpwards && (max - current) >= settings.getMinEndDifference()){
 					result = maxDate;
 					break;
-				} else if(false == isUpwards && -(min - current) >= minEndDifference){
+				} else if(false == isUpwards && -(min - current) >= settings.getMinEndDifference()){
 					result = minDate;
 					break;
 				}
@@ -106,24 +98,4 @@ public class DefaultTrendFinder implements TrendFinder {
 		
 		return result;
 	}
-
-	//TODO not sure if these should be separated
-	public void setMinStartDifference(Double d) {
-		
-		if(null != minStartDifference){
-			throw new RuntimeException("minStartDifference has already been set to: " + minStartDifference.toString());
-		}
-		
-		minStartDifference = d;
-	}
-
-	public void setMinEndDifference(Double d) {
-		if(null != minEndDifference){
-			throw new RuntimeException("minEndDifference has already been set to: " + minStartDifference.toString());
-		}
-		
-		minEndDifference = d;
-		
-	}
-	
 }
