@@ -1,7 +1,6 @@
-package model;
+package com.jorm.forex.model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Trend {
 

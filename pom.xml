@@ -7,8 +7,8 @@
 	<groupId>com.jorm</groupId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>SpringMVCSkeleton</name>
-	<description>Spring MVC Skeleton - A basic framework </description>
+	<name>ForexAnalyzer</name>
+	<description>Forex Analyzer - tool for forex fundamental analysis </description>
 
 	<!-- custom properties -->
 	<properties>

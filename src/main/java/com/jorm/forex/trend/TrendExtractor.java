@@ -6,8 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import financial_data.DailyDataProvider;
-import model.Trend;
+import com.jorm.forex.model.Trend;
 
 public class TrendExtractor {
 

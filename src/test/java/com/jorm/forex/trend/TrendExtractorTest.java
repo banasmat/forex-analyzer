@@ -7,7 +7,6 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.junit.Before;
@@ -19,7 +18,7 @@ import org.mockito.junit.MockitoRule;
 
 import com.jorm.forex.util.Format;
 
-import model.Trend;
+import com.jorm.forex.model.Trend;
 
 public class TrendExtractorTest {
 	

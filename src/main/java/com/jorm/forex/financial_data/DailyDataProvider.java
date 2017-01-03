@@ -1,4 +1,4 @@
-package financial_data;
+package com.jorm.forex.financial_data;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
