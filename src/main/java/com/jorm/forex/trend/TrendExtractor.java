@@ -19,7 +19,7 @@ public class TrendExtractor {
 	
 	public ArrayList<Trend> extractTrends(SortedMap<LocalDateTime, Double> data){
 	
-		ArrayList<Trend> extractedTrends = new ArrayList<Trend>();
+		ArrayList<Trend> extractedTrends = new ArrayList<>();
 		
 		extractTrendsRecursively(data, extractedTrends);
 		
@@ -38,11 +38,11 @@ public class TrendExtractor {
 			if (null != endDate) {
 				clearAllEntriesBeforeDate(data, endDate);
 				
-				Trend trend = new Trend();
-				
-				trend.setStart(startDate);
-				trend.setEnd(endDate);
-				
+				final Trend trend = new Trend.Builder()
+					.start(startDate)
+					.end(endDate)
+					.build();
+
 				extractedTrends.add(trend);
 				
 				extractTrendsRecursively(data, extractedTrends);

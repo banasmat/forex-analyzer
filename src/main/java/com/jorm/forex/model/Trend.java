@@ -4,23 +4,31 @@ import java.time.LocalDateTime;
 
 public class Trend {
 
-	private LocalDateTime start;
+	public final LocalDateTime start;
 	
-	private LocalDateTime end;
+	public final LocalDateTime end;
 
-	public LocalDateTime getStart() {
-		return start;
-	}
-
-	public void setStart(LocalDateTime start) {
+	public Trend(LocalDateTime start, LocalDateTime end) {
 		this.start = start;
-	}
-
-	public LocalDateTime getEnd() {
-		return end;
-	}
-
-	public void setEnd(LocalDateTime end) {
 		this.end = end;
+	}
+
+	public static class Builder {
+		private LocalDateTime start;
+		private LocalDateTime end;
+
+		public Builder start(LocalDateTime srart) {
+			this.start = srart;
+			return this;
+		}
+
+		public Builder end(LocalDateTime end) {
+			this.end = end;
+			return this;
+		}
+
+		public Trend build() {
+			return new Trend(start, end);
+		}
 	}
 }

@@ -93,8 +93,8 @@ public class TrendExtractorTest {
 		ArrayList<Trend> resultTrends = trendExtractor.extractTrends(data);	
 		
 		for(int i = 0; i < startDates.length; i++){
-			assertEquals(startDates[i], resultTrends.get(i).getStart());
-			assertEquals(endDates[i], resultTrends.get(i).getEnd());
+			assertEquals(startDates[i], resultTrends.get(i).start);
+			assertEquals(endDates[i], resultTrends.get(i).end);
 		}
 				
 	}
