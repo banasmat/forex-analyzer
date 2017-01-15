@@ -10,6 +10,7 @@ public class PriceRecord {
 
     public final Double close;
 
+    //TODO probably rename to: StockEntityPrices?
     public PriceRecord(Double open, Double high, Double low, Double close) {
         this.open = open;
         this.high = high;

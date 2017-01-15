@@ -1,22 +1,25 @@
 package com.jorm.forex.trend;
 
+import com.jorm.forex.model.PriceRecord;
+
 import java.time.LocalDateTime;
 import java.util.SortedMap;
 import java.util.Map;
 
-public class DefaultTrendFinder implements TrendFinder {
+//TODO use 4 spaces instead of tab?
+//TODO might use older implementation (before introducing PriceRecord) for HighLowTrendFinder where it uses min.low and max.high
+public class HighLowAverageTrendFinder implements TrendFinder {
 
 	private TrendFinderSettings settings;
 
-	public DefaultTrendFinder(TrendFinderSettings settings) {
+	public HighLowAverageTrendFinder(TrendFinderSettings settings) {
 		this.settings = settings;
 	}
 
-	//TODO consider using Map in the interface (client classes should make sure the order is ok)
-	public LocalDateTime findTrendStart(SortedMap<LocalDateTime, Double> data) {
+	public LocalDateTime findTrendStart(SortedMap<LocalDateTime, PriceRecord> data) {
 		
 		LocalDateTime result = null;
-		
+
 		Double min = null;
 		Double max = null;
 		Double current;
@@ -24,8 +27,8 @@ public class DefaultTrendFinder implements TrendFinder {
 		LocalDateTime minDate = null;
 		LocalDateTime maxDate = null;
 		
-		for(Map.Entry<LocalDateTime, Double> entry : data.entrySet()){
-			current = entry.getValue();
+		for(Map.Entry<LocalDateTime, PriceRecord> entry : data.entrySet()){
+			current = getAverage(entry.getValue());
 
 			if (null == min || current < min){
 				min = current;
@@ -47,10 +50,10 @@ public class DefaultTrendFinder implements TrendFinder {
 		return result;
 	}
 
-	public LocalDateTime findTrendEnd(SortedMap<LocalDateTime, Double> data) {
+	public LocalDateTime findTrendEnd(SortedMap<LocalDateTime, PriceRecord> data) {
 
 		LocalDateTime result = null;
-		
+
 		Double min = null;
 		Double max = null;
 		Double current;
@@ -62,8 +65,8 @@ public class DefaultTrendFinder implements TrendFinder {
 		
 		Double previousValue = null;
 		
-		for(Map.Entry<LocalDateTime, Double> entry : data.entrySet()){
-			current = entry.getValue();
+		for(Map.Entry<LocalDateTime, PriceRecord> entry : data.entrySet()){
+			current = getAverage(entry.getValue());
 
 			if(null == previousValue){
 				previousValue = current;
@@ -97,5 +100,9 @@ public class DefaultTrendFinder implements TrendFinder {
 		}
 		
 		return result;
+	}
+
+	private Double getAverage(PriceRecord prices){
+		return (prices.high + prices.low) / 2;
 	}
 }

@@ -1,5 +1,6 @@
 package com.jorm.forex.trend;
 
+//TODO consider using builder
 public class TrendFinderSettings {
 
     private Double minStartDifference = null;

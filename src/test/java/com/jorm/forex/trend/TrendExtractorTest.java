@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import com.jorm.forex.model.PriceRecord;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,29 +40,31 @@ public class TrendExtractorTest {
 	
 	@Test
 	public void shouldExtractTrendsFromGivenData() throws ParseException{
-		
-		SortedMap<LocalDateTime, Double> data = new TreeMap<LocalDateTime, Double>(){
+
+		PriceRecord somePrices = new PriceRecord(1D, 1D, 1D, 1D);
+
+		SortedMap<LocalDateTime, PriceRecord> data = new TreeMap<LocalDateTime, PriceRecord>(){
 			{
-				put(LocalDateTime.parse("01-04-1234 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("02-04-1234 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("03-04-1234 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("04-04-1234 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("06-08-1234 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("06-07-1234 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("09-09-1234 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("01-04-1234 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("02-04-1234 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("03-04-1234 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("04-04-1234 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("06-08-1234 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("06-07-1234 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("09-09-1234 00:00:00", dateFormat), somePrices);
 
-				put(LocalDateTime.parse("03-05-1235 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("04-05-1235 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("05-05-1235 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("08-07-1235 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("03-05-1235 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("04-05-1235 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("05-05-1235 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("08-07-1235 00:00:00", dateFormat), somePrices);
 
-				put(LocalDateTime.parse("02-04-1236 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("03-04-1236 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("04-04-1236 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("05-04-1236 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("06-04-1236 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("07-04-1236 00:00:00", dateFormat), 1.1);
-				put(LocalDateTime.parse("02-06-1236 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("02-04-1236 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("03-04-1236 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("04-04-1236 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("05-04-1236 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("06-04-1236 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("07-04-1236 00:00:00", dateFormat), somePrices);
+				put(LocalDateTime.parse("02-06-1236 00:00:00", dateFormat), somePrices);
 			}
 		};
 
