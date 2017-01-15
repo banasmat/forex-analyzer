@@ -1,10 +1,10 @@
 package com.jorm.forex.financial_data;
 
 import java.util.Date;
-import java.util.LinkedHashMap;
+import java.util.SortedMap;
 
 public interface DailyDataProvider {
 
-	public LinkedHashMap<Date, Double> getDate();
+	public SortedMap<Date, Double> getDate();
 	
 }

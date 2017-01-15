@@ -2,19 +2,15 @@ package com.jorm.forex.trend;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.LinkedHashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.jorm.forex.trend.DefaultTrendFinder;
 import com.jorm.forex.util.Format;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
@@ -29,21 +25,21 @@ public class DefaultTrendFinderTest {
 		
 	@Test
 	@UseDataProvider("dataProviderTrendStart")
- 	public void shouldFindTrendStart_GivenThanMinDifferenceIsSufficient(LinkedHashMap<LocalDateTime, Double> data, Double minDifference, LocalDateTime result){
+ 	public void shouldFindTrendStart_GivenThanMinDifferenceIsSufficient(SortedMap<LocalDateTime, Double> data, Double minDifference, LocalDateTime result){
 		trendFinder = new DefaultTrendFinder(new TrendFinderSettings(minDifference));
 		assertEquals(result, trendFinder.findTrendStart(data));
 	}
 	
 	@Test
 	@UseDataProvider("dataProviderTrendStartNotExists")
-	public void shouldNotFindTrendStart_GivenThanMinDifferenceIsNotSufficient(LinkedHashMap<LocalDateTime, Double> data, Double minDifference){
+	public void shouldNotFindTrendStart_GivenThanMinDifferenceIsNotSufficient(SortedMap<LocalDateTime, Double> data, Double minDifference){
 		trendFinder = new DefaultTrendFinder(new TrendFinderSettings(minDifference));
 		assertNull(trendFinder.findTrendStart(data));
 	}
 
 	@Test
 	@UseDataProvider("dataProviderTrendEnd")
-	public void shouldFindTrendEnd_GivenThanMinDifferenceIsSufficient(LinkedHashMap<LocalDateTime, Double> data, Double minDifference, LocalDateTime result){
+	public void shouldFindTrendEnd_GivenThanMinDifferenceIsSufficient(SortedMap<LocalDateTime, Double> data, Double minDifference, LocalDateTime result){
 		trendFinder = new DefaultTrendFinder(new TrendFinderSettings(minDifference));
 		assertEquals(result, trendFinder.findTrendEnd(data));
 	}
@@ -53,7 +49,7 @@ public class DefaultTrendFinderTest {
 		
 		return new Object[][]{
 			{
-				new LinkedHashMap<LocalDateTime, Double>(){
+				new TreeMap<LocalDateTime, Double>(){
 					{
 						put(LocalDateTime.parse("01-01-1990 00:00:00", dateFormat), 1.12);
 						put(LocalDateTime.parse("02-01-1990 00:00:00", dateFormat), 1.08);
@@ -71,7 +67,7 @@ public class DefaultTrendFinderTest {
 				LocalDateTime.parse("03-01-1990 00:00:00", dateFormat)
 			},
 			{
-				new LinkedHashMap<LocalDateTime, Double>(){
+				new TreeMap<LocalDateTime, Double>(){
 					{
 						put(LocalDateTime.parse("01-01-1990 00:00:00", dateFormat), 2.00);
 						put(LocalDateTime.parse("02-01-1990 00:00:00", dateFormat), 2.05);
@@ -96,7 +92,7 @@ public class DefaultTrendFinderTest {
 		
 		return new Object[][]{
 			{
-				new LinkedHashMap<LocalDateTime, Double>(){
+				new TreeMap<LocalDateTime, Double>(){
 					{
 						put(LocalDateTime.parse("01-01-1990 00:00:00", dateFormat), 1.12);
 						put(LocalDateTime.parse("02-01-1990 00:00:00", dateFormat), 1.08);
@@ -113,7 +109,7 @@ public class DefaultTrendFinderTest {
 				1d
 			},
 			{
-				new LinkedHashMap<LocalDateTime, Double>(){
+				new TreeMap<LocalDateTime, Double>(){
 					{
 						put(LocalDateTime.parse("01-01-1990 00:00:00", dateFormat), 2.00);
 						put(LocalDateTime.parse("02-01-1990 00:00:00", dateFormat), 2.05);
@@ -137,7 +133,7 @@ public class DefaultTrendFinderTest {
 		
 		return new Object[][]{
 			{
-				new LinkedHashMap<LocalDateTime, Double>(){
+				new TreeMap<LocalDateTime, Double>(){
 					{
 						put(LocalDateTime.parse("03-01-1990 00:00:00", dateFormat), 1.06);
 						put(LocalDateTime.parse("04-01-1990 00:00:00", dateFormat), 1.10);
@@ -158,7 +154,7 @@ public class DefaultTrendFinderTest {
 				LocalDateTime.parse("10-01-1990 00:00:00", dateFormat)
 			},
 			{
-				new LinkedHashMap<LocalDateTime, Double>(){
+				new TreeMap<LocalDateTime, Double>(){
 					{
 						put(LocalDateTime.parse("03-01-1990 00:00:00", dateFormat), 2.06);
 						put(LocalDateTime.parse("04-01-1990 00:00:00", dateFormat), 2.00);

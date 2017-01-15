@@ -1,7 +1,7 @@
 package com.jorm.forex.trend;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
+import java.util.SortedMap;
 import java.util.Map;
 
 public class DefaultTrendFinder implements TrendFinder {
@@ -13,7 +13,7 @@ public class DefaultTrendFinder implements TrendFinder {
 	}
 
 	//TODO consider using Map in the interface (client classes should make sure the order is ok)
-	public LocalDateTime findTrendStart(LinkedHashMap<LocalDateTime, Double> data) {
+	public LocalDateTime findTrendStart(SortedMap<LocalDateTime, Double> data) {
 		
 		LocalDateTime result = null;
 		
@@ -47,7 +47,7 @@ public class DefaultTrendFinder implements TrendFinder {
 		return result;
 	}
 
-	public LocalDateTime findTrendEnd(LinkedHashMap<LocalDateTime, Double> data) {
+	public LocalDateTime findTrendEnd(SortedMap<LocalDateTime, Double> data) {
 
 		LocalDateTime result = null;
 		

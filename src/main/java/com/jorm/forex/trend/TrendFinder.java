@@ -1,18 +1,17 @@
 package com.jorm.forex.trend;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.LinkedHashMap;
+import java.util.SortedMap;
 
 public interface TrendFinder {
 
 	/**
-	 * LinkedHashMap format is required to keep the order
+	 * SortedMap format is required to keep the order
 	 */
-	public LocalDateTime findTrendStart(LinkedHashMap<LocalDateTime, Double> data);
+	LocalDateTime findTrendStart(SortedMap<LocalDateTime, Double> data);
 	
 	/**
-	 * LinkedHashMap format is required to keep the order
+	 * SortedMap format is required to keep the order
 	 */
-	public LocalDateTime findTrendEnd(LinkedHashMap<LocalDateTime, Double> data);
+	LocalDateTime findTrendEnd(SortedMap<LocalDateTime, Double> data);
 }

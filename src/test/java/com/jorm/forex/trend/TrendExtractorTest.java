@@ -7,7 +7,8 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,30 +40,31 @@ public class TrendExtractorTest {
 	@Test
 	public void shouldExtractTrendsFromGivenData() throws ParseException{
 		
-		LinkedHashMap<LocalDateTime, Double> data = new LinkedHashMap<LocalDateTime, Double>();
-		
-		data.put(LocalDateTime.parse("01-04-1234 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("02-04-1234 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("03-04-1234 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("04-04-1234 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("06-08-1234 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("06-07-1234 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("09-09-1234 00:00:00", dateFormat), 1.1);
-		
-		data.put(LocalDateTime.parse("03-05-1235 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("04-05-1235 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("05-05-1235 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("08-07-1235 00:00:00", dateFormat), 1.1);
-		
-		data.put(LocalDateTime.parse("02-04-1236 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("03-04-1236 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("04-04-1236 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("05-04-1236 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("06-04-1236 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("07-04-1236 00:00:00", dateFormat), 1.1);
-		data.put(LocalDateTime.parse("02-06-1236 00:00:00", dateFormat), 1.1);
-		
-		//FIXME data have to be filled 
+		SortedMap<LocalDateTime, Double> data = new TreeMap<LocalDateTime, Double>(){
+			{
+				put(LocalDateTime.parse("01-04-1234 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("02-04-1234 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("03-04-1234 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("04-04-1234 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("06-08-1234 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("06-07-1234 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("09-09-1234 00:00:00", dateFormat), 1.1);
+
+				put(LocalDateTime.parse("03-05-1235 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("04-05-1235 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("05-05-1235 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("08-07-1235 00:00:00", dateFormat), 1.1);
+
+				put(LocalDateTime.parse("02-04-1236 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("03-04-1236 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("04-04-1236 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("05-04-1236 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("06-04-1236 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("07-04-1236 00:00:00", dateFormat), 1.1);
+				put(LocalDateTime.parse("02-06-1236 00:00:00", dateFormat), 1.1);
+			}
+		};
+
 		
 		LocalDateTime[] startDates = new LocalDateTime[]{
 			LocalDateTime.parse("02-04-1234 00:00:00", dateFormat),
