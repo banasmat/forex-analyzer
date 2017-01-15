@@ -7,6 +7,6 @@ import java.util.SortedMap;
 
 public interface DailyDataProvider {
 
-	public SortedMap<Date, PriceRecord> getDate();
-	
+    public SortedMap<Date, PriceRecord> getDate();
+
 }

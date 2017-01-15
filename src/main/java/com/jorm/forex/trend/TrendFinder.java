@@ -7,13 +7,13 @@ import java.util.SortedMap;
 
 public interface TrendFinder {
 
-	/**
-	 * SortedMap format is required to keep the order
-	 */
-	LocalDateTime findTrendStart(SortedMap<LocalDateTime, PriceRecord> data);
-	
-	/**
-	 * SortedMap format is required to keep the order
-	 */
-	LocalDateTime findTrendEnd(SortedMap<LocalDateTime, PriceRecord> data);
+    /**
+     * SortedMap format is required to keep the order
+     */
+    LocalDateTime findTrendStart(SortedMap<LocalDateTime, PriceRecord> data);
+
+    /**
+     * SortedMap format is required to keep the order
+     */
+    LocalDateTime findTrendEnd(SortedMap<LocalDateTime, PriceRecord> data);
 }
