@@ -1,6 +1,6 @@
 package com.jorm.forex.model;
 
-public class PriceRecord implements Comparable<PriceRecord> {
+public class PriceRecord {
 
     public final Double open;
 
@@ -16,15 +16,5 @@ public class PriceRecord implements Comparable<PriceRecord> {
         this.high = high;
         this.low = low;
         this.close = close;
-    }
-
-    @Override
-    public int compareTo(PriceRecord o) {
-        return 0;
-//        if(open.equals(o.open) && high.equals(o.high) && )
-//
-//        Double avg = open + high + low + close / 4;
-
-
     }
 }
