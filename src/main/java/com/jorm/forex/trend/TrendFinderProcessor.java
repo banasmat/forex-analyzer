@@ -9,17 +9,16 @@ import java.util.Map;
 import com.jorm.forex.model.PriceRecord;
 import com.jorm.forex.model.Trend;
 
-//TODO might rename to TrendFinderProcessor (difference between TrendFinder and TrendExtractor is not clear)
-public class TrendExtractor {
+public class TrendFinderProcessor {
 
     private TrendFinder trendFinder;
 
-    TrendExtractor(TrendFinder trendFinder){
+    TrendFinderProcessor(TrendFinder trendFinder){
         this.trendFinder = trendFinder;
     }
 
 
-    public ArrayList<Trend> extractTrends(SortedMap<LocalDateTime, PriceRecord> data){
+    public ArrayList<Trend> findTrendsInData(SortedMap<LocalDateTime, PriceRecord> data){
 
         ArrayList<Trend> extractedTrends = new ArrayList<>();
 

@@ -22,11 +22,11 @@ import com.jorm.forex.util.Format;
 
 import com.jorm.forex.model.Trend;
 
-public class TrendExtractorTest {
+public class TrendFinderProcessorTest {
 
     private static DateTimeFormatter dateFormat = Format.dateTimeFormat;
 
-    private TrendExtractor trendExtractor;
+    private TrendFinderProcessor trendFinderProcessor;
 
     @Mock
     private TrendFinder trendFinder;
@@ -35,11 +35,11 @@ public class TrendExtractorTest {
 
     @Before
     public void setUp() {
-        trendExtractor = new TrendExtractor(trendFinder);
+        trendFinderProcessor = new TrendFinderProcessor(trendFinder);
     }
 
     @Test
-    public void shouldExtractTrendsFromGivenData() throws ParseException{
+    public void shouldFindTrendsInGivenData() throws ParseException{
 
         PriceRecord somePrices = new PriceRecord(1D, 1D, 1D, 1D);
 
@@ -93,7 +93,7 @@ public class TrendExtractorTest {
             .thenReturn(endDates[2])
             .thenReturn(null);
 
-        ArrayList<Trend> resultTrends = trendExtractor.extractTrends(data);
+        ArrayList<Trend> resultTrends = trendFinderProcessor.findTrendsInData(data);
 
         for(int i = 0; i < startDates.length; i++){
             assertEquals(startDates[i], resultTrends.get(i).start);
