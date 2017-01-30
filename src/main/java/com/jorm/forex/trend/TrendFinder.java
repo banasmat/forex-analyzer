@@ -5,6 +5,7 @@ import com.jorm.forex.model.PriceRecord;
 import java.time.LocalDateTime;
 import java.util.SortedMap;
 
+//TODO rename to TrendFinderStrategy?
 public interface TrendFinder {
 
     /**

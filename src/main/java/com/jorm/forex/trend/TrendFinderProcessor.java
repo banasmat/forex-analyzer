@@ -8,15 +8,18 @@ import java.util.Map;
 
 import com.jorm.forex.model.PriceRecord;
 import com.jorm.forex.model.Trend;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TrendFinderProcessor {
 
     private TrendFinder trendFinder;
 
-    TrendFinderProcessor(TrendFinder trendFinder){
+    @Required
+    public void setTrendFinder(TrendFinder trendFinder){
         this.trendFinder = trendFinder;
     }
-
 
     public ArrayList<Trend> findTrendsInData(SortedMap<LocalDateTime, PriceRecord> data){
 

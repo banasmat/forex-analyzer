@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd" >
 
 	<!-- define shared resources -->
+
+	<context:component-scan base-package="com.jorm.forex.command" />
+
+	<context:component-scan base-package="com.jorm.forex.price_data">
+
+		<bean class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean" id="priceDataProviderFactory">
+			<property name="priceDataProviderFactory" value="com.jorm.forex.price_data.priceDataProviderFactory">
+			</property>
+		</bean>
+
+	</context:component-scan>
+
+	<context:component-scan base-package="com.jorm.forex.trend">
+
+		<bean class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean" id="trendFinderFactory">
+			<property name="trendFinderFactory" value="com.jorm.forex.trend.TrendFinderFactory">
+			</property>
+		</bean>
+
+	</context:component-scan>
 
 </beans>

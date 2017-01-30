@@ -2,6 +2,7 @@ package com.jorm.forex.price_data;
 
 import com.jorm.forex.model.PriceRecord;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,7 +12,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class CsvDataProvider implements PriceDataProvider {
+@Service("Csv")
+public class CsvPriceDataProvider implements PriceDataProvider {
 
     @Override
     public SortedMap<LocalDateTime, PriceRecord> getData(Resource resource) {

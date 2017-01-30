@@ -1,13 +1,13 @@
 package com.jorm.forex.trend;
 
 import com.jorm.forex.model.PriceRecord;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.SortedMap;
 import java.util.Map;
 
-//TODO use 4 spaces instead of tab?
-//TODO might use older implementation (before introducing PriceRecord) for HighLowTrendFinder where it uses min.low and max.high
+@Service("HighLowAverage")
 public class HighLowAverageTrendFinder implements TrendFinder {
 
     private TrendFinderSettings settings;

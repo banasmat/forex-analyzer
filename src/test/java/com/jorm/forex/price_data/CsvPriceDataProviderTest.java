@@ -16,15 +16,15 @@ import java.util.TreeMap;
 
 import static org.junit.Assert.*;
 
-public class CsvDataProviderTest {
+public class CsvPriceDataProviderTest {
 
     private static DateTimeFormatter dateFormat = Format.dateTimeFormat;
 
-    private CsvDataProvider dataProvider;
+    private CsvPriceDataProvider dataProvider;
 
     @Before
     public void setUp() {
-        dataProvider = new CsvDataProvider();
+        dataProvider = new CsvPriceDataProvider();
     }
 
     @Test

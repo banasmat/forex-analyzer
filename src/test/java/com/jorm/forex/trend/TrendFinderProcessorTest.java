@@ -35,7 +35,8 @@ public class TrendFinderProcessorTest {
 
     @Before
     public void setUp() {
-        trendFinderProcessor = new TrendFinderProcessor(trendFinder);
+        trendFinderProcessor = new TrendFinderProcessor();
+        trendFinderProcessor.setTrendFinder(trendFinder);
     }
 
     @Test
