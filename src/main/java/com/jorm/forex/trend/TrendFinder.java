@@ -8,6 +8,9 @@ import java.util.SortedMap;
 //TODO rename to TrendFinderStrategy?
 public interface TrendFinder {
 
+    //TODO settings should probably be injected some other way
+    TrendFinder setSettings(TrendFinderSettings settings);
+
     /**
      * SortedMap format is required to keep the order
      */

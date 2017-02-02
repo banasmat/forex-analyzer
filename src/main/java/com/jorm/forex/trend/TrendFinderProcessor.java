@@ -16,7 +16,6 @@ public class TrendFinderProcessor {
 
     private TrendFinder trendFinder;
 
-    @Required
     public void setTrendFinder(TrendFinder trendFinder){
         this.trendFinder = trendFinder;
     }

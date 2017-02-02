@@ -12,8 +12,16 @@ public class HighLowAverageTrendFinder implements TrendFinder {
 
     private TrendFinderSettings settings;
 
+    public HighLowAverageTrendFinder() {
+    }
     public HighLowAverageTrendFinder(TrendFinderSettings settings) {
         this.settings = settings;
+    }
+
+    //TODO rethink - how to inject settings (might register settings as a service...)
+    public TrendFinder setSettings(TrendFinderSettings settings) {
+        this.settings = settings;
+        return this;
     }
 
     public LocalDateTime findTrendStart(SortedMap<LocalDateTime, PriceRecord> data) {
