@@ -7,7 +7,7 @@
 
 	<!-- define shared resources -->
 
-	<context:component-scan base-package="com.jorm.forex.command" />
+	<context:component-scan base-package="com.jorm.forex.controller" />
 
 	<context:component-scan base-package="com.jorm.forex.price_data">
 
