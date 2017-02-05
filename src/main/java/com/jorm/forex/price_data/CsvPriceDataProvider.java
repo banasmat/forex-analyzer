@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-@Service("Csv")
+@Service(PriceDataProviderName.CSV)
 public class CsvPriceDataProvider implements PriceDataProvider {
 
     @Override

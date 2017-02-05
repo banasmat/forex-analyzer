@@ -3,10 +3,12 @@ package com.jorm.forex.controller;
 import com.jorm.forex.model.Trend;
 import com.jorm.forex.price_data.PriceDataProvider;
 import com.jorm.forex.price_data.PriceDataProviderFactory;
+import com.jorm.forex.price_data.PriceDataProviderNameResolver;
 import com.jorm.forex.trend.TrendFinder;
 import com.jorm.forex.trend.TrendFinderFactory;
 import com.jorm.forex.trend.TrendFinderProcessor;
 import com.jorm.forex.trend.TrendFinderSettings;
+import com.jorm.forex.util.FileHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.*;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,9 @@ import java.util.ArrayList;
 public class PriceDataAnalysisController {
 
     @Autowired
+    private PriceDataProviderNameResolver priceDataProviderNameResolver;
+
+    @Autowired
     private PriceDataProviderFactory priceDataProviderFactory;
 
     @Autowired
@@ -41,7 +46,7 @@ public class PriceDataAnalysisController {
             @RequestPart("file") MultipartFile file,
             @RequestParam(defaultValue = "HighLowAverage") String strategy
     ) throws IOException {
-        File convertedFile = convertMultipartFileToFile(file);
+        File convertedFile = FileHelper.convertMultipartFileToFile(file);
 
         Resource dataResource = new FileSystemResource(convertedFile);
         return extractTrends(dataResource, strategy);
@@ -58,15 +63,15 @@ public class PriceDataAnalysisController {
         return extractTrends(dataResource, strategy);
     }
 
-    protected String extractTrends(Resource dataResource, String strategy) {
+    private String extractTrends(Resource dataResource, String strategy) {
 
-        //TODO use file type resolver
-        String sourceType = "Csv";
-        PriceDataProvider priceDataProvider = priceDataProviderFactory.getPriceDataProvider(sourceType);
+        String priceDataProviderName = priceDataProviderNameResolver.resolveFromResource(dataResource);
+
+        PriceDataProvider priceDataProvider = priceDataProviderFactory.getPriceDataProvider(priceDataProviderName);
 
         TrendFinder trendFinder = trendFinderFactory.getTrendFinder(strategy);
 
-        // TODO set as param
+        // TODO set from param
         trendFinder.setSettings(new TrendFinderSettings(0.005));
 
         trendFinderProcessor.setTrendFinder(trendFinder);
@@ -80,14 +85,4 @@ public class PriceDataAnalysisController {
         return "Extracted " + trends.size() + " trends from " + dataResource.getFilename() + " with strategy " + strategy;
     }
 
-
-    //TODO should probably be moved to some helper
-    protected File convertMultipartFileToFile(MultipartFile file) throws IOException {
-        File convFile = new File(file.getOriginalFilename());
-        convFile.createNewFile();
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
-        return convFile;
-    }
 }
