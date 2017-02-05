@@ -8,12 +8,15 @@ import java.io.IOException;
 
 public class FileHelper {
 
-    public static File convertMultipartFileToFile(MultipartFile file) throws IOException {
-        File convFile = new File(file.getOriginalFilename());
-        convFile.createNewFile();
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
+    // TODO consider moving from utils
+
+    public static File convertMultipartFileToTempFile(MultipartFile multipartFile, String targetDir) throws IOException {
+        File file = new File(targetDir + multipartFile.getOriginalFilename());
+        file.createNewFile();
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(multipartFile.getBytes());
         fos.close();
-        return convFile;
+
+        return file;
     }
 }

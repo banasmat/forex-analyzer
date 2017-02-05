@@ -10,12 +10,12 @@ import com.jorm.forex.trend.TrendFinderProcessor;
 import com.jorm.forex.trend.TrendFinderSettings;
 import com.jorm.forex.util.FileHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -41,12 +41,16 @@ public class PriceDataAnalysisController {
     @Autowired
     private TrendFinderProcessor trendFinderProcessor;
 
+    @Value("${java.io.tmpdir}")
+    private String tempDir;
+
+
     @RequestMapping(method = RequestMethod.POST, params = {"strategy"})
     public String extractTrends(
-            @RequestPart("file") MultipartFile file,
+            @RequestPart("file") MultipartFile multipartFile,
             @RequestParam(defaultValue = "HighLowAverage") String strategy
     ) throws IOException {
-        File convertedFile = FileHelper.convertMultipartFileToFile(file);
+        File convertedFile = FileHelper.convertMultipartFileToTempFile(multipartFile, tempDir);
 
         Resource dataResource = new FileSystemResource(convertedFile);
         return extractTrends(dataResource, strategy);
@@ -56,14 +60,14 @@ public class PriceDataAnalysisController {
     public String extractTrends(
             @RequestParam String source,
             @RequestParam(defaultValue = "HighLowAverage") String strategy
-    ) {
+    ) throws IOException {
         ResourceLoader resourceLoader = new DefaultResourceLoader();
         Resource dataResource = resourceLoader.getResource(source);
 
         return extractTrends(dataResource, strategy);
     }
 
-    private String extractTrends(Resource dataResource, String strategy) {
+    private String extractTrends(Resource dataResource, String strategy) throws IOException {
 
         String priceDataProviderName = priceDataProviderNameResolver.resolveFromResource(dataResource);
 
