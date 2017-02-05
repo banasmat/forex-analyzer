@@ -23,16 +23,6 @@ import java.util.ArrayList;
 //TODO apply security
 //TODO we want to keep this functionality runnable from REST endpoint as we may be creating some front end admin panel in the future
 
-/*
-Notes
-
- Url construction:
-  - we can a domain entity: trend search (recording time, seaerch strategy, search strategy settings, source
-    - which verb to use? we're not posting anything to server. We're ordering server to perform some action
-  - trend/
- */
-
-
 @RestController
 @RequestMapping("price-data-analysis")
 public class PriceDataAnalysisController {
@@ -76,11 +66,14 @@ public class PriceDataAnalysisController {
 
         TrendFinder trendFinder = trendFinderFactory.getTrendFinder(strategy);
 
+        // TODO set as param
         trendFinder.setSettings(new TrendFinderSettings(0.005));
 
         trendFinderProcessor.setTrendFinder(trendFinder);
 
         ArrayList<Trend> trends = trendFinderProcessor.findTrendsInData(priceDataProvider.getData(dataResource));
+
+        //TODO create PriceDataAnalysis record
 
         //TODO persist
 
