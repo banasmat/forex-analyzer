@@ -29,14 +29,14 @@ public class TrendFinderProcessorTest {
     private TrendFinderProcessor trendFinderProcessor;
 
     @Mock
-    private TrendFinder trendFinder;
+    private TrendFinderStrategy trendFinderStrategy;
 
     @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Before
     public void setUp() {
         trendFinderProcessor = new TrendFinderProcessor();
-        trendFinderProcessor.setTrendFinder(trendFinder);
+        trendFinderProcessor.setTrendFinderStrategy(trendFinderStrategy);
     }
 
     @Test
@@ -83,12 +83,12 @@ public class TrendFinderProcessorTest {
         };
 
         //TODO might look for a way to put in a loop
-        when(trendFinder.findTrendStart(data))
+        when(trendFinderStrategy.findTrendStart(data))
             .thenReturn(startDates[0])
             .thenReturn(startDates[1])
             .thenReturn(startDates[2])
             .thenReturn(null);
-        when(trendFinder.findTrendEnd(data))
+        when(trendFinderStrategy.findTrendEnd(data))
             .thenReturn(endDates[0])
             .thenReturn(endDates[1])
             .thenReturn(endDates[2])

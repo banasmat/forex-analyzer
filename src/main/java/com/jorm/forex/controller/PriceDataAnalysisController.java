@@ -4,10 +4,10 @@ import com.jorm.forex.model.Trend;
 import com.jorm.forex.price_data.PriceDataProvider;
 import com.jorm.forex.price_data.PriceDataProviderFactory;
 import com.jorm.forex.price_data.PriceDataProviderNameResolver;
-import com.jorm.forex.trend.TrendFinder;
+import com.jorm.forex.trend.TrendFinderStrategy;
 import com.jorm.forex.trend.TrendFinderFactory;
 import com.jorm.forex.trend.TrendFinderProcessor;
-import com.jorm.forex.trend.TrendFinderSettings;
+import com.jorm.forex.model.TrendFinderSettings;
 import com.jorm.forex.util.FileHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -73,12 +73,12 @@ public class PriceDataAnalysisController {
 
         PriceDataProvider priceDataProvider = priceDataProviderFactory.getPriceDataProvider(priceDataProviderName);
 
-        TrendFinder trendFinder = trendFinderFactory.getTrendFinder(strategy);
+        TrendFinderStrategy trendFinderStrategy = trendFinderFactory.getTrendFinder(strategy);
 
         // TODO set from param
-        trendFinder.setSettings(new TrendFinderSettings(0.005));
+        trendFinderStrategy.setSettings(new TrendFinderSettings(0.005));
 
-        trendFinderProcessor.setTrendFinder(trendFinder);
+        trendFinderProcessor.setTrendFinderStrategy(trendFinderStrategy);
 
         ArrayList<Trend> trends = trendFinderProcessor.findTrendsInData(priceDataProvider.getData(dataResource));
 

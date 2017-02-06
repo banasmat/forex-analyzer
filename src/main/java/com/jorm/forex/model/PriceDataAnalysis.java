@@ -1,7 +1,6 @@
 package com.jorm.forex.model;
 
-import com.jorm.forex.trend.TrendFinder;
-import com.jorm.forex.trend.TrendFinderSettings;
+import com.jorm.forex.trend.TrendFinderStrategy;
 
 import java.util.Date;
 
@@ -10,15 +9,15 @@ public class PriceDataAnalysis {
     //TODO might remove and use only reversed relation (we might use also other extracted forms as PriceSwing
     public final Trend[] trends;
 
-    public final TrendFinder trendFinder;
+    public final TrendFinderStrategy trendFinderStrategy;
 
     public final TrendFinderSettings trendFinderSettings;
 
     public final Date createdAt;
 
-    public PriceDataAnalysis(Trend[] trends, TrendFinder trendFinder, TrendFinderSettings trendFinderSettings, Date createdAt) {
+    public PriceDataAnalysis(Trend[] trends, TrendFinderStrategy trendFinderStrategy, TrendFinderSettings trendFinderSettings, Date createdAt) {
         this.trends = trends;
-        this.trendFinder = trendFinder;
+        this.trendFinderStrategy = trendFinderStrategy;
         this.trendFinderSettings = trendFinderSettings;
         this.createdAt = createdAt;
     }

@@ -1,15 +1,15 @@
 package com.jorm.forex.trend;
 
 import com.jorm.forex.model.PriceRecord;
+import com.jorm.forex.model.TrendFinderSettings;
 
 import java.time.LocalDateTime;
 import java.util.SortedMap;
 
-//TODO rename to TrendFinderStrategy?
-public interface TrendFinder {
+public interface TrendFinderStrategy {
 
     //TODO settings should probably be injected some other way
-    TrendFinder setSettings(TrendFinderSettings settings);
+    TrendFinderStrategy setSettings(TrendFinderSettings settings);
 
     /**
      * SortedMap format is required to keep the order

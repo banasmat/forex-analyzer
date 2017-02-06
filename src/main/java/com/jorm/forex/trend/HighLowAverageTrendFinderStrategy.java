@@ -1,6 +1,7 @@
 package com.jorm.forex.trend;
 
 import com.jorm.forex.model.PriceRecord;
+import com.jorm.forex.model.TrendFinderSettings;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -8,18 +9,18 @@ import java.util.SortedMap;
 import java.util.Map;
 
 @Service("HighLowAverage")
-public class HighLowAverageTrendFinder implements TrendFinder {
+public class HighLowAverageTrendFinderStrategy implements TrendFinderStrategy {
 
     private TrendFinderSettings settings;
 
-    public HighLowAverageTrendFinder() {
+    public HighLowAverageTrendFinderStrategy() {
     }
-    public HighLowAverageTrendFinder(TrendFinderSettings settings) {
+    public HighLowAverageTrendFinderStrategy(TrendFinderSettings settings) {
         this.settings = settings;
     }
 
     //TODO rethink - how to inject settings (might register settings as a service...)
-    public TrendFinder setSettings(TrendFinderSettings settings) {
+    public TrendFinderStrategy setSettings(TrendFinderSettings settings) {
         this.settings = settings;
         return this;
     }

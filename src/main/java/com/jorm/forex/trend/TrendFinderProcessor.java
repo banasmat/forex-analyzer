@@ -8,16 +8,15 @@ import java.util.Map;
 
 import com.jorm.forex.model.PriceRecord;
 import com.jorm.forex.model.Trend;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TrendFinderProcessor {
 
-    private TrendFinder trendFinder;
+    private TrendFinderStrategy trendFinderStrategy;
 
-    public void setTrendFinder(TrendFinder trendFinder){
-        this.trendFinder = trendFinder;
+    public void setTrendFinderStrategy(TrendFinderStrategy trendFinderStrategy){
+        this.trendFinderStrategy = trendFinderStrategy;
     }
 
     public ArrayList<Trend> findTrendsInData(SortedMap<LocalDateTime, PriceRecord> data){
@@ -30,13 +29,13 @@ public class TrendFinderProcessor {
     }
 
     private ArrayList<Trend> extractTrendsRecursively(SortedMap<LocalDateTime, PriceRecord> data, ArrayList<Trend> extractedTrends){
-        LocalDateTime startDate = trendFinder.findTrendStart(data);
+        LocalDateTime startDate = trendFinderStrategy.findTrendStart(data);
 
         if (null != startDate) {
 
             clearAllEntriesBeforeDate(data, startDate);
 
-            LocalDateTime endDate = trendFinder.findTrendEnd(data);
+            LocalDateTime endDate = trendFinderStrategy.findTrendEnd(data);
 
             if (null != endDate) {
                 clearAllEntriesBeforeDate(data, endDate);

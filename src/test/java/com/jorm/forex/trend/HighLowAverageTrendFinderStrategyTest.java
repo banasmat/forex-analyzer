@@ -9,6 +9,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import com.jorm.forex.model.PriceRecord;
+import com.jorm.forex.model.TrendFinderSettings;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -18,30 +19,30 @@ import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 @RunWith(DataProviderRunner.class)
-public class HighLowAverageTrendFinderTest {
+public class HighLowAverageTrendFinderStrategyTest {
 
     private static DateTimeFormatter dateFormat = Format.dateTimeFormat;
 
-    private HighLowAverageTrendFinder trendFinder;
+    private HighLowAverageTrendFinderStrategy trendFinder;
 
     @Test
     @UseDataProvider("dataProviderTrendStart")
     public void shouldFindTrendStart_GivenThanMinDifferenceIsSufficient(SortedMap<LocalDateTime, PriceRecord> data, Double minDifference, LocalDateTime result){
-        trendFinder = new HighLowAverageTrendFinder(new TrendFinderSettings(minDifference));
+        trendFinder = new HighLowAverageTrendFinderStrategy(new TrendFinderSettings(minDifference));
         assertEquals(result, trendFinder.findTrendStart(data));
     }
 
     @Test
     @UseDataProvider("dataProviderTrendStartNotExists")
     public void shouldNotFindTrendStart_GivenThanMinDifferenceIsNotSufficient(SortedMap<LocalDateTime, PriceRecord> data, Double minDifference){
-        trendFinder = new HighLowAverageTrendFinder(new TrendFinderSettings(minDifference));
+        trendFinder = new HighLowAverageTrendFinderStrategy(new TrendFinderSettings(minDifference));
         assertNull(trendFinder.findTrendStart(data));
     }
 
     @Test
     @UseDataProvider("dataProviderTrendEnd")
     public void shouldFindTrendEnd_GivenThanMinDifferenceIsSufficient(SortedMap<LocalDateTime, PriceRecord> data, Double minDifference, LocalDateTime result){
-        trendFinder = new HighLowAverageTrendFinder(new TrendFinderSettings(minDifference));
+        trendFinder = new HighLowAverageTrendFinderStrategy(new TrendFinderSettings(minDifference));
         assertEquals(result, trendFinder.findTrendEnd(data));
     }
 

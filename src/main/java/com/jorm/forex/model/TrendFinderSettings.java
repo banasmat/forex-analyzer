@@ -1,4 +1,4 @@
-package com.jorm.forex.trend;
+package com.jorm.forex.model;
 
 //TODO consider using builder
 public class TrendFinderSettings {
