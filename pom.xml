@@ -28,6 +28,14 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- jpa -->
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+
 		<!-- utils -->
 		<dependency>
 			<groupId>commons-io</groupId>
