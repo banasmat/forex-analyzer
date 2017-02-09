@@ -1,11 +1,9 @@
 package com.jorm.forex.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.util.List;
 
+//TODO might rename to something more generic like PriceDataGroup (subclasses: Trend, PriceSwig etc.) - then add type field
 @Entity
 public class Trend {
 
@@ -13,31 +11,23 @@ public class Trend {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    public final LocalDateTime start;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "trend")
+    public final List<PriceRecord> priceRecords;
 
-    public final LocalDateTime end;
+    @ManyToOne()
+    @JoinColumn(name="symbol_id")
+    public Symbol symbol;
 
-    public Trend(LocalDateTime start, LocalDateTime end) {
-        this.start = start;
-        this.end = end;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="price_data_analysis_id")
+    public PriceDataAnalysis priceDataAnalysis;
+
+    public Trend(List<PriceRecord> priceRecords, Symbol symbol) {
+        this.symbol = symbol;
+        this.priceRecords = priceRecords;
     }
 
-    public static class Builder {
-        private LocalDateTime start;
-        private LocalDateTime end;
-
-        public Builder start(LocalDateTime srart) {
-            this.start = srart;
-            return this;
-        }
-
-        public Builder end(LocalDateTime end) {
-            this.end = end;
-            return this;
-        }
-
-        public Trend build() {
-            return new Trend(start, end);
-        }
+    public Trend(List<PriceRecord> priceRecords) {
+        this.priceRecords = priceRecords;
     }
 }

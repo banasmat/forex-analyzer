@@ -5,6 +5,7 @@ import com.jorm.forex.model.TrendFinderSettings;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.Map;
 
@@ -13,8 +14,7 @@ public class HighLowAverageTrendFinderStrategy implements TrendFinderStrategy {
 
     private TrendFinderSettings settings;
 
-    public HighLowAverageTrendFinderStrategy() {
-    }
+    public HighLowAverageTrendFinderStrategy() {}
     public HighLowAverageTrendFinderStrategy(TrendFinderSettings settings) {
         this.settings = settings;
     }
@@ -25,33 +25,33 @@ public class HighLowAverageTrendFinderStrategy implements TrendFinderStrategy {
         return this;
     }
 
-    public LocalDateTime findTrendStart(SortedMap<LocalDateTime, PriceRecord> data) {
+    public PriceRecord findTrendStart(List<PriceRecord> data) {
 
-        LocalDateTime result = null;
+        PriceRecord result = null;
 
         Double min = null;
         Double max = null;
         Double current;
 
-        LocalDateTime minDate = null;
-        LocalDateTime maxDate = null;
+        PriceRecord minDateRecord = null;
+        PriceRecord maxDateRecord = null;
 
-        for(Map.Entry<LocalDateTime, PriceRecord> entry : data.entrySet()){
-            current = getAverage(entry.getValue());
+        for(PriceRecord priceRecord : data){
+            current = getAverage(priceRecord);
 
             if (null == min || current < min){
                 min = current;
-                minDate = entry.getKey();
+                minDateRecord = priceRecord;
             }
 
             if (null == max || current > max){
                 max = current;
-                maxDate = entry.getKey();
+                maxDateRecord = priceRecord;
             }
 
-            if((max - min) >= settings.getMinStartDifference()){
+            if((max - min) >= settings.getMinPriceDifference()){
                 // Return earlier date
-                result = minDate.isBefore(maxDate) ? minDate : maxDate;
+                result = minDateRecord.dateTime.isBefore(maxDateRecord.dateTime) ? minDateRecord : maxDateRecord;
                 break;
             }
         }
@@ -59,23 +59,23 @@ public class HighLowAverageTrendFinderStrategy implements TrendFinderStrategy {
         return result;
     }
 
-    public LocalDateTime findTrendEnd(SortedMap<LocalDateTime, PriceRecord> data) {
+    public PriceRecord findTrendEnd(List<PriceRecord> data) {
 
-        LocalDateTime result = null;
+        PriceRecord result = null;
 
         Double min = null;
         Double max = null;
         Double current;
 
-        LocalDateTime minDate = null;
-        LocalDateTime maxDate = null;
+        PriceRecord minDateRecord = null;
+        PriceRecord maxDateRecord = null;
 
         Boolean isUpwards = null;
 
         Double previousValue = null;
 
-        for(Map.Entry<LocalDateTime, PriceRecord> entry : data.entrySet()){
-            current = getAverage(entry.getValue());
+        for(PriceRecord priceRecord : data){
+            current = getAverage(priceRecord);
 
             if(null == previousValue){
                 previousValue = current;
@@ -89,20 +89,20 @@ public class HighLowAverageTrendFinderStrategy implements TrendFinderStrategy {
 
             if (null == min || current < min){
                 min = current;
-                minDate = entry.getKey();
+                minDateRecord = priceRecord;
             }
 
             if (null == max || current > max){
                 max = current;
-                maxDate = entry.getKey();
+                maxDateRecord = priceRecord;
             }
 
             if(null != isUpwards){
-                if(true == isUpwards && (max - current) >= settings.getMinEndDifference()){
-                    result = maxDate;
+                if(true == isUpwards && (max - current) >= settings.getMinPriceDifference()){
+                    result = maxDateRecord;
                     break;
-                } else if(false == isUpwards && -(min - current) >= settings.getMinEndDifference()){
-                    result = minDate;
+                } else if(false == isUpwards && -(min - current) >= settings.getMinPriceDifference()){
+                    result = minDateRecord;
                     break;
                 }
             }

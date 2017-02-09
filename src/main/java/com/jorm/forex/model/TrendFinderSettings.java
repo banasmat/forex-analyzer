@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-//TODO consider using builder
 @Entity
 public class TrendFinderSettings {
 
@@ -13,11 +12,16 @@ public class TrendFinderSettings {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    private Double minStartDifference = null;
+
+    private PriceDataAnalysis priceDataAnalysis;
+
+
+    //TODO these fields will vary. consider using key value instead
+    private Double minPriceDifference = null;
     private Double minEndDifference = null;
 
     public TrendFinderSettings(Double minDifference) {
-        this.minStartDifference = minDifference;
+        this.minPriceDifference = minDifference;
         this.minEndDifference = minDifference;
     }
 
@@ -25,7 +29,7 @@ public class TrendFinderSettings {
         return minEndDifference;
     }
 
-    public Double getMinStartDifference() {
-        return minStartDifference;
+    public Double getMinPriceDifference() {
+        return minPriceDifference;
     }
 }

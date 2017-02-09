@@ -2,10 +2,7 @@ package com.jorm.forex.model;
 
 import com.jorm.forex.trend.TrendFinderStrategy;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 //TODO consider renaming to TrendFinderSession
@@ -16,13 +13,17 @@ public class PriceDataAnalysis {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    //TODO might remove and use only reversed relation (we might use also other extracted forms as PriceSwing
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "priceDataAnalysis")
     public final Trend[] trends;
 
+    //TODO save as entity relation or string?
     public final TrendFinderStrategy trendFinderStrategy;
 
+    @ManyToOne()
+    @JoinColumn(name="trend_finder_settings_id")
     public final TrendFinderSettings trendFinderSettings;
 
+    @Column(name="created_at")
     public final Date createdAt;
 
     public PriceDataAnalysis(Trend[] trends, TrendFinderStrategy trendFinderStrategy, TrendFinderSettings trendFinderSettings, Date createdAt) {

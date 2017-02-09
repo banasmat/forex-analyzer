@@ -10,9 +10,7 @@ import org.springframework.core.io.ResourceLoader;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -33,25 +31,25 @@ public class CsvPriceDataProviderTest {
 
         Resource resource = resourceLoader.getResource("src/test/resources/historical-data-chunk.csv");
 
-        SortedMap<LocalDateTime, PriceRecord> expectedResult = new TreeMap<LocalDateTime, PriceRecord>(){
+        List<PriceRecord> expectedResult = new ArrayList<PriceRecord>(){
             {
-                put(LocalDateTime.parse("03-01-2016 17:00:00", dateFormat), new PriceRecord(1.087010,1.087130,1.087010,1.087130));
-                put(LocalDateTime.parse("03-01-2016 17:01:00", dateFormat), new PriceRecord(1.087120,1.087120,1.087120,1.087120));
-                put(LocalDateTime.parse("03-01-2016 17:02:00", dateFormat), new PriceRecord(1.087080,1.087220,1.087080,1.087220));
-                put(LocalDateTime.parse("03-01-2016 17:03:00", dateFormat), new PriceRecord(1.087170,1.087230,1.087170,1.087230));
-                put(LocalDateTime.parse("03-01-2016 17:04:00", dateFormat), new PriceRecord(1.087180,1.087180,1.087110,1.087110));
-                put(LocalDateTime.parse("03-01-2016 17:05:00", dateFormat), new PriceRecord(1.087030,1.087160,1.087010,1.087120));
+                add(new PriceRecord(LocalDateTime.parse("03-01-2016 17:00:00", dateFormat), 1.087010,1.087130,1.087010,1.087130));
+                add(new PriceRecord(LocalDateTime.parse("03-01-2016 17:01:00", dateFormat), 1.087120,1.087120,1.087120,1.087120));
+                add(new PriceRecord(LocalDateTime.parse("03-01-2016 17:02:00", dateFormat), 1.087080,1.087220,1.087080,1.087220));
+                add(new PriceRecord(LocalDateTime.parse("03-01-2016 17:03:00", dateFormat), 1.087170,1.087230,1.087170,1.087230));
+                add(new PriceRecord(LocalDateTime.parse("03-01-2016 17:04:00", dateFormat), 1.087180,1.087180,1.087110,1.087110));
+                add(new PriceRecord(LocalDateTime.parse("03-01-2016 17:05:00", dateFormat), 1.087030,1.087160,1.087010,1.087120));
             }
         };
 
-        SortedMap<LocalDateTime, PriceRecord> result = dataProvider.getData(resource);
+        List<PriceRecord> result = dataProvider.getData(resource);
 
-        //TODO might try implementing Comparable in PriceRecord instead
-        for(Map.Entry<LocalDateTime, PriceRecord> entry : result.entrySet()){
-            assertEquals(expectedResult.get(entry.getKey()).open, entry.getValue().open);
-            assertEquals(expectedResult.get(entry.getKey()).high, entry.getValue().high);
-            assertEquals(expectedResult.get(entry.getKey()).low, entry.getValue().low);
-            assertEquals(expectedResult.get(entry.getKey()).close, entry.getValue().close);
+        for(int i = 0; i < result.size(); i++)
+        for(PriceRecord priceRecord : result){
+            assertEquals(expectedResult.get(i).open, result.get(i).open);
+            assertEquals(expectedResult.get(i).high, result.get(i).high);
+            assertEquals(expectedResult.get(i).low, result.get(i).low);
+            assertEquals(expectedResult.get(i).close, result.get(i).close);
         }
     }
 }

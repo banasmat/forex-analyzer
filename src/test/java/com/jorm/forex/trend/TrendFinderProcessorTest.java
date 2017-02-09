@@ -7,8 +7,7 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.List;
 
 import com.jorm.forex.model.PriceRecord;
 import org.junit.Before;
@@ -42,30 +41,28 @@ public class TrendFinderProcessorTest {
     @Test
     public void shouldFindTrendsInGivenData() throws ParseException{
 
-        PriceRecord somePrices = new PriceRecord(1D, 1D, 1D, 1D);
-
-        SortedMap<LocalDateTime, PriceRecord> data = new TreeMap<LocalDateTime, PriceRecord>(){
+        List<PriceRecord> data = new ArrayList<PriceRecord>(){
             {
-                put(LocalDateTime.parse("01-04-1234 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("02-04-1234 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("03-04-1234 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("04-04-1234 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("06-08-1234 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("06-07-1234 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("09-09-1234 00:00:00", dateFormat), somePrices);
+                add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("02-04-1234 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("03-04-1234 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("04-04-1234 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("06-07-1234 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("06-08-1234 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("09-09-1234 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
 
-                put(LocalDateTime.parse("03-05-1235 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("04-05-1235 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("05-05-1235 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("08-07-1235 00:00:00", dateFormat), somePrices);
+                add(new PriceRecord(LocalDateTime.parse("03-05-1235 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("04-05-1235 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("05-05-1235 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("08-07-1235 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
 
-                put(LocalDateTime.parse("02-04-1236 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("03-04-1236 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("04-04-1236 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("05-04-1236 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("06-04-1236 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("07-04-1236 00:00:00", dateFormat), somePrices);
-                put(LocalDateTime.parse("02-06-1236 00:00:00", dateFormat), somePrices);
+                add(new PriceRecord(LocalDateTime.parse("02-04-1236 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("03-04-1236 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("04-04-1236 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("05-04-1236 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("06-04-1236 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("07-04-1236 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                add(new PriceRecord(LocalDateTime.parse("02-06-1236 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
             }
         };
 
@@ -84,21 +81,21 @@ public class TrendFinderProcessorTest {
 
         //TODO might look for a way to put in a loop
         when(trendFinderStrategy.findTrendStart(data))
-            .thenReturn(startDates[0])
-            .thenReturn(startDates[1])
-            .thenReturn(startDates[2])
+            .thenReturn(new PriceRecord(startDates[0], 1D, 1D, 1D, 1D))
+            .thenReturn(new PriceRecord(startDates[1], 1D, 1D, 1D, 1D))
+            .thenReturn(new PriceRecord(startDates[2], 1D, 1D, 1D, 1D))
             .thenReturn(null);
         when(trendFinderStrategy.findTrendEnd(data))
-            .thenReturn(endDates[0])
-            .thenReturn(endDates[1])
-            .thenReturn(endDates[2])
+            .thenReturn(new PriceRecord(endDates[0], 1D, 1D, 1D, 1D))
+            .thenReturn(new PriceRecord(endDates[1], 1D, 1D, 1D, 1D))
+            .thenReturn(new PriceRecord(endDates[2], 1D, 1D, 1D, 1D))
             .thenReturn(null);
 
-        ArrayList<Trend> resultTrends = trendFinderProcessor.findTrendsInData(data);
+        List<Trend> resultTrends = trendFinderProcessor.findTrendsInData(data);
 
         for(int i = 0; i < startDates.length; i++){
-            assertEquals(startDates[i], resultTrends.get(i).start);
-            assertEquals(endDates[i], resultTrends.get(i).end);
+            assertEquals(startDates[i], resultTrends.get(i).priceRecords.get(0).dateTime);
+            assertEquals(endDates[i], resultTrends.get(i).priceRecords.get(resultTrends.get(i).priceRecords.size() - 1).dateTime);
         }
 
     }

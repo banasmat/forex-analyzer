@@ -9,15 +9,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service(PriceDataProviderName.CSV)
 public class CsvPriceDataProvider implements PriceDataProvider {
 
     @Override
-    public SortedMap<LocalDateTime, PriceRecord> getData(Resource resource) {
-        SortedMap<LocalDateTime, PriceRecord> result = new TreeMap<>();
+    public List<PriceRecord> getData(Resource resource) {
+        List<PriceRecord> result = new ArrayList<>();
 
         BufferedReader br;
         String line;
@@ -32,9 +32,10 @@ public class CsvPriceDataProvider implements PriceDataProvider {
 
                 String[] data = line.split(csvSeparator);
 
-                result.put(
-                    LocalDateTime.parse(data[0] + ' ' + data[1], dateTimeFormat),
-                    new PriceRecord(Double.parseDouble(data[2]), Double.parseDouble(data[3]), Double.parseDouble(data[4]), Double.parseDouble(data[5]))
+                LocalDateTime dateTime = LocalDateTime.parse(data[0] + ' ' + data[1], dateTimeFormat);
+
+                result.add(
+                    new PriceRecord(dateTime, Double.parseDouble(data[2]), Double.parseDouble(data[3]), Double.parseDouble(data[4]), Double.parseDouble(data[5]))
                 );
             }
         } catch (IOException e) {
