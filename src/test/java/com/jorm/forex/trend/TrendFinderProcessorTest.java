@@ -30,7 +30,8 @@ public class TrendFinderProcessorTest {
     @Mock
     private TrendFinderStrategy trendFinderStrategy;
 
-    @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Before
     public void setUp() {
