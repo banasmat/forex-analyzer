@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd" >
 
@@ -15,5 +15,9 @@
 		<property name="serviceLocatorInterface" value="com.jorm.forex.trend.TrendFinderFactory">
 		</property>
 	</bean>
+
+	<!--<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">-->
+		<!--<property name="persistenceUnitName" value="forex_analyzer" />-->
+	<!--</bean>-->
 
 </beans>

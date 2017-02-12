@@ -11,14 +11,15 @@ public class Trend {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "trend")
+    @OneToMany(mappedBy = "trend")
+    @OrderColumn
     public final List<PriceRecord> priceRecords;
 
     @ManyToOne()
     @JoinColumn(name="symbol_id")
     public Symbol symbol;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name="price_data_analysis_id")
     public PriceDataAnalysis priceDataAnalysis;
 

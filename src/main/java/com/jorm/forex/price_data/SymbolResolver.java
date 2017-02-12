@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class SymbolResolver {
 
+    @Autowired
     private SymbolRepository symbolRepository;
 
-    @Autowired
+    public SymbolResolver(){}
+
     public SymbolResolver(SymbolRepository symbolRepository) {
         this.symbolRepository = symbolRepository;
     }

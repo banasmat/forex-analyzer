@@ -1,9 +1,7 @@
 package com.jorm.forex.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class TrendFinderSettings {
@@ -12,21 +10,16 @@ public class TrendFinderSettings {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-
-    private PriceDataAnalysis priceDataAnalysis;
+    @OneToMany(mappedBy = "trendFinderSettings")
+    @OrderColumn
+    public List<PriceDataAnalysis> priceDataAnalysis;
 
 
     //TODO these fields will vary. consider using key value instead
     private Double minPriceDifference = null;
-    private Double minEndDifference = null;
 
     public TrendFinderSettings(Double minDifference) {
         this.minPriceDifference = minDifference;
-        this.minEndDifference = minDifference;
-    }
-
-    public Double getMinEndDifference() {
-        return minEndDifference;
     }
 
     public Double getMinPriceDifference() {

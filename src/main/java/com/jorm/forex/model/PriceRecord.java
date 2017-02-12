@@ -11,7 +11,7 @@ public class PriceRecord implements Comparator<PriceRecord> {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name="trend_id", nullable = false)
     public Trend trend;
 
