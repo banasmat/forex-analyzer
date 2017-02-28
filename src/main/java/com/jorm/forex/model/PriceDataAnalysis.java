@@ -14,14 +14,14 @@ public class PriceDataAnalysis {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "priceDataAnalysis")
+    @OneToMany(mappedBy = "priceDataAnalysis", cascade = CascadeType.PERSIST)
     @OrderColumn
     public final List<Trend> trends;
 
     //TODO save as entity relation or string?
     public final String trendFinderStrategyName;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="trend_finder_settings_id")
     public final TrendFinderSettings trendFinderSettings;
 

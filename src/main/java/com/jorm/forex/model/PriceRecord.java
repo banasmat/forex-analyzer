@@ -11,9 +11,13 @@ public class PriceRecord implements Comparator<PriceRecord> {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="trend_id", nullable = false)
     public Trend trend;
+
+    //TODO change double to float. A lot of data will be saved to db.
+
+    //TODO LocalDateTime is saved as blob
 
     @Column(name="date_time")
     public final LocalDateTime dateTime;

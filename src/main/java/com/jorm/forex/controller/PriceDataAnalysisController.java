@@ -1,15 +1,14 @@
 package com.jorm.forex.controller;
 
-import com.jorm.forex.model.Symbol;
-import com.jorm.forex.model.Trend;
+import com.jorm.forex.model.*;
 import com.jorm.forex.price_data.PriceDataProvider;
 import com.jorm.forex.price_data.PriceDataProviderFactory;
 import com.jorm.forex.price_data.PriceDataProviderNameResolver;
 import com.jorm.forex.price_data.SymbolResolver;
+import com.jorm.forex.repository.TrendRepository;
 import com.jorm.forex.trend.TrendFinderStrategy;
 import com.jorm.forex.trend.TrendFinderFactory;
 import com.jorm.forex.trend.TrendFinderProcessor;
-import com.jorm.forex.model.TrendFinderSettings;
 import com.jorm.forex.util.FileHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,8 +16,11 @@ import org.springframework.core.io.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 //TODO apply consistent naming
@@ -27,6 +29,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("price-data-analysis")
+@Transactional
 public class PriceDataAnalysisController {
 
     @Autowired
@@ -43,6 +46,9 @@ public class PriceDataAnalysisController {
 
     @Autowired
     private SymbolResolver symbolResolver;
+
+    @Autowired
+    private EntityManager em;
 
     @Value("${java.io.tmpdir}")
     private String tempDir;
@@ -76,6 +82,8 @@ public class PriceDataAnalysisController {
 
     private String extractTrends(Resource dataResource, String strategyName, String symbolName, Double minDifference) throws IOException {
 
+        // TODO probably delegate some parts to TrendManager(?) PriceDataAnalysisManager(?)
+
         String priceDataProviderName = priceDataProviderNameResolver.resolveFromResource(dataResource);
 
         Symbol symbol = symbolResolver.resolve(symbolName);
@@ -85,20 +93,25 @@ public class PriceDataAnalysisController {
         TrendFinderStrategy trendFinderStrategy = trendFinderFactory.getTrendFinderStrategy(strategyName);
 
         TrendFinderSettings trendFinderSettings = new TrendFinderSettings(minDifference);
-
         trendFinderStrategy.setSettings(trendFinderSettings);
+        em.persist(trendFinderSettings);
 
         trendFinderProcessor.setTrendFinderStrategy(trendFinderStrategy);
 
         List<Trend> trends = trendFinderProcessor.findTrendsInData(priceDataProvider.getData(dataResource));
 
+        //TODO setting these values here is inefficient. Do we really have to set trend for every priceRecord.
         for(Trend trend : trends){
             trend.symbol = symbol;
+            for(PriceRecord priceRecord : trend.priceRecords){
+                priceRecord.trend = trend;
+            }
         }
 
-        //TODO create PriceDataAnalysis record
+        PriceDataAnalysis priceDataAnalysis = new PriceDataAnalysis(trends, strategyName, trendFinderSettings, new Date());
+        em.persist(priceDataAnalysis);
 
-        //TODO persist
+        em.flush();
 
         return "Extracted " + trends.size() + " trends from " + dataResource.getFilename() + " with strategy " + strategyName ;
     }

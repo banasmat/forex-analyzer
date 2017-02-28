@@ -7,11 +7,13 @@ import java.util.List;
 @Entity
 public class Trend {
 
+    //TODO getters and setters
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "trend")
+    @OneToMany(mappedBy = "trend", cascade = CascadeType.ALL)
     @OrderColumn
     public final List<PriceRecord> priceRecords;
 
@@ -19,7 +21,7 @@ public class Trend {
     @JoinColumn(name="symbol_id")
     public Symbol symbol;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="price_data_analysis_id")
     public PriceDataAnalysis priceDataAnalysis;
 

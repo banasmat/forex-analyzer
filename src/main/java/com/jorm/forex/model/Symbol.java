@@ -10,7 +10,9 @@ public class Symbol {
     private Long id;
 
     @Column(name="name")
-    public final String name;
+    public String name;
+
+    public Symbol(){}
 
     public Symbol(String name) {
         this.name = name;
