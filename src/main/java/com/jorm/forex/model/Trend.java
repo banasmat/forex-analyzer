@@ -14,15 +14,14 @@ public class Trend {
     private Long id;
 
     @OneToMany(mappedBy = "trend", cascade = CascadeType.ALL)
-    @OrderColumn
     public final List<PriceRecord> priceRecords;
 
     @ManyToOne()
-    @JoinColumn(name="symbol_id")
+    @JoinColumn(nullable = false)
     public Symbol symbol;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="price_data_analysis_id")
+    @JoinColumn(nullable = false)
     public PriceDataAnalysis priceDataAnalysis;
 
     public Trend(List<PriceRecord> priceRecords, Symbol symbol) {

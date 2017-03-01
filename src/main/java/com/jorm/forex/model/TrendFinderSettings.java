@@ -11,11 +11,10 @@ public class TrendFinderSettings {
     private Long id;
 
     @OneToMany(mappedBy = "trendFinderSettings")
-    @OrderColumn
     public List<PriceDataAnalysis> priceDataAnalysis;
 
-
     //TODO these fields will vary. consider using key value instead
+    @Column(nullable = false)
     private Double minPriceDifference = null;
 
     public TrendFinderSettings(Double minDifference) {

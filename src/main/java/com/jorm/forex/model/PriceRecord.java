@@ -15,23 +15,21 @@ public class PriceRecord implements Comparator<PriceRecord> {
     @JoinColumn(name="trend_id", nullable = false)
     public Trend trend;
 
-    //TODO change double to float. A lot of data will be saved to db.
+    //TODO consider storing prices as int
 
-    //TODO LocalDateTime is saved as blob
-
-    @Column(name="date_time")
+    @Column(nullable = false)
     public final LocalDateTime dateTime;
 
-    @Column(name="open")
+    @Column(nullable = false)
     public final Double open;
 
-    @Column(name="high")
+    @Column(nullable = false)
     public final Double high;
 
-    @Column(name="low")
+    @Column(nullable = false)
     public final Double low;
 
-    @Column(name="close")
+    @Column(nullable = false)
     public final Double close;
 
     //TODO probably rename to: StockEntityPrices?

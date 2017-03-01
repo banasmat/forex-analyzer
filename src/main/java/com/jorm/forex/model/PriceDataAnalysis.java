@@ -15,17 +15,17 @@ public class PriceDataAnalysis {
     private Long id;
 
     @OneToMany(mappedBy = "priceDataAnalysis", cascade = CascadeType.PERSIST)
-    @OrderColumn
     public final List<Trend> trends;
 
     //TODO save as entity relation or string?
+    @Column(nullable = false)
     public final String trendFinderStrategyName;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="trend_finder_settings_id")
+    @JoinColumn(nullable = false)
     public final TrendFinderSettings trendFinderSettings;
 
-    @Column(name="created_at")
+    @Column(nullable = false)
     public final Date createdAt;
 
     public PriceDataAnalysis(List<Trend> trends, String trendFinderStrategyName, TrendFinderSettings trendFinderSettings, Date createdAt) {

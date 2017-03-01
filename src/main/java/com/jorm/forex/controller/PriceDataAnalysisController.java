@@ -100,15 +100,17 @@ public class PriceDataAnalysisController {
 
         List<Trend> trends = trendFinderProcessor.findTrendsInData(priceDataProvider.getData(dataResource));
 
+        PriceDataAnalysis priceDataAnalysis = new PriceDataAnalysis(trends, strategyName, trendFinderSettings, new Date());
+
         //TODO setting these values here is inefficient. Do we really have to set trend for every priceRecord.
         for(Trend trend : trends){
             trend.symbol = symbol;
+            trend.priceDataAnalysis = priceDataAnalysis;
             for(PriceRecord priceRecord : trend.priceRecords){
                 priceRecord.trend = trend;
             }
         }
 
-        PriceDataAnalysis priceDataAnalysis = new PriceDataAnalysis(trends, strategyName, trendFinderSettings, new Date());
         em.persist(priceDataAnalysis);
 
         em.flush();
