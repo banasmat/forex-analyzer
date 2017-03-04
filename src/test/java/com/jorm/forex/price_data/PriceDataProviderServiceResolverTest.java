@@ -5,15 +5,14 @@ import org.junit.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-
 import static org.junit.Assert.*;
 
-public class PriceDataProviderNameResolverTest {
-    private PriceDataProviderNameResolver resolver;
+public class PriceDataProviderServiceResolverTest {
+    private PriceDataProviderServiceResolver resolver;
 
     @Before
     public void setUp() {
-        resolver = new PriceDataProviderNameResolver();
+        resolver = new PriceDataProviderServiceResolver();
     }
 
     @Test

@@ -111,6 +111,10 @@ public class HighLowAverageTrendFinderStrategy implements TrendFinderStrategy {
         return result;
     }
 
+    public String getName(){
+        return "HighLowAverage";
+    }
+
     private Double getAverage(PriceRecord prices){
         return (prices.high + prices.low) / 2;
     }

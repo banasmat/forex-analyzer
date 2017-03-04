@@ -15,4 +15,6 @@ public interface TrendFinderStrategy {
     PriceRecord findTrendStart(List<PriceRecord> data);
 
     PriceRecord findTrendEnd(List<PriceRecord> data);
+
+    String getName();
 }

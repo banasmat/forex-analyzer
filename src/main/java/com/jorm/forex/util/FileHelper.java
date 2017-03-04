@@ -9,6 +9,7 @@ import java.io.IOException;
 public class FileHelper {
 
     // TODO consider moving from utils
+    // TODO test?
 
     public static File convertMultipartFileToTempFile(MultipartFile multipartFile, String targetDir) throws IOException {
         File file = new File(targetDir + multipartFile.getOriginalFilename());
