@@ -26,7 +26,7 @@ public class CsvPriceDataProviderTest {
     }
 
     @Test
-    public void shouldReadACsvFileAndReturnSortedMap(){
+    public void shouldParseCsvFile(){
         ResourceLoader resourceLoader = new FileSystemResourceLoader();
 
         Resource resource = resourceLoader.getResource("src/test/resources/historical-data-chunk.csv");

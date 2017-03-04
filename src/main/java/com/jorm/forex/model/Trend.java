@@ -13,6 +13,7 @@ public class Trend {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
+    //FIXME we might need some margin when displaying trends. What happened before and after. Margin will be added to TrendFinderSettings.
     @OneToMany(mappedBy = "trend", cascade = CascadeType.ALL)
     public final List<PriceRecord> priceRecords;
 
