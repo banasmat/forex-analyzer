@@ -51,7 +51,7 @@ public class HighLowAverageTrendFinderStrategy implements TrendFinderStrategy {
 
             if((max - min) >= settings.getMinPriceDifference()){
                 // Return earlier date
-                result = minDateRecord.dateTime.isBefore(maxDateRecord.dateTime) ? minDateRecord : maxDateRecord;
+                result = minDateRecord.getDateTime().isBefore(maxDateRecord.getDateTime()) ? minDateRecord : maxDateRecord;
                 break;
             }
         }
@@ -116,6 +116,6 @@ public class HighLowAverageTrendFinderStrategy implements TrendFinderStrategy {
     }
 
     private Double getAverage(PriceRecord prices){
-        return (prices.high + prices.low) / 2;
+        return (prices.getHigh() + prices.getLow()) / 2;
     }
 }

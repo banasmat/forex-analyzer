@@ -15,23 +15,43 @@ public class PriceDataAnalysis {
     private Long id;
 
     @OneToMany(mappedBy = "priceDataAnalysis", cascade = CascadeType.PERSIST)
-    public final List<Trend> trends;
+    private List<Trend> trends;
 
     //TODO save as entity relation or string?
     @Column(nullable = false)
-    public final String trendFinderStrategyName;
+    private String trendFinderStrategyName;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(nullable = false)
-    public final TrendFinderSettings trendFinderSettings;
+    private TrendFinderSettings trendFinderSettings;
 
     @Column(nullable = false)
-    public final Date createdAt;
+    private Date createdAt;
 
     public PriceDataAnalysis(List<Trend> trends, TrendFinderStrategy trendFinderStrategy, TrendFinderSettings trendFinderSettings, Date createdAt) {
         this.trends = trends;
         this.trendFinderStrategyName = trendFinderStrategy.getName();
         this.trendFinderSettings = trendFinderSettings;
         this.createdAt = createdAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public List<Trend> getTrends() {
+        return trends;
+    }
+
+    public String getTrendFinderStrategyName() {
+        return trendFinderStrategyName;
+    }
+
+    public TrendFinderSettings getTrendFinderSettings() {
+        return trendFinderSettings;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
     }
 }

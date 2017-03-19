@@ -46,7 +46,7 @@ public class SymbolResolverTest {
         when(symbolRepository.findOneByName("SomeName")).thenReturn(null);
 
         assertNotEquals(symbol, resolver.resolve("SomeName"));
-        assertEquals(symbol.name, resolver.resolve("SomeName").name);
+        assertEquals(symbol.getName(), resolver.resolve("SomeName").getName());
 
         ArgumentCaptor<Symbol> symbolArgument = ArgumentCaptor.forClass(Symbol.class);
         verify(symbolRepository, times(2)).save(symbolArgument.capture());

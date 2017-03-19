@@ -11,17 +11,27 @@ public class TrendFinderSettings {
     private Long id;
 
     @OneToMany(mappedBy = "trendFinderSettings")
-    public List<PriceDataAnalysis> priceDataAnalysis;
+    private List<PriceDataAnalysis> priceDataAnalysis;
 
     //TODO these fields will vary. consider using key value instead
-    @Column(nullable = false)
-    private Double minPriceDifference = null;
+    @Column(nullable = false )
+    private Double minPriceDifference;
 
     public TrendFinderSettings(Double minDifference) {
         this.minPriceDifference = minDifference;
     }
 
+    //TODO builder and different constructors might be useful here
+
     public Double getMinPriceDifference() {
         return minPriceDifference;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public List<PriceDataAnalysis> getPriceDataAnalysis() {
+        return priceDataAnalysis;
     }
 }

@@ -10,11 +10,19 @@ public class Symbol {
     private Long id;
 
     @Column(nullable = false)
-    public String name;
+    private String name;
 
     public Symbol(){}
 
     public Symbol(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 }

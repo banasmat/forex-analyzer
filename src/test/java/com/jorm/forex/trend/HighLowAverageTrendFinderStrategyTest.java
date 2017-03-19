@@ -31,7 +31,7 @@ public class HighLowAverageTrendFinderStrategyTest {
     @UseDataProvider("dataProviderTrendStart")
     public void shouldFindTrendStart_GivenThanMinDifferenceIsSufficient(List<PriceRecord> data, Double minDifference, LocalDateTime result){
         trendFinder = new HighLowAverageTrendFinderStrategy(new TrendFinderSettings(minDifference));
-        assertEquals(result, trendFinder.findTrendStart(data).dateTime);
+        assertEquals(result, trendFinder.findTrendStart(data).getDateTime());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class HighLowAverageTrendFinderStrategyTest {
     @UseDataProvider("dataProviderTrendEnd")
     public void shouldFindTrendEnd_GivenThanMinDifferenceIsSufficient(List<PriceRecord> data, Double minDifference, LocalDateTime resultDateTime){
         trendFinder = new HighLowAverageTrendFinderStrategy(new TrendFinderSettings(minDifference));
-        assertEquals(resultDateTime, trendFinder.findTrendEnd(data).dateTime);
+        assertEquals(resultDateTime, trendFinder.findTrendEnd(data).getDateTime());
     }
 
     @DataProvider

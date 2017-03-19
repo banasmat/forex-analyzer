@@ -4,6 +4,7 @@ import com.jorm.forex.model.*;
 import com.jorm.forex.trend.TrendFinderFactory;
 import com.jorm.forex.trend.TrendFinderProcessor;
 import com.jorm.forex.trend.TrendFinderStrategy;
+import com.jorm.forex.util.Format;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import org.springframework.core.io.UrlResource;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,10 +68,12 @@ public class PriceDataAnalyzerTest {
         Symbol symbol = new Symbol("whatever");
 
         List<PriceRecord> priceData = new ArrayList<>();
+        PriceRecord start = new PriceRecord(LocalDateTime.parse("01-01-2001 00:00:00", Format.dateTimeFormat), 1D,1D,1D,1D);
+        PriceRecord end = new PriceRecord(LocalDateTime.parse("01-01-2001 00:00:00", Format.dateTimeFormat), 1D,1D,1D,1D);
         List<Trend> trends = new ArrayList<>();
         List<PriceRecord> priceRecords = new ArrayList<>();
 
-        trends.add(new Trend(priceRecords, symbol));
+        trends.add(new Trend(priceRecords, start, end, symbol));
 
         when(priceDataProviderServiceResolver.resolveFromResource(resource)).thenReturn(service);
         when(priceDataProviderFactory.getPriceDataProvider(service)).thenReturn(priceDataProvider);
@@ -78,8 +82,8 @@ public class PriceDataAnalyzerTest {
 
         PriceDataAnalysis result = priceDataAnalyzer.analyzePriceData(resource, trendFinderStrategy, symbol, trendFinderSettings);
 
-        assertEquals(symbol, result.trends.get(0).symbol);
-        assertEquals(priceRecords, result.trends.get(0).priceRecords);
-        assertEquals(result, result.trends.get(0).priceDataAnalysis);
+        assertEquals(symbol, result.getTrends().get(0).getSymbol());
+        assertEquals(priceRecords, result.getTrends().get(0).getPriceRecords());
+        assertEquals(result, result.getTrends().get(0).getPriceDataAnalysis());
     }
 }

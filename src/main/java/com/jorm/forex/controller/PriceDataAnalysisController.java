@@ -33,13 +33,17 @@ public class PriceDataAnalysisController {
     @Value("${java.io.tmpdir}")
     private String tempDir;
 
-    @RequestMapping(method = RequestMethod.POST, params = {"strategy", "symbol", "minDifference"})
+    @RequestMapping(method = RequestMethod.POST, params = {"strategy", "symbol", "minDifference", "entriesNumberMargin"})
     public String extractTrends(
             @RequestPart("file") MultipartFile multipartFile,
             @RequestParam String symbol,
             @RequestParam(defaultValue = "HighLowAverage") String strategy,
-            @RequestParam(defaultValue = "0.05") Double minDifference
+            @RequestParam(defaultValue = "0.05") Double minDifference,
+            @RequestParam(defaultValue = "10") int entriesNumberMargin
     ) throws IOException {
+
+        //TODO consider if entriesNumberMargin should be set or resolved automatically based on trend size
+
         File convertedFile = FileHelper.convertMultipartFileToTempFile(multipartFile, tempDir);
 
         Resource dataResource = new FileSystemResource(convertedFile);
@@ -52,7 +56,7 @@ public class PriceDataAnalysisController {
 
         PriceDataAnalysis priceDataAnalysis = priceDataAnalyzer.analyzePriceData(dataResource, trendFinderStrategy, symbolObject, trendFinderSettings);
 
-        return "Extracted " + priceDataAnalysis.trends.size() + " trends from " + dataResource.getFilename() + " with strategy " + priceDataAnalysis.trendFinderStrategyName;
+        return "Extracted " + priceDataAnalysis.getTrends().size() + " trends from " + dataResource.getFilename() + " with strategy " + priceDataAnalysis.getTrendFinderStrategyName();
     }
 
     /*

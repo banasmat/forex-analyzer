@@ -7,30 +7,71 @@ import java.util.List;
 @Entity
 public class Trend {
 
-    //TODO getters and setters
-
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    //FIXME we might need some margin when displaying trends. What happened before and after. Margin will be added to TrendFinderSettings.
+    @ManyToOne()
+    private PriceRecord start;
+
+    @ManyToOne()
+    private PriceRecord end;
+
     @OneToMany(mappedBy = "trend", cascade = CascadeType.ALL)
-    public final List<PriceRecord> priceRecords;
+    private List<PriceRecord> priceRecords;
 
     @ManyToOne()
     @JoinColumn(nullable = false)
-    public Symbol symbol;
+    private Symbol symbol;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(nullable = false)
-    public PriceDataAnalysis priceDataAnalysis;
+    private PriceDataAnalysis priceDataAnalysis;
 
-    public Trend(List<PriceRecord> priceRecords, Symbol symbol) {
+    public Trend(List<PriceRecord> priceRecords, PriceRecord start, PriceRecord end, Symbol symbol) {
         this.symbol = symbol;
         this.priceRecords = priceRecords;
+        this.start = start;
+        this.end = end;
     }
 
-    public Trend(List<PriceRecord> priceRecords) {
+    public Trend(List<PriceRecord> priceRecords, PriceRecord start, PriceRecord end) {
         this.priceRecords = priceRecords;
+        this.start = start;
+        this.end = end;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public PriceRecord getStart() {
+        return start;
+    }
+
+    public PriceRecord getEnd() {
+        return end;
+    }
+
+    public List<PriceRecord> getPriceRecords() {
+        return priceRecords;
+    }
+
+    public Symbol getSymbol() {
+        return symbol;
+    }
+
+    public Trend setSymbol(Symbol symbol) {
+        this.symbol = symbol;
+        return this;
+    }
+
+    public PriceDataAnalysis getPriceDataAnalysis() {
+        return priceDataAnalysis;
+    }
+
+    public Trend setPriceDataAnalysis(PriceDataAnalysis priceDataAnalysis) {
+        this.priceDataAnalysis = priceDataAnalysis;
+        return this;
     }
 }

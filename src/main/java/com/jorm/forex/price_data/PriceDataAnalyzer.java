@@ -54,11 +54,11 @@ public class PriceDataAnalyzer {
 
         //TODO setting these values here is inefficient.
         for(Trend trend : trends){
-            trend.symbol = symbol;
-            trend.priceDataAnalysis = priceDataAnalysis;
+            trend.setSymbol(symbol);
+            trend.setPriceDataAnalysis(priceDataAnalysis);
             //TODO Do we really have to set trend for every priceRecord. Check if it can't be configured with Hibernate.
-            for(PriceRecord priceRecord : trend.priceRecords){
-                priceRecord.trend = trend;
+            for(PriceRecord priceRecord : trend.getPriceRecords()){
+                priceRecord.setTrend(trend);
             }
         }
 

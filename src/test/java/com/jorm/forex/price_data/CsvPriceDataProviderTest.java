@@ -46,10 +46,10 @@ public class CsvPriceDataProviderTest {
 
         for(int i = 0; i < result.size(); i++)
         for(PriceRecord priceRecord : result){
-            assertEquals(expectedResult.get(i).open, result.get(i).open);
-            assertEquals(expectedResult.get(i).high, result.get(i).high);
-            assertEquals(expectedResult.get(i).low, result.get(i).low);
-            assertEquals(expectedResult.get(i).close, result.get(i).close);
+            assertEquals(expectedResult.get(i).getOpen(), result.get(i).getOpen());
+            assertEquals(expectedResult.get(i).getHigh(), result.get(i).getHigh());
+            assertEquals(expectedResult.get(i).getLow(), result.get(i).getLow());
+            assertEquals(expectedResult.get(i).getClose(), result.get(i).getClose());
         }
     }
 }

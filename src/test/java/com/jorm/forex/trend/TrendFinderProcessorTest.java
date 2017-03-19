@@ -95,8 +95,8 @@ public class TrendFinderProcessorTest {
         List<Trend> resultTrends = trendFinderProcessor.findTrendsInData(data);
 
         for(int i = 0; i < startDates.length; i++){
-            assertEquals(startDates[i], resultTrends.get(i).priceRecords.get(0).dateTime);
-            assertEquals(endDates[i], resultTrends.get(i).priceRecords.get(resultTrends.get(i).priceRecords.size() - 1).dateTime);
+            assertEquals(startDates[i], resultTrends.get(i).getStart().getDateTime());
+            assertEquals(endDates[i], resultTrends.get(i).getEnd().getDateTime());
         }
 
     }

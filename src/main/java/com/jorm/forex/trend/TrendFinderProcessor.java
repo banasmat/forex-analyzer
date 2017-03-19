@@ -40,7 +40,9 @@ public class TrendFinderProcessor {
             if (null != end) {
 
                 final Trend trend = new Trend(
-                        pullArraySliceUntilTargetEntry(data, end, true)
+                        pullArraySliceUntilTargetEntry(data, end, true),
+                        start,
+                        end
                     );
 
                 extractedTrends.add(trend);
@@ -71,7 +73,7 @@ public class TrendFinderProcessor {
             for (Iterator<PriceRecord> iter = data.listIterator(); iter.hasNext(); ) {
                 PriceRecord priceRecord = iter.next();
 
-                if ((boolean)compareOperator.invoke(priceRecord.dateTime, targetEntry.dateTime)) {
+                if ((boolean)compareOperator.invoke(priceRecord.getDateTime(), targetEntry.getDateTime())) {
                     break;
                 } else {
                     pulledEntries.add(priceRecord);
