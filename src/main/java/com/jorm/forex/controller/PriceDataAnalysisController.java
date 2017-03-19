@@ -43,6 +43,23 @@ public class PriceDataAnalysisController {
     ) throws IOException {
 
         //TODO consider if entriesNumberMargin should be set or resolved automatically based on trend size
+        /*
+         * Options:
+         *   - don't use margin for saving data. Front end application might want to request different margins for display. Options:
+         *      - don't save price data here at all. Front end app will have it's own resource. (data duplication. there's a change that sources will differ)
+         *      - keep file data as a whole file. Send it to front end once and store it in cache. (these files are big)
+         *      - save all price data to db. Send requested records to front end.
+         *          (
+         *          - most flexible,
+         *          - front end usually will request filtered data (5mins/1hr intervals) so responses won't be that large
+         *          - but will take a lot of db space
+         *          - [set index on data column; add PriceRecordTrendMap]
+         *          )
+     *       - save data with proper margin. Options:
+     *          - save 10% data before start and 10% after end
+     *          - set how much percent should be saved in TrendFinderSettings or set it in TrendFinderProcessor
+     *          - set fixed amount
+         */
 
         File convertedFile = FileHelper.convertMultipartFileToTempFile(multipartFile, tempDir);
 
