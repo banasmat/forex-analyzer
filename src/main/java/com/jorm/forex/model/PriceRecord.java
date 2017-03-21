@@ -11,12 +11,6 @@ public class PriceRecord implements Comparator<PriceRecord> {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="trend_id", nullable = false)
-    private Trend trend;
-
-    //TODO consider storing prices as int
-
     @Column(nullable = false)
     private LocalDateTime dateTime;
 
@@ -32,7 +26,6 @@ public class PriceRecord implements Comparator<PriceRecord> {
     @Column(nullable = false)
     private Double close;
 
-    //TODO probably rename to: StockEntityPrices?
     public PriceRecord(LocalDateTime dateTime, Double open, Double high, Double low, Double close) {
         this.dateTime = dateTime;
         this.open = open;
@@ -48,14 +41,6 @@ public class PriceRecord implements Comparator<PriceRecord> {
 
     public Long getId() {
         return id;
-    }
-
-    public Trend getTrend() {
-        return trend;
-    }
-
-    public void setTrend(Trend trend) {
-        this.trend = trend;
     }
 
     public LocalDateTime getDateTime() {

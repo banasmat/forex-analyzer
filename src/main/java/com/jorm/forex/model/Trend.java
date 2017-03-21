@@ -12,13 +12,12 @@ public class Trend {
     private Long id;
 
     @ManyToOne()
+    @JoinColumn(nullable = false)
     private PriceRecord start;
 
     @ManyToOne()
+    @JoinColumn(nullable = false)
     private PriceRecord end;
-
-    @OneToMany(mappedBy = "trend", cascade = CascadeType.ALL)
-    private List<PriceRecord> priceRecords;
 
     @ManyToOne()
     @JoinColumn(nullable = false)
@@ -28,15 +27,13 @@ public class Trend {
     @JoinColumn(nullable = false)
     private PriceDataAnalysis priceDataAnalysis;
 
-    public Trend(List<PriceRecord> priceRecords, PriceRecord start, PriceRecord end, Symbol symbol) {
+    public Trend(PriceRecord start, PriceRecord end, Symbol symbol) {
         this.symbol = symbol;
-        this.priceRecords = priceRecords;
         this.start = start;
         this.end = end;
     }
 
-    public Trend(List<PriceRecord> priceRecords, PriceRecord start, PriceRecord end) {
-        this.priceRecords = priceRecords;
+    public Trend(PriceRecord start, PriceRecord end) {
         this.start = start;
         this.end = end;
     }
@@ -51,10 +48,6 @@ public class Trend {
 
     public PriceRecord getEnd() {
         return end;
-    }
-
-    public List<PriceRecord> getPriceRecords() {
-        return priceRecords;
     }
 
     public Symbol getSymbol() {

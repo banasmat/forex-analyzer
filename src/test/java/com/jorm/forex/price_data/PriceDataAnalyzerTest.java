@@ -71,9 +71,8 @@ public class PriceDataAnalyzerTest {
         PriceRecord start = new PriceRecord(LocalDateTime.parse("01-01-2001 00:00:00", Format.dateTimeFormat), 1D,1D,1D,1D);
         PriceRecord end = new PriceRecord(LocalDateTime.parse("01-01-2001 00:00:00", Format.dateTimeFormat), 1D,1D,1D,1D);
         List<Trend> trends = new ArrayList<>();
-        List<PriceRecord> priceRecords = new ArrayList<>();
 
-        trends.add(new Trend(priceRecords, start, end, symbol));
+        trends.add(new Trend(start, end, symbol));
 
         when(priceDataProviderServiceResolver.resolveFromResource(resource)).thenReturn(service);
         when(priceDataProviderFactory.getPriceDataProvider(service)).thenReturn(priceDataProvider);
@@ -83,7 +82,6 @@ public class PriceDataAnalyzerTest {
         PriceDataAnalysis result = priceDataAnalyzer.analyzePriceData(resource, trendFinderStrategy, symbol, trendFinderSettings);
 
         assertEquals(symbol, result.getTrends().get(0).getSymbol());
-        assertEquals(priceRecords, result.getTrends().get(0).getPriceRecords());
         assertEquals(result, result.getTrends().get(0).getPriceDataAnalysis());
     }
 }

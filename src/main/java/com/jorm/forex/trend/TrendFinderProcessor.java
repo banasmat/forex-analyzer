@@ -1,6 +1,5 @@
 package com.jorm.forex.trend;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
@@ -33,14 +32,15 @@ public class TrendFinderProcessor {
 
         if (null != start) {
 
-            pullArraySliceUntilTargetEntry(data, start, false);
+            removeUntilTargetEntry(data, start);
 
             PriceRecord end = trendFinderStrategy.findTrendEnd(data);
 
             if (null != end) {
 
+                removeUntilTargetEntry(data, end);
+
                 final Trend trend = new Trend(
-                        pullArraySliceUntilTargetEntry(data, end, true),
                         start,
                         end
                     );
@@ -53,18 +53,12 @@ public class TrendFinderProcessor {
         return extractedTrends;
     }
 
-    private List<PriceRecord> pullArraySliceUntilTargetEntry(List<PriceRecord> data, PriceRecord targetEntry, Boolean includeTarget) {
-
-        List<PriceRecord> pulledEntries = new ArrayList<>();
+    private void removeUntilTargetEntry(List<PriceRecord> data, PriceRecord targetEntry) {
 
         Method compareOperator;
 
         try {
-            if(includeTarget){
-                compareOperator = LocalDateTime.class.getMethod("isAfter", ChronoLocalDateTime.class);
-            } else {
-                compareOperator = LocalDateTime.class.getMethod("isEqual", ChronoLocalDateTime.class);
-            }
+            compareOperator = LocalDateTime.class.getMethod("isEqual", ChronoLocalDateTime.class);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -76,7 +70,6 @@ public class TrendFinderProcessor {
                 if ((boolean)compareOperator.invoke(priceRecord.getDateTime(), targetEntry.getDateTime())) {
                     break;
                 } else {
-                    pulledEntries.add(priceRecord);
                     iter.remove();
                 }
             }
@@ -84,7 +77,5 @@ public class TrendFinderProcessor {
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e.getMessage());
         }
-
-        return pulledEntries;
     }
 }

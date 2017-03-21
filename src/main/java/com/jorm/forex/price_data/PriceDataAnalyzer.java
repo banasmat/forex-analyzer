@@ -48,18 +48,19 @@ public class PriceDataAnalyzer {
 
         trendFinderProcessor.setTrendFinderStrategy(trendFinderStrategy);
 
-        List<Trend> trends = trendFinderProcessor.findTrendsInData(priceDataProvider.getData(dataResource));
+        List<PriceRecord> priceRecords = priceDataProvider.getData(dataResource);
+        for(PriceRecord priceRecord : priceRecords){
+            em.persist(priceRecord);
+        }
+
+        List<Trend> trends = trendFinderProcessor.findTrendsInData(priceRecords);
 
         PriceDataAnalysis priceDataAnalysis = new PriceDataAnalysis(trends, trendFinderStrategy, trendFinderSettings, new Date());
 
-        //TODO setting these values here is inefficient.
+        //TODO might pass symbol and analysis to trendFinderProcessor instead.
         for(Trend trend : trends){
             trend.setSymbol(symbol);
             trend.setPriceDataAnalysis(priceDataAnalysis);
-            //TODO Do we really have to set trend for every priceRecord. Check if it can't be configured with Hibernate.
-            for(PriceRecord priceRecord : trend.getPriceRecords()){
-                priceRecord.setTrend(trend);
-            }
         }
 
         em.persist(priceDataAnalysis);
