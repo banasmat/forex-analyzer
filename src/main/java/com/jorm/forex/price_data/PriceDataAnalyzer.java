@@ -50,6 +50,7 @@ public class PriceDataAnalyzer {
 
         List<PriceRecord> priceRecords = priceDataProvider.getData(dataResource);
         for(PriceRecord priceRecord : priceRecords){
+            priceRecord.setSymbol(symbol);
             em.persist(priceRecord);
         }
 

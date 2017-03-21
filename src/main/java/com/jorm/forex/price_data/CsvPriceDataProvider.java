@@ -21,7 +21,7 @@ public class CsvPriceDataProvider implements PriceDataProvider {
 
         BufferedReader br;
         String line;
-        //TODO should be able to change it with parameter or should be auto resolved
+        //TODO should be able to set separator with parameter or should be auto resolved
         String csvSeparator = ",";
         DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
 

@@ -11,6 +11,10 @@ public class PriceRecord implements Comparator<PriceRecord> {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne()
+    @JoinColumn(nullable = false)
+    private Symbol symbol;
+
     @Column(nullable = false)
     private LocalDateTime dateTime;
 
@@ -41,6 +45,14 @@ public class PriceRecord implements Comparator<PriceRecord> {
 
     public Long getId() {
         return id;
+    }
+
+    public Symbol getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(Symbol symbol) {
+        this.symbol = symbol;
     }
 
     public LocalDateTime getDateTime() {
