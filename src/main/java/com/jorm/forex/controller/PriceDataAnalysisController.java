@@ -34,14 +34,14 @@ public class PriceDataAnalysisController {
     private String tempDir;
 
     @RequestMapping(method = RequestMethod.POST, params = {"strategy", "symbol", "minDifference"})
-    public String extractTrends(
+    public String priceDataAnalysis(
             @RequestPart("file") MultipartFile multipartFile,
             @RequestParam String symbol,
             @RequestParam(defaultValue = "HighLowAverage") String strategy,
             @RequestParam(defaultValue = "0.05") Double minDifference
     ) throws IOException {
 
-        //FIXME save all price data in db, add symbol relation to pricedata
+        //TODO probably should run on separate thread
 
         File convertedFile = FileHelper.convertMultipartFileToTempFile(multipartFile, tempDir);
 
