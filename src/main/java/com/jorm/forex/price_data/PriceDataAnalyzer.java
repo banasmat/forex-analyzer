@@ -49,6 +49,7 @@ public class PriceDataAnalyzer {
         trendFinderProcessor.setTrendFinderStrategy(trendFinderStrategy);
 
         List<PriceRecord> priceRecords = priceDataProvider.getData(dataResource);
+        //FIXME don't persist if these records already exist
         for(PriceRecord priceRecord : priceRecords){
             priceRecord.setSymbol(symbol);
             em.persist(priceRecord);
