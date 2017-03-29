@@ -2,12 +2,10 @@ package com.jorm.forex.controller;
 
 import com.jorm.forex.model.PriceRecord;
 import com.jorm.forex.model.Symbol;
-import com.jorm.forex.repository.PriceRecordRepository;
+import com.jorm.forex.repository.PriceRecordSearchService;
 import com.jorm.forex.repository.SymbolRepository;
-import com.jorm.forex.specification.PriceRecordSpecifications;
 import com.jorm.forex.util.Format;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,7 +23,7 @@ public class PriceRecordController {
     private SymbolRepository symbolRepository;
 
     @Autowired
-    private PriceRecordRepository priceRecordRepository;
+    private PriceRecordSearchService priceRecordSearchService;
 
     //TODO interval param
     @RequestMapping(method = RequestMethod.GET)
@@ -38,7 +36,7 @@ public class PriceRecordController {
 
         try{
             LocalDateTime startDate = LocalDateTime.parse(start, dateFormat);
-            LocalDateTime endDate = LocalDateTime.parse(start, dateFormat);
+            LocalDateTime endDate = LocalDateTime.parse(end, dateFormat);
 
             Symbol symbolObject = symbolRepository.findOneByName(symbol);
 
@@ -48,12 +46,7 @@ public class PriceRecordController {
                 throw new RuntimeException("Symbol: '" + symbol + "' not found.");
             }
 
-
-            //TODO move from controller?
-            Specification<PriceRecord> hasSymbol = PriceRecordSpecifications.hasSymbol(symbolObject);
-
-            return priceRecordRepository.findAll(hasSymbol);
-
+            return priceRecordSearchService.findBySymbolBetweenDatesWithInterval(symbolObject, startDate, endDate, interval);
 
         } catch (DateTimeParseException e){
             throw new RuntimeException(e.getMessage() + ". Correct date format: " + Format.dateTimeFormatString);

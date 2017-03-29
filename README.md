@@ -15,3 +15,4 @@ Application will take suggestions: which news are really connected with trends. 
 
 Coding style tips: https://github.com/cxxr/better-java
 Structs: https://github.com/cxxr/better-java#structs
+Repositories: https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-four-jpa-criteria-queries/
