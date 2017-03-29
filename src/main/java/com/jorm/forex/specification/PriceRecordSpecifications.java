@@ -6,7 +6,10 @@ import org.springframework.data.jpa.domain.Specification;
 
 
 public class PriceRecordSpecifications {
-    public static Specification<PriceRecord> priceRecordHasSymbol(Symbol symbol) {
+
+    private PriceRecordSpecifications(){}
+
+    public static Specification<PriceRecord> hasSymbol(Symbol symbol) {
         return (root, query, cb) -> {
             return cb.equal(root.get(PriceRecord_.symbol), symbol);
         };

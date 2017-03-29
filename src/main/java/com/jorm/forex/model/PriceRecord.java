@@ -30,6 +30,8 @@ public class PriceRecord implements Comparator<PriceRecord> {
     @Column(nullable = false)
     private Double close;
 
+    public PriceRecord(){}
+
     public PriceRecord(LocalDateTime dateTime, Double open, Double high, Double low, Double close) {
         this.dateTime = dateTime;
         this.open = open;
