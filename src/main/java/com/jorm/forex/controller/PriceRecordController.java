@@ -2,6 +2,7 @@ package com.jorm.forex.controller;
 
 import com.jorm.forex.model.PriceRecord;
 import com.jorm.forex.model.Symbol;
+import com.jorm.forex.price_record.MinutesIntervalResolver;
 import com.jorm.forex.repository.PriceRecordSearchService;
 import com.jorm.forex.repository.SymbolRepository;
 import com.jorm.forex.util.Format;
@@ -25,6 +26,9 @@ public class PriceRecordController {
     @Autowired
     private PriceRecordSearchService priceRecordSearchService;
 
+    @Autowired
+    private MinutesIntervalResolver minutesIntervalResolver;
+
     //TODO interval param
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody List<PriceRecord> priceRecords(
@@ -46,7 +50,10 @@ public class PriceRecordController {
                 throw new RuntimeException("Symbol: '" + symbol + "' not found.");
             }
 
-            return priceRecordSearchService.findBySymbolBetweenDatesWithInterval(symbolObject, startDate, endDate, interval);
+
+
+            //TODO probably interval can't be applied in sql query. All rows have to be selected anyway according to http://stackoverflow.com/questions/2694429/how-do-i-get-every-nth-row-in-a-table-or-how-do-i-break-up-a-subset-of-a-table
+            return priceRecordSearchService.findBySymbolBetweenDatesWithInterval(symbolObject, startDate, endDate, minutesIntervalResolver.resolve(interval));
 
         } catch (DateTimeParseException e){
             throw new RuntimeException(e.getMessage() + ". Correct date format: " + Format.dateTimeFormatString);

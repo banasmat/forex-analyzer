@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PriceRecordSearchService {
@@ -21,13 +22,18 @@ public class PriceRecordSearchService {
         this.repository = repository;
     }
 
-    public List<PriceRecord> findBySymbolBetweenDatesWithInterval(Symbol symbol, LocalDateTime start, LocalDateTime end, String interval){
+    public List<PriceRecord> findBySymbolBetweenDatesWithInterval(Symbol symbol, LocalDateTime start, LocalDateTime end, Integer interval){
         Specification<PriceRecord> hasSymbol = PriceRecordSpecifications.hasSymbol(symbol);
         Specification<PriceRecord> isBetweenDates = PriceRecordSpecifications.isBetweenDates(start, end);
 
-        return repository.findAll(
+        List<PriceRecord> allResults = repository.findAll(
                 Specifications.where(hasSymbol).and(
                 Specifications.where(isBetweenDates)
         ));
+
+        //FIXME when interval is higher than 1min. we should take {interval} amount of records and get opening price from the first, closing from the last and highest/lowest from the middle
+
+        return allResults.stream().filter(r -> r.getHigh() < 100).collect(Collectors.toList());
+//.stream().filter(p -> p.getAge() > 16).collect(Collectors.toList());
     }
 }
