@@ -9,8 +9,13 @@ import java.util.List;
 @Service
 public class PriceRecordCondenser {
 
-    // Decreases PriceRecords list density. TODO rename: condense ?
+    //FIXME PriceRecords might not be recorder every minute (some minute records might be missing) - if so, we have check by DateTime
+
     public List<PriceRecord> condense(List<PriceRecord> priceRecords, Integer interval){
+
+        if(interval == 1){
+            return priceRecords;
+        }
 
         List<PriceRecord> condensedPriceRecords = new ArrayList<>();
 
