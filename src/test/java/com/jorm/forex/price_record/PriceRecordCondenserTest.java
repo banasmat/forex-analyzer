@@ -12,15 +12,15 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class PriceRecordFilterTest {
+public class PriceRecordCondenserTest {
 
     private static final DateTimeFormatter dateFormat = Format.dateTimeFormat;
 
-    private PriceRecordFilter priceRecordFilter;
+    private PriceRecordCondenser priceRecordCondenser;
 
     @Before
     public void setUp() {
-        priceRecordFilter = new PriceRecordFilter();
+        priceRecordCondenser = new PriceRecordCondenser();
     }
 
     //TODO might separate all test names with underscore to increase readability
@@ -67,7 +67,7 @@ public class PriceRecordFilterTest {
             }
         };
 
-        List<PriceRecord> result = priceRecordFilter.filter(data, 5);
+        List<PriceRecord> result = priceRecordCondenser.condense(data, 5);
 
         assertEquals(expectedResult.size(), result.size());
 
