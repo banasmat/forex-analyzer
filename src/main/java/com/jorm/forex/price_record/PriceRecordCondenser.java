@@ -11,9 +11,9 @@ import java.util.List;
 @Service
 public class PriceRecordCondenser {
 
-    public List<PriceRecord> condense(List<PriceRecord> priceRecords, Integer interval){
+    public List<PriceRecord> condense(List<PriceRecord> priceRecords, Interval interval){
 
-        if(interval == 1){
+        if(interval == Interval.ONE_MINUTE){
             return priceRecords;
         }
 
@@ -27,9 +27,7 @@ public class PriceRecordCondenser {
         int minutesElapsedAtRowEnd = 999;
         int lastRecordIndex = priceRecords.size() - 1;
 
-        LocalDateTime firstDateTime = priceRecords.get(0).getDateTime();
-        //FIXME this needs testing for larger intervals
-        LocalDateTime baseDateTime = firstDateTime.minusMinutes(firstDateTime.getMinute() % interval);
+        LocalDateTime baseDateTime = getBaseTime(priceRecords.get(0).getDateTime(), interval);
         LocalDateTime condensedPriceRecordDateTime;
 
         PriceRecord condensedPriceRecord;
@@ -62,7 +60,7 @@ public class PriceRecordCondenser {
 
                 open = currentPriceRecord.getOpen();
 
-                minutesElapsedAtRowEnd = roundDownToNearestIntervalMultiple(minutesElapsed + interval, interval);
+                minutesElapsedAtRowEnd = roundDownToNearestIntervalMultiple(minutesElapsed + interval.minutes, interval.minutes);
             }
 
             if(currentPriceRecord.getHigh() > high){
@@ -91,5 +89,9 @@ public class PriceRecordCondenser {
 
     private int roundDownToNearestIntervalMultiple(int num, int interval){
         return num - num % interval;
+    }
+
+    private LocalDateTime getBaseTime(LocalDateTime firstDateTime, Interval interval){
+        return firstDateTime.minusMinutes(firstDateTime.getMinute() % interval.minutes);
     }
 }

@@ -18,23 +18,18 @@ public class PriceRecordSearchService {
     @Autowired
     private PriceRecordRepository repository;
 
-    @Autowired
-    private PriceRecordCondenser priceRecordCondenser;
-
     public PriceRecordSearchService(PriceRecordRepository repository) {
         this.repository = repository;
     }
 
-    public List<PriceRecord> findBySymbolBetweenDatesWithInterval(Symbol symbol, LocalDateTime start, LocalDateTime end, Integer interval){
+    public List<PriceRecord> findBySymbolBetweenDates(Symbol symbol, LocalDateTime start, LocalDateTime end){
         Specification<PriceRecord> hasSymbol = PriceRecordSpecifications.hasSymbol(symbol);
         Specification<PriceRecord> isBetweenDates = PriceRecordSpecifications.isBetweenDates(start, end);
 
-        List<PriceRecord> allResults = repository.findAll(
+        return repository.findAll(
                 Specifications.where(hasSymbol).and(
                 Specifications.where(isBetweenDates)
         ));
 
-        //TODO condensation should be handled by sql query (optimization)
-        return priceRecordCondenser.condense(allResults, interval);
     }
 }

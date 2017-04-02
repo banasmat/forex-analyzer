@@ -32,7 +32,7 @@ public class PriceRecordCondenserTest {
     //TODO might separate all test names with underscore to increase readability
     @Test
     @UseDataProvider("dataProviderCondense")
-    public void shouldCondensePriceRecordsForIntervalGivenThatSomeMinuteRecordsAreMissing(List<PriceRecord> inputData, List<PriceRecord> expectedResult, Integer interval){
+    public void shouldCondensePriceRecordsForIntervalGivenThatSomeMinuteRecordsAreMissing(List<PriceRecord> inputData, List<PriceRecord> expectedResult, Interval interval){
 
         //FIXME improve test, test different intervals
 
@@ -89,11 +89,46 @@ public class PriceRecordCondenserTest {
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:10:00", dateFormat), 2.5D, 4D, 0.4, 1D));
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:15:00", dateFormat), 1D, 1D, 1D, 1D));
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:20:00", dateFormat), 0.9, 4D, 0.3, 2.4));
-                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:25:00", dateFormat), 3D, 6D, 1D, 4D)); //TODO we may want it ending at 00:25
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:25:00", dateFormat), 3D, 6D, 1D, 4D));
                     }
                 },
-                5
-            }
+                Interval.FIVE_MINUTES
+            },
+//            {
+//                new ArrayList<PriceRecord>(){
+//                    {
+//                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 02:06:00", dateFormat), 1.5D, 1D, 1D, 0.6));
+//                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 08:24:00", dateFormat), 1D, 3D, 1D, 1D));
+//                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 09:05:00", dateFormat), 1D, 1.2, 0.5, 1D));
+//                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 11:10:00", dateFormat), 1D, 1D, 1D, 1D));
+//                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 12:05:00", dateFormat), 1D, 1D, 1D, 2D));
+//
+//
+//                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:11:00", dateFormat), 1D, 1D, 1D, 1D));
+//                        add(new PriceRecord(LocalDateTime.parse("03-04-1234 00:12:00", dateFormat), 1D, 1D, 1D, 1D));
+//                        add(new PriceRecord(LocalDateTime.parse("03-04-1234 00:13:00", dateFormat), 1D, 1D, 1D, 1D));
+//                        add(new PriceRecord(LocalDateTime.parse("03-04-1234 00:14:00", dateFormat), 1D, 1D, 1D, 1D));
+//
+//                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:16:00", dateFormat), 0.9, 4D, 1D, 1D));
+//                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:17:00", dateFormat), 1D, 1D, 1D, 1D));
+//                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:18:00", dateFormat), 1D, 1D, 1D, 1D));
+//                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:19:00", dateFormat), 1D, 1D, 0.3, 2.4));
+//
+//                        add(new PriceRecord(LocalDateTime.parse("05-04-1234 00:21:00", dateFormat), 3D, 6D, 1D, 4D));
+//                        add(new PriceRecord(LocalDateTime.parse("05-04-1234 00:22:00", dateFormat), 3D, 6D, 1D, 4D));
+//                    }
+//                },
+//                new ArrayList<PriceRecord>() {
+//                    {
+//                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:05:00", dateFormat), 1.5D, 3D, 0.5, 2D));
+//
+//                        add(new PriceRecord(LocalDateTime.parse("03-04-1234 00:15:00", dateFormat), 1D, 1D, 1D, 1D));
+//                        add(new PriceRecord(LocalDateTime.parse("04-04-1234 00:20:00", dateFormat), 0.9, 4D, 0.3, 2.4));
+//                        add(new PriceRecord(LocalDateTime.parse("05-04-1234 00:25:00", dateFormat), 3D, 6D, 1D, 4D)); //TODO we may want it ending at 00:25
+//                    }
+//                },
+//                Interval.ONE_DAY
+//            }
         };
     }
 }

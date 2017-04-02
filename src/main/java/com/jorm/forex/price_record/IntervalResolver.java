@@ -3,21 +3,21 @@ package com.jorm.forex.price_record;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MinutesIntervalResolver {
+public class IntervalResolver {
 
-    public Integer resolve(String stringInterval){
+    public Interval resolve(String stringInterval){
 
         switch(stringInterval.toUpperCase()){
             case("1M"):
-                return 1;
+                return Interval.ONE_MINUTE;
             case("5M"):
-                return 5;
+                return Interval.FIVE_MINUTES;
             case("30M"):
-                return 30;
+                return Interval.HALF_HOUR;
             case("1H"):
-                return 60;
+                return Interval.ONE_HOUR;
             case("1D"):
-                return 1440;
+                return Interval.ONE_DAY;
             default:
                 throw new RuntimeException("Invalid interval parameter: " + stringInterval);
         }

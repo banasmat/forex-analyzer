@@ -7,17 +7,17 @@ import static org.junit.Assert.*;
 
 public class MinutesIntervalResolverTest {
 
-    private MinutesIntervalResolver resolver;
+    private IntervalResolver resolver;
 
     @Before
     public void setUp(){
-        resolver = new MinutesIntervalResolver();
+        resolver = new IntervalResolver();
     }
 
     @Test
     public void shouldReturn60Given1HParamIsPassed(){
 
-        Integer expectedResult = 60;
+        Interval expectedResult = Interval.ONE_HOUR;
 
         assertEquals(expectedResult, resolver.resolve("1H"));
         assertEquals(expectedResult, resolver.resolve("1h"));
