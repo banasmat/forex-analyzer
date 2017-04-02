@@ -3,13 +3,13 @@ package com.jorm.forex.price_record;
 import com.jorm.forex.model.PriceRecord;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class PriceRecordCondenser {
-
-    //FIXME PriceRecords might not be recorder every minute (some minute records might be missing) - if so, we have check by DateTime
 
     public List<PriceRecord> condense(List<PriceRecord> priceRecords, Integer interval){
 
@@ -23,18 +23,46 @@ public class PriceRecordCondenser {
         Double high = 0D;
         Double low = 9999D;
 
-        int lastElementInARowIndex = interval - 1;
-        int lastPriceRecordIndex = priceRecords.size() - 1;
+        int minutesElapsed;
+        int minutesElapsedAtRowEnd = 999;
+
+        LocalDateTime firstDateTime = priceRecords.get(0).getDateTime();
+        //FIXME this needs testing for larger intervals
+        LocalDateTime baseDateTime = firstDateTime.minusMinutes(firstDateTime.getMinute() % interval);
+        LocalDateTime condensedPriceRecordDateTime;
 
         PriceRecord condensedPriceRecord;
+        PriceRecord currentPriceRecord;
+        PriceRecord previousPriceRecord;
 
         for(int i=0; i < priceRecords.size(); i++){
-            int mod = i % interval;
 
-            PriceRecord currentPriceRecord = priceRecords.get(i);
+            currentPriceRecord = priceRecords.get(i);
 
-            if(mod == 0){
+            //TODO might round down first records minutesElapsed to {interval} multiplication
+            minutesElapsed = (int)baseDateTime.until(currentPriceRecord.getDateTime(), ChronoUnit.MINUTES);
+
+            if(minutesElapsed > minutesElapsedAtRowEnd){
+
+                previousPriceRecord = priceRecords.get(i-1);
+
+                condensedPriceRecordDateTime = baseDateTime.plusMinutes(minutesElapsedAtRowEnd);
+
+                condensedPriceRecord = new PriceRecord(condensedPriceRecordDateTime, open, high, low, previousPriceRecord.getClose());
+                condensedPriceRecord.setSymbol(previousPriceRecord.getSymbol()); //TODO consider adding Symbol param to constructor
+
+                condensedPriceRecords.add(condensedPriceRecord);
+
+                open = 0D;
+                high = 0D;
+                low = 9999D;
+            }
+
+            if(open == 0D){
+
                 open = currentPriceRecord.getOpen();
+
+                minutesElapsedAtRowEnd = roundDownToNearestIntervalMultiple(minutesElapsed + interval, interval);
             }
 
             if(currentPriceRecord.getHigh() > high){
@@ -44,18 +72,12 @@ public class PriceRecordCondenser {
             if(currentPriceRecord.getLow() < low){
                 low = currentPriceRecord.getLow();
             }
-
-            if(mod == lastElementInARowIndex || i == lastPriceRecordIndex){
-                condensedPriceRecord = new PriceRecord(currentPriceRecord.getDateTime(), open, high, low, currentPriceRecord.getClose());
-                condensedPriceRecord.setSymbol(currentPriceRecord.getSymbol()); //TODO consider adding Symbol param to constructor
-
-                condensedPriceRecords.add(condensedPriceRecord);
-
-                high = 0D;
-                low = 9999D;
-            }
         }
 
         return condensedPriceRecords;
+    }
+
+    private int roundDownToNearestIntervalMultiple(int num, int interval){
+        return num - num % interval;
     }
 }
