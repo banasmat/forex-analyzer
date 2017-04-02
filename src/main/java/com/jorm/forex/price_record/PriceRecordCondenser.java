@@ -25,6 +25,7 @@ public class PriceRecordCondenser {
 
         int minutesElapsed;
         int minutesElapsedAtRowEnd = 999;
+        int lastRecordIndex = priceRecords.size() - 1;
 
         LocalDateTime firstDateTime = priceRecords.get(0).getDateTime();
         //FIXME this needs testing for larger intervals
@@ -33,23 +34,22 @@ public class PriceRecordCondenser {
 
         PriceRecord condensedPriceRecord;
         PriceRecord currentPriceRecord;
-        PriceRecord previousPriceRecord;
+        PriceRecord closingPriceRecord;
 
         for(int i=0; i < priceRecords.size(); i++){
 
             currentPriceRecord = priceRecords.get(i);
 
-            //TODO might round down first records minutesElapsed to {interval} multiplication
             minutesElapsed = (int)baseDateTime.until(currentPriceRecord.getDateTime(), ChronoUnit.MINUTES);
 
             if(minutesElapsed > minutesElapsedAtRowEnd){
 
-                previousPriceRecord = priceRecords.get(i-1);
+                closingPriceRecord = priceRecords.get(i-1);
 
                 condensedPriceRecordDateTime = baseDateTime.plusMinutes(minutesElapsedAtRowEnd);
 
-                condensedPriceRecord = new PriceRecord(condensedPriceRecordDateTime, open, high, low, previousPriceRecord.getClose());
-                condensedPriceRecord.setSymbol(previousPriceRecord.getSymbol()); //TODO consider adding Symbol param to constructor
+                condensedPriceRecord = new PriceRecord(condensedPriceRecordDateTime, open, high, low, closingPriceRecord.getClose());
+                condensedPriceRecord.setSymbol(closingPriceRecord.getSymbol()); //TODO consider adding Symbol param to constructor
 
                 condensedPriceRecords.add(condensedPriceRecord);
 
@@ -71,6 +71,18 @@ public class PriceRecordCondenser {
 
             if(currentPriceRecord.getLow() < low){
                 low = currentPriceRecord.getLow();
+            }
+
+            if(i == lastRecordIndex){
+                closingPriceRecord = priceRecords.get(i);
+
+                //TODO remove code duplication
+                condensedPriceRecordDateTime = baseDateTime.plusMinutes(minutesElapsedAtRowEnd);
+
+                condensedPriceRecord = new PriceRecord(condensedPriceRecordDateTime, open, high, low, closingPriceRecord.getClose());
+                condensedPriceRecord.setSymbol(closingPriceRecord.getSymbol());
+
+                condensedPriceRecords.add(condensedPriceRecord);
             }
         }
 
