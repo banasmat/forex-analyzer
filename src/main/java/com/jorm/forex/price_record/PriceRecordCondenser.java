@@ -41,7 +41,7 @@ public class PriceRecordCondenser {
 
             minutesElapsed = (int)baseDateTime.until(currentPriceRecord.getDateTime(), ChronoUnit.MINUTES);
 
-            if(minutesElapsed > minutesElapsedAtRowEnd){
+            if(minutesElapsed >= minutesElapsedAtRowEnd){
 
                 closingPriceRecord = priceRecords.get(i-1);
 

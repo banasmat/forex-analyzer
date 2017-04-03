@@ -34,8 +34,6 @@ public class PriceRecordCondenserTest {
     @UseDataProvider("dataProviderCondense")
     public void shouldCondensePriceRecordsForIntervalGivenThatSomeMinuteRecordsAreMissing(List<PriceRecord> inputData, List<PriceRecord> expectedResult, Interval interval){
 
-        //TODO improve test, test 1H
-
         List<PriceRecord> result = priceRecordCondenser.condense(inputData, interval);
 
         assertEquals(expectedResult.size(), result.size());
@@ -55,32 +53,28 @@ public class PriceRecordCondenserTest {
             {
                 new ArrayList<PriceRecord>(){
                     {
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:00:00", dateFormat), 1.5D, 1D, 1D, 0.6));
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:01:00", dateFormat), 1.5D, 1D, 1D, 0.6));
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:02:00", dateFormat), 1D, 3D, 1D, 1D));
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:03:00", dateFormat), 1D, 1.2, 0.5, 1D));
-                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:04:00", dateFormat), 1D, 1D, 1D, 1D));
-                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:05:00", dateFormat), 1D, 1D, 1D, 2D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:04:00", dateFormat), 1D, 1D, 1D, 2D));
 
-                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:06:00", dateFormat), 2.5D, 4D, 1D, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:05:00", dateFormat), 2.5D, 4D, 1D, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:06:00", dateFormat), 1D, 1D, 1D, 1D));
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:07:00", dateFormat), 1D, 1D, 1D, 1D));
-                        //add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:08:00", dateFormat), 1D, 1D, 1D, 1D)); Some 'minutes' might be missing
-                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:09:00", dateFormat), 1D, 1D, 1D, 1D));
-                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:10:00", dateFormat), 1D, 1D, 0.4, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:09:00", dateFormat), 1D, 1D, 0.4, 1D));
 
-                        //add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:11:00", dateFormat), 1D, 1D, 1D, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:10:00", dateFormat), 1D, 1D, 1D, 1D));
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:12:00", dateFormat), 1D, 1D, 1D, 1D));
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:13:00", dateFormat), 1D, 1D, 1D, 1D));
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:14:00", dateFormat), 1D, 1D, 1D, 1D));
-                        //add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:15:00", dateFormat), 1D, 1D, 1D, 1D));
 
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:16:00", dateFormat), 0.9, 4D, 1D, 1D));
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:17:00", dateFormat), 1D, 1D, 1D, 1D));
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:18:00", dateFormat), 1D, 1D, 1D, 1D));
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:19:00", dateFormat), 1D, 1D, 0.3, 2.4));
-                        //add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:20:00", dateFormat), 1D, 1D, 1D, 1D));
 
                         add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:21:00", dateFormat), 3D, 6D, 1D, 4D));
-                        //add(new PriceRecord(LocalDateTime.parse("01-04-1234 00:22:00", dateFormat), 3D, 6D, 1D, 4D));
                     }
                 },
                 new ArrayList<PriceRecord>() {
@@ -93,6 +87,43 @@ public class PriceRecordCondenserTest {
                     }
                 },
                 Interval.FIVE_MINUTES
+            },
+            {
+                new ArrayList<PriceRecord>(){
+                    {
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 22:01:00", dateFormat), 1.5D, 1D, 1D, 0.6));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 22:24:00", dateFormat), 1D, 3D, 1D, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 22:25:00", dateFormat), 1D, 1.2, 0.5, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 22:26:00", dateFormat), 1D, 1D, 1D, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 22:35:00", dateFormat), 1D, 1D, 1D, 2D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 22:45:00", dateFormat), 1D, 1D, 1D, 2D));
+
+
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 23:11:00", dateFormat), 1D, 1D, 1D, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 23:12:00", dateFormat), 1D, 1D, 1D, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 23:13:00", dateFormat), 1D, 1D, 1D, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 23:14:00", dateFormat), 1D, 1D, 1D, 1D));
+
+                        add(new PriceRecord(LocalDateTime.parse("04-04-1234 08:16:00", dateFormat), 0.9, 4D, 1D, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("04-04-1234 08:17:00", dateFormat), 1D, 1D, 1D, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("04-04-1234 08:18:00", dateFormat), 1D, 1D, 1D, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("04-04-1234 08:19:00", dateFormat), 1D, 1D, 0.3, 2.4));
+                        add(new PriceRecord(LocalDateTime.parse("04-04-1234 08:59:00", dateFormat), 1D, 1D, 0.3, 2.4));
+
+                        add(new PriceRecord(LocalDateTime.parse("04-04-1234 09:00:00", dateFormat), 3D, 6D, 1D, 4D));
+                        add(new PriceRecord(LocalDateTime.parse("04-04-1234 09:21:00", dateFormat), 3D, 6D, 1D, 4D));
+                        add(new PriceRecord(LocalDateTime.parse("04-04-1234 09:22:00", dateFormat), 3D, 6D, 1D, 4D));
+                    }
+                },
+                new ArrayList<PriceRecord>() {
+                    {
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 22:00:00", dateFormat), 1.5D, 3D, 0.5, 2D));
+                        add(new PriceRecord(LocalDateTime.parse("01-04-1234 23:00:00", dateFormat), 1D, 1D, 1D, 1D));
+                        add(new PriceRecord(LocalDateTime.parse("04-04-1234 08:00:00", dateFormat), 0.9, 4D, 0.3, 2.4));
+                        add(new PriceRecord(LocalDateTime.parse("04-04-1234 09:00:00", dateFormat), 3D, 6D, 1D, 4D));
+                    }
+                },
+                Interval.ONE_HOUR
             },
             {
                 new ArrayList<PriceRecord>(){
@@ -124,7 +155,7 @@ public class PriceRecordCondenserTest {
 
                         add(new PriceRecord(LocalDateTime.parse("03-04-1234 00:00:00", dateFormat), 1D, 1D, 1D, 1D));
                         add(new PriceRecord(LocalDateTime.parse("04-04-1234 00:00:00", dateFormat), 0.9, 4D, 0.3, 2.4));
-                        add(new PriceRecord(LocalDateTime.parse("05-04-1234 00:00:00", dateFormat), 3D, 6D, 1D, 4D)); //TODO we may want it ending at 00:25
+                        add(new PriceRecord(LocalDateTime.parse("05-04-1234 00:00:00", dateFormat), 3D, 6D, 1D, 4D));
                     }
                 },
                 Interval.ONE_DAY
