@@ -4,6 +4,7 @@ import com.jorm.forex.model.PriceRecord;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class PriceRecordCondenser {
 
                 closingPriceRecord = priceRecords.get(i-1);
 
-                condensedPriceRecordDateTime = baseDateTime.plusMinutes(minutesElapsedAtRowEnd);
+                condensedPriceRecordDateTime = baseDateTime.plusMinutes(minutesElapsedAtRowEnd - interval.minutes);
 
                 condensedPriceRecord = new PriceRecord(condensedPriceRecordDateTime, open, high, low, closingPriceRecord.getClose());
                 condensedPriceRecord.setSymbol(closingPriceRecord.getSymbol()); //TODO consider adding Symbol param to constructor
@@ -75,7 +76,7 @@ public class PriceRecordCondenser {
                 closingPriceRecord = priceRecords.get(i);
 
                 //TODO remove code duplication
-                condensedPriceRecordDateTime = baseDateTime.plusMinutes(minutesElapsedAtRowEnd);
+                condensedPriceRecordDateTime = baseDateTime.plusMinutes(minutesElapsedAtRowEnd - interval.minutes);
 
                 condensedPriceRecord = new PriceRecord(condensedPriceRecordDateTime, open, high, low, closingPriceRecord.getClose());
                 condensedPriceRecord.setSymbol(closingPriceRecord.getSymbol());
@@ -92,6 +93,20 @@ public class PriceRecordCondenser {
     }
 
     private LocalDateTime getBaseTime(LocalDateTime firstDateTime, Interval interval){
-        return firstDateTime.minusMinutes(firstDateTime.getMinute() % interval.minutes);
+
+        LocalDateTime baseDateTime;
+
+        switch(interval){
+            case ONE_DAY:
+                baseDateTime = LocalDateTime.of(
+                        firstDateTime.toLocalDate(),
+                        LocalTime.MIN
+                );
+                break;
+            default:
+                baseDateTime = firstDateTime.minusMinutes(firstDateTime.getMinute() % interval.minutes);
+        }
+
+        return baseDateTime;
     }
 }
