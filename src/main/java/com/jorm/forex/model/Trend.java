@@ -1,15 +1,18 @@
 package com.jorm.forex.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 import java.util.List;
 
 //TODO might rename to something more generic like PriceDataGroup (subclasses: Trend, PriceSwig etc.) - then add type field
 @Entity
-public class Trend {
+public class Trend extends ResourceSupport {
 
     @Id
+
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
@@ -43,7 +46,8 @@ public class Trend {
         this.end = end;
     }
 
-    public Long getId() {
+    // https://github.com/spring-projects/spring-hateoas/issues/66
+    public Long getID() {
         return id;
     }
 

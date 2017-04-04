@@ -11,12 +11,18 @@ import com.jorm.forex.repository.TrendRepository;
 import com.jorm.forex.repository.TrendSearchService;
 import com.jorm.forex.util.Format;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping("trend")
@@ -44,11 +50,11 @@ public class TrendController {
         @RequestParam String symbol,
         @RequestParam String start,
         @RequestParam String end
-    ){
+    ) throws NoSuchMethodException {
 
         try{
             //TODO start / end - optional
-            //TODO link for getting results
+            //TODO link for getting price data
 
             LocalDateTime startDate = LocalDateTime.parse(start, dateFormat);
             LocalDateTime endDate = LocalDateTime.parse(end, dateFormat);
@@ -63,11 +69,26 @@ public class TrendController {
 
             List<Trend> allResults = trendSearchService.findBySymbolBetweenDates(symbolObject, startDate, endDate);
 
+            for(Trend trend : allResults){
+                trend.add(linkTo(
+                        TrendController.class,
+                        TrendController.class.getMethod("trend", Long.class),
+                        trend.getID()).withRel("self"));
+            }
+
             return allResults;
 
         } catch (DateTimeParseException e){
             throw new RuntimeException(e.getMessage() + ". Correct date format: " + Format.dateTimeFormatString);
         }
 
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path="/{id}")
+    public @ResponseBody Resource<Trend> trend(
+            @PathVariable Long id
+    ){
+
+            return new Resource<>(new Trend());
     }
 }
