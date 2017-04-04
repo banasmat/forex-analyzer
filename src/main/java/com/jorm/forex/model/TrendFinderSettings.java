@@ -17,6 +17,8 @@ public class TrendFinderSettings {
     @Column(nullable = false )
     private Double minPriceDifference;
 
+    public TrendFinderSettings(){}
+
     public TrendFinderSettings(Double minDifference) {
         this.minPriceDifference = minDifference;
     }

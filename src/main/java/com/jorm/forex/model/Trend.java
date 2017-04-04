@@ -1,5 +1,7 @@
 package com.jorm.forex.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -23,9 +25,12 @@ public class Trend {
     @JoinColumn(nullable = false)
     private Symbol symbol;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(nullable = false)
     private PriceDataAnalysis priceDataAnalysis;
+
+    public Trend(){}
 
     public Trend(PriceRecord start, PriceRecord end, Symbol symbol) {
         this.symbol = symbol;
