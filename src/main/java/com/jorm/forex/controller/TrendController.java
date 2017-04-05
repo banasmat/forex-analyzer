@@ -14,15 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @RestController
 @RequestMapping("trend")
@@ -54,7 +51,6 @@ public class TrendController {
 
         try{
             //TODO start / end - optional
-            //TODO link for getting price data
 
             LocalDateTime startDate = LocalDateTime.parse(start, dateFormat);
             LocalDateTime endDate = LocalDateTime.parse(end, dateFormat);
@@ -62,8 +58,7 @@ public class TrendController {
             Symbol symbolObject = symbolRepository.findOneByName(symbol);
 
             if(null == symbolObject){
-                //TODO invalid argument exception?
-                //TODO create specific exception class?
+                //TODO invalid argument exception? or create specific exception class?
                 throw new RuntimeException("Symbol: '" + symbol + "' not found.");
             }
 
@@ -73,7 +68,15 @@ public class TrendController {
                 trend.add(linkTo(
                         TrendController.class,
                         TrendController.class.getMethod("trend", Long.class),
-                        trend.getID()).withRel("self"));
+                        trend.getID()).withSelfRel());
+                // Cleaner approach commented out (for some reason throws exception)
+//                trend.add(linkTo(
+//                        methodOn(TrendController.class).trend(trend.getID())).withSelfRel()
+//                );
+//              //TODO might set interval depending on trend length
+                trend.add(linkTo(
+                        methodOn(PriceRecordController.class).priceRecords(symbol, start, end, "1H")).withRel("priceRecords")
+                );
             }
 
             return allResults;
@@ -88,7 +91,7 @@ public class TrendController {
     public @ResponseBody Resource<Trend> trend(
             @PathVariable Long id
     ){
-
+            //TODO implement
             return new Resource<>(new Trend());
     }
 }

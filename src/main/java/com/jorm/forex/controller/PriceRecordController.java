@@ -38,7 +38,7 @@ public class PriceRecordController {
         @RequestParam String symbol,
         @RequestParam String start,
         @RequestParam String end,
-        @RequestParam(defaultValue = "5M") String interval
+        @RequestParam(defaultValue = "1H") String interval
     ){
 
         try{
