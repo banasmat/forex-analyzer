@@ -1,11 +1,14 @@
 package com.jorm.forex.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 public class Symbol {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 

@@ -23,7 +23,7 @@ import com.jorm.forex.model.Trend;
 
 public class TrendFinderProcessorTest {
 
-    private static DateTimeFormatter dateFormat = Format.dateTimeFormat;
+    private static DateTimeFormatter dateFormat = Format.dateTimeFormatter;
 
     private TrendFinderProcessor trendFinderProcessor;
 

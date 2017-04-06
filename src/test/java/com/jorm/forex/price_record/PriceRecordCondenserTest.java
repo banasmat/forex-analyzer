@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 @RunWith(DataProviderRunner.class)
 public class PriceRecordCondenserTest {
 
-    private static final DateTimeFormatter dateFormat = Format.dateTimeFormat;
+    private static final DateTimeFormatter dateFormat = Format.dateTimeFormatter;
 
     private PriceRecordCondenser priceRecordCondenser;
 

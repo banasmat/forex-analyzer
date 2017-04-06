@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import com.jorm.forex.model.PriceRecord;
 import com.jorm.forex.model.TrendFinderSettings;
@@ -23,7 +21,7 @@ import com.tngtech.java.junit.dataprovider.UseDataProvider;
 @RunWith(DataProviderRunner.class)
 public class HighLowAverageTrendFinderStrategyTest {
 
-    private static DateTimeFormatter dateFormat = Format.dateTimeFormat;
+    private static DateTimeFormatter dateFormat = Format.dateTimeFormatter;
 
     private HighLowAverageTrendFinderStrategy trendFinder;
 

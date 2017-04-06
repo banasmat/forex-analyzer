@@ -12,7 +12,7 @@ import java.util.List;
 public class Trend extends ResourceSupport {
 
     @Id
-
+    @JsonIgnore
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 

@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 public class CsvPriceDataProviderTest {
 
-    private static DateTimeFormatter dateFormat = Format.dateTimeFormat;
+    private static DateTimeFormatter dateFormat = Format.dateTimeFormatter;
 
     private CsvPriceDataProvider dataProvider;
 

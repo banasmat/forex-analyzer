@@ -1,5 +1,7 @@
 package com.jorm.forex.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -8,6 +10,7 @@ import java.util.Comparator;
 public class PriceRecord implements Comparator<PriceRecord> {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 

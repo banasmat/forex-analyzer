@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("price-record")
 public class PriceRecordController {
 
-    private static final DateTimeFormatter dateFormat = Format.dateTimeFormat;
+    private static final DateTimeFormatter dateFormat = Format.dateTimeFormatter;
 
     @Autowired
     private SymbolRepository symbolRepository;

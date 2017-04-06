@@ -1,17 +1,13 @@
 package com.jorm.forex.controller;
 
-import com.jorm.forex.model.PriceRecord;
 import com.jorm.forex.model.Symbol;
 import com.jorm.forex.model.Trend;
 import com.jorm.forex.price_record.IntervalResolver;
-import com.jorm.forex.price_record.PriceRecordCondenser;
-import com.jorm.forex.repository.PriceRecordSearchService;
 import com.jorm.forex.repository.SymbolRepository;
 import com.jorm.forex.repository.TrendRepository;
 import com.jorm.forex.repository.TrendSearchService;
 import com.jorm.forex.util.Format;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,7 +21,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 @RequestMapping("trend")
 public class TrendController {
 
-    private static final DateTimeFormatter dateFormat = Format.dateTimeFormat;
+    private static final DateTimeFormatter dateFormat = Format.dateTimeFormatter;
 
     @Autowired
     private SymbolRepository symbolRepository;
@@ -34,13 +30,11 @@ public class TrendController {
     private TrendSearchService trendSearchService;
 
     @Autowired
-    private PriceRecordSearchService priceRecordSearchService;
+    private TrendRepository trendRepository;
 
     @Autowired
     private IntervalResolver intervalResolver;
 
-    @Autowired
-    private PriceRecordCondenser priceRecordCondenser;
 
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody List<Trend> trends(
@@ -65,18 +59,7 @@ public class TrendController {
             List<Trend> allResults = trendSearchService.findBySymbolBetweenDates(symbolObject, startDate, endDate);
 
             for(Trend trend : allResults){
-                trend.add(linkTo(
-                        TrendController.class,
-                        TrendController.class.getMethod("trend", Long.class),
-                        trend.getID()).withSelfRel());
-                // Cleaner approach commented out (for some reason throws exception)
-//                trend.add(linkTo(
-//                        methodOn(TrendController.class).trend(trend.getID())).withSelfRel()
-//                );
-//              //TODO might set interval depending on trend length
-                trend.add(linkTo(
-                        methodOn(PriceRecordController.class).priceRecords(symbol, start, end, "1H")).withRel("priceRecords")
-                );
+                addLinks(trend);
             }
 
             return allResults;
@@ -88,10 +71,33 @@ public class TrendController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path="/{id}")
-    public @ResponseBody Resource<Trend> trend(
+    public @ResponseBody Trend trend(
             @PathVariable Long id
-    ){
-            //TODO implement
-            return new Resource<>(new Trend());
+    ) throws NoSuchMethodException {
+
+        Trend trend = trendRepository.findOne(id);
+
+        return addLinks(trend);
+    }
+
+    private Trend addLinks(Trend trend) throws NoSuchMethodException {
+        trend.add(linkTo(
+                TrendController.class,
+                TrendController.class.getMethod("trend", Long.class),
+                trend.getID()).withSelfRel());
+        // Cleaner approach commented out (for some reason throws exception)
+//                trend.add(linkTo(
+//                        methodOn(TrendController.class).trend(trend.getID())).withSelfRel()
+//                );
+//      //TODO might set interval depending on trend length
+        trend.add(linkTo(
+                methodOn(PriceRecordController.class).priceRecords(trend.getSymbol().getName(),
+                        trend.getStart().getDateTime().format(Format.dateTimeFormatter),
+                        trend.getEnd().getDateTime().format(Format.dateTimeFormatter),
+                        "1H")
+                ).withRel("priceRecords")
+        );
+
+        return trend;
     }
 }
