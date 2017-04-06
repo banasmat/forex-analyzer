@@ -1,6 +1,7 @@
 package com.jorm.forex.price_data;
 
 import com.jorm.forex.model.*;
+import com.jorm.forex.price_record.PriceRecordDuplicationChecker;
 import com.jorm.forex.trend.TrendFinderFactory;
 import com.jorm.forex.trend.TrendFinderProcessor;
 import com.jorm.forex.trend.TrendFinderStrategy;
@@ -29,12 +30,16 @@ public class PriceDataAnalyzer {
     private TrendFinderProcessor trendFinderProcessor;
 
     @Autowired
+    private PriceRecordDuplicationChecker priceRecordDuplicationChecker;
+
+    @Autowired
     private EntityManager em;
 
-    public PriceDataAnalyzer(PriceDataProviderServiceResolver priceDataProviderServiceResolver, PriceDataProviderFactory priceDataProviderFactory, TrendFinderProcessor trendFinderProcessor, EntityManager em) {
+    public PriceDataAnalyzer(PriceDataProviderServiceResolver priceDataProviderServiceResolver, PriceDataProviderFactory priceDataProviderFactory, TrendFinderProcessor trendFinderProcessor, PriceRecordDuplicationChecker priceRecordDuplicationChecker, EntityManager em) {
         this.priceDataProviderServiceResolver = priceDataProviderServiceResolver;
         this.priceDataProviderFactory = priceDataProviderFactory;
         this.trendFinderProcessor = trendFinderProcessor;
+        this.priceRecordDuplicationChecker = priceRecordDuplicationChecker;
         this.em = em;
     }
 
@@ -49,10 +54,11 @@ public class PriceDataAnalyzer {
         trendFinderProcessor.setTrendFinderStrategy(trendFinderStrategy);
 
         List<PriceRecord> priceRecords = priceDataProvider.getData(dataResource);
-        //FIXME don't persist if these records already exist
-        for(PriceRecord priceRecord : priceRecords){
-            priceRecord.setSymbol(symbol);
-            em.persist(priceRecord);
+        if(false == priceRecordDuplicationChecker.checkIfPriceRecordsExist(priceRecords, symbol)){
+            for(PriceRecord priceRecord : priceRecords){
+                priceRecord.setSymbol(symbol);
+                em.persist(priceRecord);
+            }
         }
 
         List<Trend> trends = trendFinderProcessor.findTrendsInData(priceRecords);

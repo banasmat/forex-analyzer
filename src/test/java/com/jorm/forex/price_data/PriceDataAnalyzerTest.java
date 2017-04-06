@@ -1,6 +1,7 @@
 package com.jorm.forex.price_data;
 
 import com.jorm.forex.model.*;
+import com.jorm.forex.price_record.PriceRecordDuplicationChecker;
 import com.jorm.forex.trend.TrendFinderProcessor;
 import com.jorm.forex.trend.TrendFinderStrategy;
 import com.jorm.forex.util.Format;
@@ -43,6 +44,9 @@ public class PriceDataAnalyzerTest {
     private TrendFinderStrategy trendFinderStrategy;
 
     @Mock
+    private PriceRecordDuplicationChecker priceRecordDuplicationChecker;
+
+    @Mock
     private EntityManager em;
 
     @Rule
@@ -50,7 +54,7 @@ public class PriceDataAnalyzerTest {
 
     @Before
     public void setUp(){
-        priceDataAnalyzer = new PriceDataAnalyzer(priceDataProviderServiceResolver, priceDataProviderFactory, trendFinderProcessor, em);
+        priceDataAnalyzer = new PriceDataAnalyzer(priceDataProviderServiceResolver, priceDataProviderFactory, trendFinderProcessor, priceRecordDuplicationChecker, em);
     }
 
     @Test
