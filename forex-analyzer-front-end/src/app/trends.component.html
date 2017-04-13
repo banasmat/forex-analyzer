@@ -1,0 +1,7 @@
+<h1>Trends</h1>
+<ul class="trends">
+  <li *ngFor="let trend of trends">
+    <span class="badge">Symbol: {{trend.start.symbol.name}}</span>
+    <span>{{trend.start.dateTime}} - {{trend.end.dateTime}}</span>
+  </li>
+</ul>
