@@ -1,7 +1,8 @@
 <h1>Trends</h1>
 <ul class="trends">
-  <li *ngFor="let trend of trends">
-    <span class="badge">Symbol: {{trend.start.symbol.name}}</span>
-    <span>{{trend.start.dateTime}} - {{trend.end.dateTime}}</span>
+  <li *ngFor="let trend of trends" [routerLink]="['/trend-detail', trend.id]">
+    <span class="badge">{{trend.symbol.name}}</span>
+    <span>{{trend.start.dateTime |  date}} - {{trend.end.dateTime | date}}</span>
+    <span>{{trend.start.open}} - {{trend.end.close}}</span>
   </li>
 </ul>

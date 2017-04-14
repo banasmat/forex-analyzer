@@ -9,6 +9,7 @@ import { TrendsComponent }  from './trends.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpModule} from '@angular/http';
 import {TrendService} from './trend.service';
+import {TrendDetailComponent} from './trend-detail.component';
 
 @NgModule({
   imports:      [
@@ -19,7 +20,8 @@ import {TrendService} from './trend.service';
   ],
   declarations: [
     AppComponent,
-    TrendsComponent
+    TrendsComponent,
+    TrendDetailComponent
   ],
   providers: [
     TrendService

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Trend} from '../trend';
+import {Trend} from './trend';
 import {TrendService} from './trend.service';
 
 @Component({

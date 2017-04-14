@@ -1,0 +1,6 @@
+<div *ngIf="trend">
+  <span class="badge">{{trend.symbol.name}}</span>
+  <span>{{trend.start.dateTime |  date}} - {{trend.end.dateTime | date}}</span>
+  <span>{{trend.start.open}} - {{trend.end.close}}</span>
+  <button (click)="goBack()">Back</button>
+</div>

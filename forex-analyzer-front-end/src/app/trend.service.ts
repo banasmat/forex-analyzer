@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
-import {Trend} from '../trend';
+import {Trend} from './trend';
 
 @Injectable()
 export class TrendService {
@@ -14,6 +14,14 @@ export class TrendService {
     return this.http.get(this.trendsUrl)
       .toPromise()
       .then(response => response.json().data as Trend[])
+      .catch(this.handleError);
+  }
+
+  getTrend(id: number): Promise<Trend> {
+    const url = `${this.trendsUrl}/${id}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json().data as Trend)
       .catch(this.handleError);
   }
 

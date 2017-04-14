@@ -1,9 +1,11 @@
 import {InMemoryDbService} from 'angular-in-memory-web-api';
+//TODO add id to api
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     let trends =
       [
         {
+          id: 1,
           'start': {
             'symbol': {
               'name': 'EURUSD'
@@ -39,6 +41,7 @@ export class InMemoryDataService implements InMemoryDbService {
           ]
         },
         {
+          id: 2,
           'start': {
             'symbol': {
               'name': 'EURUSD'
@@ -74,6 +77,7 @@ export class InMemoryDataService implements InMemoryDbService {
           ]
         },
         {
+          id: 3,
           'start': {
             'symbol': {
               'name': 'EURUSD'
@@ -109,6 +113,7 @@ export class InMemoryDataService implements InMemoryDbService {
           ]
         },
         {
+          id: 4,
           'start': {
             'symbol': {
               'name': 'EURUSD'
@@ -144,6 +149,7 @@ export class InMemoryDataService implements InMemoryDbService {
           ]
         },
         {
+          id: 5,
           'start': {
             'symbol': {
               'name': 'EURUSD'
@@ -179,6 +185,7 @@ export class InMemoryDataService implements InMemoryDbService {
           ]
         },
         {
+          id: 6,
           'start': {
             'symbol': {
               'name': 'EURUSD'
@@ -214,6 +221,7 @@ export class InMemoryDataService implements InMemoryDbService {
           ]
         },
         {
+          id: 7,
           'start': {
             'symbol': {
               'name': 'EURUSD'
