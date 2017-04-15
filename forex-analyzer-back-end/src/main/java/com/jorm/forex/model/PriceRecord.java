@@ -19,6 +19,7 @@ public class PriceRecord implements Comparator<PriceRecord> {
 
     @ManyToOne()
     @JoinColumn(nullable = false)
+    @JsonIgnore
     private Symbol symbol;
 
     @Column(nullable = false)

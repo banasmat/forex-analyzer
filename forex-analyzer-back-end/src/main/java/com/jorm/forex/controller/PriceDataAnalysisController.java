@@ -18,6 +18,7 @@ import java.io.IOException;
 //TODO security
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("price-data-analysis")
 public class PriceDataAnalysisController {
 

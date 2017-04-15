@@ -8,7 +8,6 @@ import javax.persistence.*;
 public class Symbol {
 
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 

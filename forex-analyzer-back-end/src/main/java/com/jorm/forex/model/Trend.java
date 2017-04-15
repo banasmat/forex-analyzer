@@ -9,10 +9,9 @@ import java.util.List;
 
 //TODO might rename to something more generic like PriceDataGroup (subclasses: Trend, PriceSwig etc.) - then add type field
 @Entity
-public class Trend extends ResourceSupport {
+public class Trend {
 
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
@@ -47,7 +46,8 @@ public class Trend extends ResourceSupport {
     }
 
     // https://github.com/spring-projects/spring-hateoas/issues/66
-    public Long getID() {
+    @JsonProperty("id")
+    public Long getId() {
         return id;
     }
 

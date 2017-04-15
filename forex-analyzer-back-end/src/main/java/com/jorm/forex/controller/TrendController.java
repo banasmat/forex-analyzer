@@ -18,6 +18,7 @@ import java.util.List;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("trend")
 public class TrendController {
 
@@ -31,9 +32,6 @@ public class TrendController {
 
     @Autowired
     private TrendRepository trendRepository;
-
-    @Autowired
-    private IntervalResolver intervalResolver;
 
 
     @RequestMapping(method = RequestMethod.GET)
@@ -56,13 +54,7 @@ public class TrendController {
                 throw new RuntimeException("Symbol: '" + symbol + "' not found.");
             }
 
-            List<Trend> allResults = trendSearchService.findBySymbolBetweenDates(symbolObject, startDate, endDate);
-
-            for(Trend trend : allResults){
-                addLinks(trend);
-            }
-
-            return allResults;
+            return trendSearchService.findBySymbolBetweenDates(symbolObject, startDate, endDate);
 
         } catch (DateTimeParseException e){
             throw new RuntimeException(e.getMessage() + ". Correct date format: " + Format.dateTimeFormatString);
@@ -75,29 +67,7 @@ public class TrendController {
             @PathVariable Long id
     ) throws NoSuchMethodException {
 
-        Trend trend = trendRepository.findOne(id);
-
-        return addLinks(trend);
+        return trendRepository.findOne(id);
     }
 
-    private Trend addLinks(Trend trend) throws NoSuchMethodException {
-        trend.add(linkTo(
-                TrendController.class,
-                TrendController.class.getMethod("trend", Long.class),
-                trend.getID()).withSelfRel());
-        // Cleaner approach commented out (for some reason throws exception)
-//                trend.add(linkTo(
-//                        methodOn(TrendController.class).trend(trend.getID())).withSelfRel()
-//                );
-//      //TODO might set interval depending on trend length
-        trend.add(linkTo(
-                methodOn(PriceRecordController.class).priceRecords(trend.getSymbol().getName(),
-                        trend.getStart().getDateTime().format(Format.dateTimeFormatter),
-                        trend.getEnd().getDateTime().format(Format.dateTimeFormatter),
-                        "1H")
-                ).withRel("priceRecords")
-        );
-
-        return trend;
-    }
 }

@@ -16,6 +16,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("price-record")
 public class PriceRecordController {
 

@@ -1,6 +1,5 @@
 package com.jorm.forex.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jorm.forex.trend.TrendFinderStrategy;
 
 import javax.persistence.*;
@@ -12,7 +11,6 @@ import java.util.List;
 public class PriceDataAnalysis {
 
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
