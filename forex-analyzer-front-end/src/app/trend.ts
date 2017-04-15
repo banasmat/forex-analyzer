@@ -1,6 +1,9 @@
+import {PriceRecord} from './PriceRecord';
+import {Symbol} from './Symbol';
+
 export class Trend {
   id: number;
-  symbol: any;
-  start: any;
-  end: any;
+  symbol: Symbol;
+  start: PriceRecord;
+  end: PriceRecord;
 }

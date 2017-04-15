@@ -1,19 +1,32 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {Http, URLSearchParams} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 import {Trend} from './trend';
+import {AppSettings} from './app.settings';
 
 @Injectable()
 export class TrendService {
-  private trendsUrl = 'api/trends';
+  // TODO build url with symbol/start/end settings - use form in trends.component.ts
+  private trendsUrl = AppSettings.API_ENDPOINT + 'trend';
 
   constructor(private http: Http) { }
 
   getTrends(): Promise<Trend[]> {
-    return this.http.get(this.trendsUrl)
+
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('start', '01-01-2016 02:00:00');
+    params.set('end', '31-04-2017 13:00:00');
+    params.set('symbol', 'EURUSD');
+
+    return this.http.get(this.trendsUrl, {
+      search: params
+    })
       .toPromise()
-      .then(response => response.json().data as Trend[])
+      .then((response) => {
+       // console.log(response.json() as Trend[]);
+        return response.json() as Trend[];
+      })
       .catch(this.handleError);
   }
 

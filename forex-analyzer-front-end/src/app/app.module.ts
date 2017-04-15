@@ -1,8 +1,8 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import {InMemoryDataService} from './in-memory-data.service';
-import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
+// import {InMemoryDataService} from './in-memory-data.service';
+// import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
 
 import {AppComponent} from './app.component';
 import { TrendsComponent }  from './trends.component';
@@ -15,7 +15,7 @@ import {TrendDetailComponent} from './trend-detail.component';
   imports:      [
     BrowserModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
+    // InMemoryWebApiModule.forRoot(InMemoryDataService),
     AppRoutingModule
   ],
   declarations: [
