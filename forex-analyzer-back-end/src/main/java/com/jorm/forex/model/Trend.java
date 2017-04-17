@@ -1,13 +1,14 @@
 package com.jorm.forex.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 import java.util.List;
 
-//TODO might rename to something more generic like PriceDataGroup (subclasses: Trend, PriceSwig etc.) - then add type field
+//TODO might rename to something more generic like PriceDataGroup (subclasses: Trend, PriceSwing etc.) - then add type field
 @Entity
 public class Trend {
 
@@ -31,6 +32,9 @@ public class Trend {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(nullable = false)
     private PriceDataAnalysis priceDataAnalysis;
+
+    @Transient
+    private List<PriceRecord> priceRecords;
 
     public Trend(){}
 
@@ -74,6 +78,15 @@ public class Trend {
 
     public Trend setPriceDataAnalysis(PriceDataAnalysis priceDataAnalysis) {
         this.priceDataAnalysis = priceDataAnalysis;
+        return this;
+    }
+
+    public List<PriceRecord> getPriceRecords() {
+        return priceRecords;
+    }
+
+    public Trend setPriceRecords(List<PriceRecord> priceRecords) {
+        this.priceRecords = priceRecords;
         return this;
     }
 }

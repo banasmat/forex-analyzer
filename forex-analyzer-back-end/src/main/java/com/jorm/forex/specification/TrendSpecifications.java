@@ -1,11 +1,10 @@
 package com.jorm.forex.specification;
 
-import com.jorm.forex.model.PriceRecord_;
-import com.jorm.forex.model.Trend;
-import com.jorm.forex.model.Trend_;
-import com.jorm.forex.model.Symbol;
+import com.jorm.forex.model.*;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import java.time.LocalDateTime;
 
 
