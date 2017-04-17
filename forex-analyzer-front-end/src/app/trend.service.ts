@@ -34,7 +34,7 @@ export class TrendService {
     const url = `${this.trendsUrl}/${id}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data as Trend)
+      .then(response => response.json() as Trend)
       .catch(this.handleError);
   }
 
