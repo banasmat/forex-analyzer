@@ -1,4 +1,4 @@
-import {PriceRecord} from './PriceRecord';
+import {PriceRecord} from './price-record';
 import {Symbol} from './symbol';
 
 export class Trend {
