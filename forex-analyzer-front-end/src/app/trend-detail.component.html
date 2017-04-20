@@ -1,8 +1,9 @@
-<div id="plotly-div" name="plotly-div`"></div>
 <div *ngIf="trend">
   <span class="badge">{{trend.symbol.name}}</span>
   <span>{{trend.start.dateTime |  date}} - {{trend.end.dateTime | date}}</span>
   <span>{{trend.start.open}} - {{trend.end.close}}</span>
+
+  <candlestick-chart [trend]="trend"></candlestick-chart>
 
   <ul>
     <li *ngFor="let priceRecord of trend.priceRecords">

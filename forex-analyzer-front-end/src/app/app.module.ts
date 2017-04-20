@@ -10,6 +10,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {HttpModule} from '@angular/http';
 import {TrendService} from './trend.service';
 import {TrendDetailComponent} from './trend-detail.component';
+import {CandlestickChartComponent} from './candlestick-chart-component';
 
 @NgModule({
   imports:      [
@@ -21,7 +22,8 @@ import {TrendDetailComponent} from './trend-detail.component';
   declarations: [
     AppComponent,
     TrendsComponent,
-    TrendDetailComponent
+    TrendDetailComponent,
+    CandlestickChartComponent
   ],
   providers: [
     TrendService
