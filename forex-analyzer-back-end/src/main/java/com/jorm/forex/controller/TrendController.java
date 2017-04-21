@@ -71,10 +71,12 @@ public class TrendController {
 
             List<Trend> trends = trendSearchService.findBySymbolBetweenDates(symbolObject, startDate, endDate);
 
-            Integer minutesMargin = marginResolver.countMinutesMargin(startDate, endDate, marginPercent);
 
             //TODO should be optimized. Get with one query or maybe save a graph picture on front end.
             for(Trend trend : trends){
+
+                Integer minutesMargin = marginResolver.countMinutesMargin(trend.getStart().getDateTime(), trend.getEnd().getDateTime(), marginPercent);
+
                 setPriceRecords(trend, intervalResolver.resolve(interval), minutesMargin);
             }
 
