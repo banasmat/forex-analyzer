@@ -5,10 +5,5 @@
 
   <candlestick-chart [trend]="trend"></candlestick-chart>
 
-  <ul>
-    <li *ngFor="let priceRecord of trend.priceRecords">
-      {{ priceRecord.dateTime | date}}: {{priceRecord.open}}
-    </li>
-  </ul>
-  <button (click)="goBack()">Back</button>
+  <button class="btn btn-default" (click)="goBack()">Back</button>
 </div>

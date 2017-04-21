@@ -5,6 +5,7 @@ import {TrendService} from './trend.service';
 @Component({
   selector: 'trends',
   templateUrl: './trends.component.html',
+  styleUrls: ['./trends.component.css']
 })
 export class TrendsComponent implements OnInit {
   trends: Trend[];

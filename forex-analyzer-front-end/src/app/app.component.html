@@ -1,5 +1,7 @@
-<h1>{{title}}</h1>
-<nav>
-<a routerLink="/trends" routerLinkActive="active">Trends</a>
-</nav>
-<router-outlet></router-outlet>
+<div class="container">
+  <nav class="navbar navbar-default">
+    <div class="navbar-brand">{{title}}</div>
+    <a routerLink="/trends" routerLinkActive="active">Trends</a>
+  </nav>
+  <router-outlet></router-outlet>
+</div>
