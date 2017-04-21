@@ -8,7 +8,7 @@ declare var Plotly: any;
   selector: 'candlestick-chart',
   template: `<div id="candlestick-chart"></div>`,
 })
-export class CandlestickChartComponent implements OnInit{
+export class CandlestickChartComponent implements OnInit {
 
   @Input() trend: Trend;
 
@@ -62,31 +62,29 @@ export class CandlestickChartComponent implements OnInit{
       },
       shapes: [
         {
-          type: 'rect',
+          type: 'line',
           xref: 'x',
           yref: 'paper',
-          x0: this.trend.start.dateTime, // TODO should be formatted like the rest ?
+          x0: this.trend.start.dateTime,
           y0: 0,
           x1: this.trend.start.dateTime,
           y1: 1,
-          fillcolor: '#d3d3d3',
-          opacity: 0.2,
           line: {
-            width: 0
+            width: 2,
+            color: '#FF0000'
           }
         },
         {
-          type: 'rect',
+          type: 'line',
           xref: 'x',
           yref: 'paper',
           x0: this.trend.end.dateTime,
           y0: 0,
           x1: this.trend.end.dateTime,
           y1: 1,
-          fillcolor: '#d3d3d3',
-          opacity: 0.2,
           line: {
-            width: 0
+            width: 2,
+            color: '#FF0000'
           }
         }
       ]
