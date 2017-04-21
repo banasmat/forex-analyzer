@@ -6,8 +6,6 @@ import 'rxjs/add/operator/switchMap';
 import {Trend} from './trend';
 import {TrendService} from './trend.service';
 
-declare var Plotly: any;
-
 @Component({
   selector: 'trend-detail',
   templateUrl: './trend-detail.component.html',
@@ -26,7 +24,6 @@ export class TrendDetailComponent implements OnInit {
       .switchMap((params: Params) => this.trendService.getTrend(+params['id']))
       .subscribe(trend => {
         this.trend = trend;
-
       });
   }
 

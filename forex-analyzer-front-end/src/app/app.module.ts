@@ -11,6 +11,7 @@ import {HttpModule} from '@angular/http';
 import {TrendService} from './trend.service';
 import {TrendDetailComponent} from './trend-detail.component';
 import {CandlestickChartComponent} from './candlestick-chart-component';
+import {CandlestickSmallChartComponent} from './candlestick-small-chart-component';
 
 @NgModule({
   imports:      [
@@ -23,7 +24,8 @@ import {CandlestickChartComponent} from './candlestick-chart-component';
     AppComponent,
     TrendsComponent,
     TrendDetailComponent,
-    CandlestickChartComponent
+    CandlestickChartComponent,
+    CandlestickSmallChartComponent
   ],
   providers: [
     TrendService

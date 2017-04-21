@@ -16,7 +16,7 @@ export class TrendService {
 
     let params: URLSearchParams = new URLSearchParams();
     params.set('start', '01-01-2016 02:00:00');
-    params.set('end', '31-04-2017 13:00:00');
+    params.set('end', '31-03-2017 13:00:00');
     params.set('symbol', 'EURUSD');
 
     return this.http.get(this.trendsUrl, {

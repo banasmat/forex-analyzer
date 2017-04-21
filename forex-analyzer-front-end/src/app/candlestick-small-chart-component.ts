@@ -1,46 +1,22 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 import {Trend} from './trend';
+import {CandlestickChartComponent} from './candlestick-chart-component';
 
 declare var Plotly: any;
 
 @Component({
-  selector: 'candlestick-chart',
-  template: `<div id="candlestick-chart"></div>`,
+  selector: 'candlestick-small-chart',
+  template: `<div *ngIf="trend"><div id="candlestick-chart-{{trend.id}}"></div></div>`,
 })
-export class CandlestickChartComponent implements OnInit {
+export class CandlestickSmallChartComponent extends CandlestickChartComponent{
 
   @Input() trend: Trend;
 
-  getTrace(): any {
-    return {
-      x: this.trend.priceRecords.map(function (record) {
-        return record['dateTime'];
-      }),
-      open: this.trend.priceRecords.map(function (record) {
-        return record['open'];
-      }),
-      high: this.trend.priceRecords.map(function (record) {
-        return record['high'];
-      }),
-      low: this.trend.priceRecords.map(function (record) {
-        return record['low'];
-      }),
-      close: this.trend.priceRecords.map(function (record) {
-        return record['close'];
-      }),
-      decreasing: {line: {color: '#7F7F7F'}},
-      increasing: {line: {color: '#17BECF'}},
-      line: {color: 'rgba(31,119,180,1)'},
-      type: 'candlestick',
-      xaxis: 'x',
-      yaxis: 'y'
-    };
-  }
 
   ngOnInit(): void {
 
-    const trace = this.getTrace();
+    let trace = super.getTrace();
 
     const layout = {
       dragmode: 'zoom',
@@ -94,6 +70,8 @@ export class CandlestickChartComponent implements OnInit {
       ]
     };
 
-    Plotly.plot('candlestick-chart', [trace], layout);
+    (setTimeout(function(trend: Trend){
+      Plotly.plot('candlestick-chart-' + trend.id, [trace], {layout});
+    }, 0, this.trend));
   }
 }
