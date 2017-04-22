@@ -12,7 +12,7 @@ export class CandlestickChartComponent implements OnInit {
 
   @Input() trend: Trend;
 
-  getTrace(): any {
+  getTrace() {
     return {
       x: this.trend.priceRecords.map(function (record) {
         return record['dateTime'];
@@ -38,11 +38,8 @@ export class CandlestickChartComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {
-
-    const trace = this.getTrace();
-
-    const layout = {
+  getLayout(trace: any) {
+    return {
       dragmode: 'zoom',
       margin: {
         r: 10,
@@ -93,6 +90,13 @@ export class CandlestickChartComponent implements OnInit {
         }
       ]
     };
+  }
+
+  ngOnInit(): void {
+
+    let trace = this.getTrace();
+
+    let layout = this.getLayout(trace);
 
     Plotly.plot('candlestick-chart', [trace], layout);
   }

@@ -18,60 +18,36 @@ export class CandlestickSmallChartComponent extends CandlestickChartComponent{
 
     let trace = super.getTrace();
 
-    const layout = {
-      dragmode: 'zoom',
+    let layout = {
+      height: 250,
       margin: {
-        r: 10,
-        t: 25,
-        b: 40,
-        l: 60
+        r: 15,
+        t: 20,
+        b: 50,
+        l: 15
       },
+      dragmode: 'orbit', // Hack to disable dragmode. Orbit won't work for this type of chart.
+      hovermode: false,
       showlegend: false,
       xaxis: {
         autorange: false,
         domain: [0, 1],
         range: [trace.x[0], trace.x[trace.x.length - 1]],
-        title: 'Date',
-        type: 'date'
+        type: 'date',
+        rangeslider: {
+          visible: false
+        }
       },
       yaxis: {
         autorange: true,
         domain: [0, 1],
         range: [Math.min(...trace.low), Math.max(...trace.high)],
         type: 'linear'
-      },
-      shapes: [
-        {
-          type: 'line',
-          xref: 'x',
-          yref: 'paper',
-          x0: this.trend.start.dateTime,
-          y0: 0,
-          x1: this.trend.start.dateTime,
-          y1: 1,
-          line: {
-            width: 2,
-            color: '#FF0000'
-          }
-        },
-        {
-          type: 'line',
-          xref: 'x',
-          yref: 'paper',
-          x0: this.trend.end.dateTime,
-          y0: 0,
-          x1: this.trend.end.dateTime,
-          y1: 1,
-          line: {
-            width: 2,
-            color: '#FF0000'
-          }
-        }
-      ]
+      }
     };
 
     (setTimeout(function(trend: Trend){
-      Plotly.plot('candlestick-chart-' + trend.id, [trace], {layout});
+      Plotly.plot('candlestick-chart-' + trend.id, [trace], layout);
     }, 0, this.trend));
   }
 }
