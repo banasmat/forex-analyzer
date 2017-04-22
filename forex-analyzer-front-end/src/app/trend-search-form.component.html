@@ -1,0 +1,17 @@
+<form [formGroup]="trendSearchForm" class="form-inline" novalidate>
+  <div class="form-group">
+    <label for="start">From</label>
+    <my-date-picker id="start" name="start" [options]="myDatePickerOptions" formControlName="start" required></my-date-picker>
+  </div>
+  <div class="form-group">
+    <label for="end">Until</label>
+    <my-date-picker id="end" name="end" [options]="myDatePickerOptions" formControlName="end" required></my-date-picker>
+  </div>
+  <div class="form-group">
+    <label for="symbol">Symbol</label>
+    <select class="form-control" id="symbol" formControlName="symbol" required>
+      <option value="EURUSD">EURUSD</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-success">Search</button>
+</form>

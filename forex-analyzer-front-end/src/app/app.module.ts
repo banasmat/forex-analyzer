@@ -12,20 +12,27 @@ import {TrendService} from './trend.service';
 import {TrendDetailComponent} from './trend-detail.component';
 import {CandlestickChartComponent} from './candlestick-chart-component';
 import {CandlestickSmallChartComponent} from './candlestick-small-chart-component';
+import {MyDatePickerModule} from 'mydatepicker';
+import {FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {TrendSearchFormComponent} from './trend-search-form.component';
 
 @NgModule({
   imports:      [
     BrowserModule,
     HttpModule,
     // InMemoryWebApiModule.forRoot(InMemoryDataService),
-    AppRoutingModule
+    AppRoutingModule,
+    MyDatePickerModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,
     TrendsComponent,
     TrendDetailComponent,
     CandlestickChartComponent,
-    CandlestickSmallChartComponent
+    CandlestickSmallChartComponent,
+    TrendSearchFormComponent
   ],
   providers: [
     TrendService

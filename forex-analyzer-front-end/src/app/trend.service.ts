@@ -12,12 +12,12 @@ export class TrendService {
 
   constructor(private http: Http) { }
 
-  getTrends(): Promise<Trend[]> {
+  getTrends(start: string, end: string, symbol: string): Promise<Trend[]> {
 
     let params: URLSearchParams = new URLSearchParams();
-    params.set('start', '01-01-2016 02:00:00');
-    params.set('end', '31-03-2017 13:00:00');
-    params.set('symbol', 'EURUSD');
+    params.set('start', start);
+    params.set('end', end);
+    params.set('symbol', symbol);
 
     return this.http.get(this.trendsUrl, {
       search: params
