@@ -1,4 +1,4 @@
-<form [formGroup]="trendSearchForm" class="form-inline" novalidate>
+<form [formGroup]="trendSearchForm" class="form-inline"  (ngSubmit)="onSubmitReactiveForms()">
   <div class="form-group">
     <label for="start">From</label>
     <my-date-picker id="start" name="start" [options]="myDatePickerOptions" formControlName="start" required></my-date-picker>
@@ -13,5 +13,5 @@
       <option value="EURUSD">EURUSD</option>
     </select>
   </div>
-  <button type="submit" class="btn btn-success">Search</button>
+  <button class="btn btn-success" type="submit" [disabled]="trendSearchForm.controls.start.errors">Submit</button>
 </form>

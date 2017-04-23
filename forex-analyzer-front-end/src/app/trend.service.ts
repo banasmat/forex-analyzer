@@ -4,6 +4,7 @@ import {Http, URLSearchParams} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {Trend} from './trend';
 import {AppSettings} from './app.settings';
+import * as moment from 'moment/moment';
 
 @Injectable()
 export class TrendService {
@@ -12,11 +13,11 @@ export class TrendService {
 
   constructor(private http: Http) { }
 
-  getTrends(start: string, end: string, symbol: string): Promise<Trend[]> {
+  getTrends(start: Date, end: Date, symbol: string): Promise<Trend[]> {
 
     let params: URLSearchParams = new URLSearchParams();
-    params.set('start', start);
-    params.set('end', end);
+    params.set('start', moment(start).format(AppSettings.DATE_TIME_FORMAT));
+    params.set('end', moment(end).format(AppSettings.DATE_TIME_FORMAT));
     params.set('symbol', symbol);
 
     return this.http.get(this.trendsUrl, {
@@ -24,7 +25,6 @@ export class TrendService {
     })
       .toPromise()
       .then((response) => {
-       // console.log(response.json() as Trend[]);
         return response.json() as Trend[];
       })
       .catch(this.handleError);

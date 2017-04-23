@@ -1,5 +1,5 @@
 <h1>Trends</h1>
-<trend-search-form></trend-search-form>
+<trend-search-form (submitEvent)='onSearchFormSubmit($event)'></trend-search-form>
 <ul class="trends">
   <li *ngFor="let trend of trends">
     <div class="trend-inner">
