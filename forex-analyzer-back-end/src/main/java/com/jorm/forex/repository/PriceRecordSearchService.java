@@ -33,14 +33,4 @@ public class PriceRecordSearchService {
         ));
 
     }
-
-    public long countAllWithSymbolBetweenIncludedDates(Symbol symbol, LocalDateTime start, LocalDateTime end){
-        Specification<PriceRecord> hasSymbol = PriceRecordSpecifications.hasSymbol(symbol);
-        Specification<PriceRecord> isBetweenDates = PriceRecordSpecifications.isBetweenDates(start.minusMinutes(1), end.plusMinutes(1));
-
-        return repository.count(
-                    Specifications.where(hasSymbol).and(
-                    Specifications.where(isBetweenDates)
-                ));
-    }
 }

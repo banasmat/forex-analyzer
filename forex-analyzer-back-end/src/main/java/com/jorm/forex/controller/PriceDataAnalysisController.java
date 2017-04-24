@@ -2,6 +2,7 @@ package com.jorm.forex.controller;
 
 import com.jorm.forex.model.*;
 import com.jorm.forex.price_data.*;
+import com.jorm.forex.price_record.PriceRecordCreator;
 import com.jorm.forex.trend.TrendFinderFactory;
 import com.jorm.forex.trend.TrendFinderStrategy;
 import com.jorm.forex.util.FileHelper;
@@ -12,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 //TODO apply consistent naming
 //TODO write a script for running this command http://stackoverflow.com/questions/39329017/how-to-build-console-command-in-spring-boot-web-application-using-spring-shell
 //TODO security
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("price-data-analysis")
 public class PriceDataAnalysisController {
 
@@ -30,6 +31,9 @@ public class PriceDataAnalysisController {
 
     @Autowired
     private TrendFinderFactory trendFinderFactory;
+
+    @Autowired
+    private PriceRecordCreator priceRecordCreator;
 
     @Value("${java.io.tmpdir}")
     private String tempDir;
@@ -43,6 +47,8 @@ public class PriceDataAnalysisController {
     ) throws IOException {
 
         //TODO probably should run on separate thread
+        //TODO make file optional. Then run analysis on existing data.
+        //TODO Or create PriceRecord POST enpoint. if so remove 'file' and add 'start' and 'end' params here.
 
         File convertedFile = FileHelper.convertMultipartFileToTempFile(multipartFile, tempDir);
 
@@ -54,7 +60,9 @@ public class PriceDataAnalysisController {
 
         Symbol symbolObject = symbolResolver.resolve(symbol);
 
-        PriceDataAnalysis priceDataAnalysis = priceDataAnalyzer.analyzePriceData(dataResource, trendFinderStrategy, symbolObject, trendFinderSettings);
+        List<PriceRecord> priceRecords = priceRecordCreator.createPriceRecords(dataResource, symbolObject);
+
+        PriceDataAnalysis priceDataAnalysis = priceDataAnalyzer.analyzePriceData(priceRecords, trendFinderStrategy, symbolObject, trendFinderSettings);
 
         return "Extracted " + priceDataAnalysis.getTrends().size() + " trends from " + dataResource.getFilename() + " with strategy " + priceDataAnalysis.getTrendFinderStrategyName();
     }

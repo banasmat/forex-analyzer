@@ -1,12 +1,11 @@
 package com.jorm.forex.price_data;
 
 import com.jorm.forex.model.*;
-import com.jorm.forex.price_record.PriceRecordDuplicationChecker;
-import com.jorm.forex.trend.TrendFinderFactory;
+import com.jorm.forex.price_record.PriceRecordCreator;
+import com.jorm.forex.repository.PriceRecordSearchService;
 import com.jorm.forex.trend.TrendFinderProcessor;
 import com.jorm.forex.trend.TrendFinderStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -15,53 +14,29 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-//TODO rename to PriceDataAnalysisManager?
+//TODO rename to PriceDataAnalysisManager? PriceDataAnalysisCreator?
 @Service
 @Transactional
 public class PriceDataAnalyzer {
 
     @Autowired
-    private PriceDataProviderServiceResolver priceDataProviderServiceResolver;
-
-    @Autowired
-    private PriceDataProviderFactory priceDataProviderFactory;
-
-    @Autowired
     private TrendFinderProcessor trendFinderProcessor;
-
-    @Autowired
-    private PriceRecordDuplicationChecker priceRecordDuplicationChecker;
 
     @Autowired
     private EntityManager em;
 
-    public PriceDataAnalyzer(PriceDataProviderServiceResolver priceDataProviderServiceResolver, PriceDataProviderFactory priceDataProviderFactory, TrendFinderProcessor trendFinderProcessor, PriceRecordDuplicationChecker priceRecordDuplicationChecker, EntityManager em) {
-        this.priceDataProviderServiceResolver = priceDataProviderServiceResolver;
-        this.priceDataProviderFactory = priceDataProviderFactory;
+    public PriceDataAnalyzer(TrendFinderProcessor trendFinderProcessor,  EntityManager em) {
         this.trendFinderProcessor = trendFinderProcessor;
-        this.priceRecordDuplicationChecker = priceRecordDuplicationChecker;
         this.em = em;
     }
 
-    public PriceDataAnalysis analyzePriceData(Resource dataResource, TrendFinderStrategy trendFinderStrategy, Symbol symbol, TrendFinderSettings trendFinderSettings ) throws IOException {
-
-        //TODO some trend may start in one dataResource and end in another. This should first save data to db, then analyze all data for symbol.
-
-        String priceDataProviderName = priceDataProviderServiceResolver.resolveFromResource(dataResource);
-        PriceDataProvider priceDataProvider = priceDataProviderFactory.getPriceDataProvider(priceDataProviderName);
+    public PriceDataAnalysis analyzePriceData(List<PriceRecord> priceRecords, TrendFinderStrategy trendFinderStrategy, Symbol symbol, TrendFinderSettings trendFinderSettings ) throws IOException {
 
         trendFinderStrategy.setSettings(trendFinderSettings);
+        //TODO verify if we need to persist separately
         em.persist(trendFinderSettings);
 
         trendFinderProcessor.setTrendFinderStrategy(trendFinderStrategy);
-
-        List<PriceRecord> priceRecords = priceDataProvider.getData(dataResource);
-        if(false == priceRecordDuplicationChecker.checkIfPriceRecordsExist(priceRecords, symbol)){
-            for(PriceRecord priceRecord : priceRecords){
-                priceRecord.setSymbol(symbol);
-                em.persist(priceRecord);
-            }
-        }
 
         List<Trend> trends = trendFinderProcessor.findTrendsInData(priceRecords);
 

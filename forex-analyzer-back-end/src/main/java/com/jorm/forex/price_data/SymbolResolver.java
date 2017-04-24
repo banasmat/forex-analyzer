@@ -5,7 +5,7 @@ import com.jorm.forex.repository.SymbolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-//TODO rename to SymbolConverter?
+//TODO rename to SymbolConverter? SymbolTransformer? SymbolCreator? SymbolLoader?
 @Service
 public class SymbolResolver {
 
