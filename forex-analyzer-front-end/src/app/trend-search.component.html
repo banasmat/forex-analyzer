@@ -11,7 +11,7 @@
   <div class="form-group">
     <label for="symbol">Symbol</label>
     <select class="form-control" id="symbol" formControlName="symbol" required>
-      <option value="EURUSD">EURUSD</option>
+      <option *ngFor="let symbol of symbols" value="{{ symbol.name }}">{{ symbol.name }}</option>
     </select>
   </div>
   <button class="btn btn-success" type="submit" [disabled]="trendSearchForm.disabled">Submit</button>

@@ -3,13 +3,15 @@ import {Http, URLSearchParams} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 import {Trend} from './trend';
+import {Symbol} from './symbol';
 import {AppSettings} from './app.settings';
 import * as moment from 'moment/moment';
 
 @Injectable()
 export class TrendService {
-  // TODO build url with symbol/start/end settings - use form in trends.component.ts
+
   private trendsUrl = AppSettings.API_ENDPOINT + 'trend';
+  private symbolsUrl = AppSettings.API_ENDPOINT + 'symbol';
 
   constructor(private http: Http) { }
 
@@ -37,6 +39,15 @@ export class TrendService {
       .then(response => response.json() as Trend)
       .catch(this.handleError);
   }
+
+  getSymbols(): Promise<Symbol[]> {
+    return this.http.get(this.symbolsUrl)
+      .toPromise()
+      .then((response) => {
+        return response.json() as Symbol[];
+      })
+      .catch(this.handleError);
+    }
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only

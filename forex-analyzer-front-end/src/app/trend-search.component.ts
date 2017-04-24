@@ -3,6 +3,7 @@ import {Trend} from './trend';
 import {TrendService} from './trend.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IMyOptions} from 'mydatepicker';
+import {Symbol} from './symbol';
 
 @Component({
   selector: 'trends',
@@ -11,6 +12,7 @@ import {IMyOptions} from 'mydatepicker';
 })
 export class TrendSearchComponent implements OnInit {
   trends: Trend[];
+  symbols: Symbol[] = [new Symbol('EURUSD')]; // We assume that eurusd is always available
 
   myDatePickerOptions: IMyOptions = {
     dateFormat: 'dd-mm-yyyy',
@@ -23,6 +25,9 @@ export class TrendSearchComponent implements OnInit {
   constructor(private trendService: TrendService, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
+
+    this.trendService.getSymbols().then(symbols => this.symbols = symbols);
+
     this.trendSearchForm = this.formBuilder.group({
       start: [{date: { year: 2016, month: 1, day: 1}}, Validators.required],
       end: [{date: { year: 2017, month: 1, day: 1}}, Validators.required],
