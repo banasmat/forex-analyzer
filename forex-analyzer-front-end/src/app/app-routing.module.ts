@@ -1,11 +1,11 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {TrendsComponent} from './trends.component';
+import {TrendSearchComponent} from './trend-search.component';
 import {TrendDetailComponent} from './trend-detail.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: '/trends', pathMatch: 'full' },
-  { path: 'trends',  component: TrendsComponent },
+  { path: 'trends',  component: TrendSearchComponent },
   { path: 'trend-detail/:id', component: TrendDetailComponent },
 ];
 @NgModule({

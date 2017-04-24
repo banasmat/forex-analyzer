@@ -1,15 +1,16 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {IMyOptions} from 'mydatepicker';
+import {Component, OnInit} from '@angular/core';
+import {Trend} from './trend';
+import {TrendService} from './trend.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {TrendSearchData} from './trend-search-data';
-
+import {IMyOptions} from 'mydatepicker';
 
 @Component({
-  selector: 'trend-search-form',
-  templateUrl: './trend-search-form.component.html',
-  styleUrls: ['./trend-search-form.component.css']
+  selector: 'trends',
+  templateUrl: './trend-search.component.html',
+  styleUrls: ['./trend-search.component.css']
 })
-export class TrendSearchFormComponent implements OnInit {
+export class TrendSearchComponent implements OnInit {
+  trends: Trend[];
 
   myDatePickerOptions: IMyOptions = {
     dateFormat: 'dd-mm-yyyy',
@@ -19,9 +20,7 @@ export class TrendSearchFormComponent implements OnInit {
 
   private trendSearchForm: FormGroup;
 
-  @Output() submitEvent: EventEmitter<TrendSearchData> = new EventEmitter<TrendSearchData>();
-
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private trendService: TrendService, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.trendSearchForm = this.formBuilder.group({
@@ -29,11 +28,15 @@ export class TrendSearchFormComponent implements OnInit {
       end: [{date: { year: 2017, month: 1, day: 1}}, Validators.required],
       symbol: ['EURUSD', Validators.required] // TODO get available symbols from api
     });
+    this.onSubmitReactiveForms();
+  }
+
+  getTrends(start: Date, end: Date, symbol: string): void {
+    this.trendService.getTrends(start, end, symbol).then(trends => this.trends = trends);
   }
 
   onSubmitReactiveForms(): void {
-    this.submitEvent.emit(
-      new TrendSearchData(
+    this.getTrends(
         new Date(
           this.trendSearchForm.controls['start'].value.date.year,
           this.trendSearchForm.controls['start'].value.date.month,
@@ -45,7 +48,6 @@ export class TrendSearchFormComponent implements OnInit {
           this.trendSearchForm.controls['end'].value.date.day
         ),
         this.trendSearchForm.controls['symbol'].value
-      ));
+      );
   }
 }
-

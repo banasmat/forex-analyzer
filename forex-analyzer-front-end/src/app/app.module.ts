@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 // import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
 
 import {AppComponent} from './app.component';
-import { TrendsComponent }  from './trends.component';
+import { TrendSearchComponent }  from './trend-search.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpModule} from '@angular/http';
 import {TrendService} from './trend.service';
@@ -14,7 +14,6 @@ import {CandlestickChartComponent} from './candlestick-chart-component';
 import {CandlestickSmallChartComponent} from './candlestick-small-chart-component';
 import {MyDatePickerModule} from 'mydatepicker';
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {TrendSearchFormComponent} from './trend-search-form.component';
 
 @NgModule({
   imports:      [
@@ -28,11 +27,10 @@ import {TrendSearchFormComponent} from './trend-search-form.component';
   ],
   declarations: [
     AppComponent,
-    TrendsComponent,
+    TrendSearchComponent,
     TrendDetailComponent,
     CandlestickChartComponent,
-    CandlestickSmallChartComponent,
-    TrendSearchFormComponent
+    CandlestickSmallChartComponent
   ],
   providers: [
     TrendService
