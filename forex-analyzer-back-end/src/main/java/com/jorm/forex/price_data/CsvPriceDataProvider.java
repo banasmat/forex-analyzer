@@ -21,12 +21,13 @@ public class CsvPriceDataProvider implements PriceDataProvider {
 
         BufferedReader br;
         String line;
-        //TODO should be able to set separator with parameter or should be auto resolved
-        String csvSeparator = ",";
         DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
 
         try {
             br = new BufferedReader(new FileReader(resource.getFile()));
+
+            //TODO should be able to set separator with parameter or should be auto resolved
+            String csvSeparator = resolveSeparator(resource);
 
             while ((line = br.readLine()) != null) {
 
@@ -44,5 +45,22 @@ public class CsvPriceDataProvider implements PriceDataProvider {
         }
 
         return result;
+    }
+
+    private String resolveSeparator(Resource resource) throws IOException {
+
+        BufferedReader br = new BufferedReader(new FileReader(resource.getFile()));
+        String[] separators = new String[]{",", ";"};
+        String[] data;
+        String line = br.readLine();
+
+        for(String separator : separators){
+            data = line.split(separator);
+            if(data.length >= 6){
+                return separator;
+            }
+        }
+
+        throw new RuntimeException("Unable to parse file. Unknown csv separator.");
     }
 }

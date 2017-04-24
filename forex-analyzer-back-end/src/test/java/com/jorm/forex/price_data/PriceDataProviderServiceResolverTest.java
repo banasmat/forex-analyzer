@@ -18,7 +18,7 @@ public class PriceDataProviderServiceResolverTest {
     @Test
     public void shouldResolveCsvFileType(){
         ResourceLoader resourceLoader = new DefaultResourceLoader();
-        Resource dataResource = resourceLoader.getResource("src/test/resources/historical-data-chunk.csv");
+        Resource dataResource = resourceLoader.getResource("src/test/resources/comma-separated-price-data.csv");
 
         assertEquals(PriceDataProviderName.CSV, resolver.resolveFromResource(dataResource));
     }
