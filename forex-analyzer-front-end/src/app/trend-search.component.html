@@ -2,11 +2,11 @@
 <form [formGroup]="trendSearchForm" class="form-inline" (ngSubmit)="onSubmitReactiveForms()">
   <div class="form-group">
     <label for="start">From</label>
-    <my-date-picker id="start" name="start" [options]="myDatePickerOptions" formControlName="start" required></my-date-picker>
+    <my-date-picker id="start" name="start" [options]="myDatePickerOptions" formControlName="start" [disabled]="trendSearchForm.disabled" required></my-date-picker>
   </div>
   <div class="form-group">
     <label for="end">Until</label>
-    <my-date-picker id="end" name="end" [options]="myDatePickerOptions" formControlName="end" required></my-date-picker>
+    <my-date-picker id="end" name="end" [options]="myDatePickerOptions" formControlName="end" [disabled]="trendSearchForm.disabled" required></my-date-picker>
   </div>
   <div class="form-group">
     <label for="symbol">Symbol</label>
@@ -14,7 +14,7 @@
       <option value="EURUSD">EURUSD</option>
     </select>
   </div>
-  <button class="btn btn-success" type="submit" [disabled]="trendSearchForm.controls.start.errors">Submit</button>
+  <button class="btn btn-success" type="submit" [disabled]="trendSearchForm.disabled">Submit</button>
 </form>
 <ul class="trends">
   <li *ngFor="let trend of trends">

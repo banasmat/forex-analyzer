@@ -32,7 +32,11 @@ export class TrendSearchComponent implements OnInit {
   }
 
   getTrends(start: Date, end: Date, symbol: string): void {
-    this.trendService.getTrends(start, end, symbol).then(trends => this.trends = trends);
+    this.trendSearchForm.disable();
+    this.trendService.getTrends(start, end, symbol).then(trends => {
+      this.trends = trends;
+      this.trendSearchForm.enable();
+    });
   }
 
   onSubmitReactiveForms(): void {
