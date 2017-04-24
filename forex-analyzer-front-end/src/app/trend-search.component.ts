@@ -29,7 +29,7 @@ export class TrendSearchComponent implements OnInit {
     this.trendService.getSymbols().then(symbols => this.symbols = symbols);
 
     this.trendSearchForm = this.formBuilder.group({
-      start: [{date: { year: 2016, month: 1, day: 1}}, Validators.required],
+      start: [{date: { year: 2016, month: 6, day: 1}}, Validators.required],
       end: [{date: { year: 2017, month: 1, day: 1}}, Validators.required],
       symbol: ['EURUSD', Validators.required] // TODO get available symbols from api
     });

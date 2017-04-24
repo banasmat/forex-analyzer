@@ -24,7 +24,7 @@ export class CandlestickSmallChartComponent extends CandlestickChartComponent{
         r: 15,
         t: 20,
         b: 50,
-        l: 15
+        l: 40
       },
       dragmode: 'orbit', // Hack to disable dragmode. Orbit won't work for this type of chart.
       hovermode: false,
