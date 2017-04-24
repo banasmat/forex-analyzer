@@ -45,6 +45,8 @@ public class PriceDataAnalyzer {
 
     public PriceDataAnalysis analyzePriceData(Resource dataResource, TrendFinderStrategy trendFinderStrategy, Symbol symbol, TrendFinderSettings trendFinderSettings ) throws IOException {
 
+        //TODO some trend may start in one dataResource and end in another. This should first save data to db, then analyze all data for symbol.
+
         String priceDataProviderName = priceDataProviderServiceResolver.resolveFromResource(dataResource);
         PriceDataProvider priceDataProvider = priceDataProviderFactory.getPriceDataProvider(priceDataProviderName);
 
