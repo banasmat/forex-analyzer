@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
-//TODO add dateTime index
+//TODO add dateTime (+ symbol) index
 //TODO add unique constraint for symbol & dateTime
 
 @Entity

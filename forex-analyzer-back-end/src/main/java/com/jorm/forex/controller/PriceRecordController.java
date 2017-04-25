@@ -2,23 +2,35 @@ package com.jorm.forex.controller;
 
 import com.jorm.forex.model.PriceRecord;
 import com.jorm.forex.model.Symbol;
+import com.jorm.forex.price_data.SymbolResolver;
 import com.jorm.forex.price_record.IntervalResolver;
 import com.jorm.forex.price_record.PriceRecordCondenser;
+import com.jorm.forex.price_record.PriceRecordCreator;
 import com.jorm.forex.repository.PriceRecordSearchService;
 import com.jorm.forex.repository.SymbolRepository;
+import com.jorm.forex.util.FileHelper;
 import com.jorm.forex.util.Format;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("price-record")
 public class PriceRecordController {
+
+    //TODO should return 400 codes when params are wrong
 
     private static final DateTimeFormatter dateFormat = Format.dateTimeFormatter;
 
@@ -34,7 +46,17 @@ public class PriceRecordController {
     @Autowired
     private PriceRecordCondenser priceRecordCondenser;
 
+    @Autowired
+    private SymbolResolver symbolResolver;
+
+    @Autowired
+    private PriceRecordCreator priceRecordCreator;
+
+    @Value("${java.io.tmpdir}")
+    private String tempDir;
+
     @RequestMapping(method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:3000")
     public @ResponseBody List<PriceRecord> priceRecords(
         @RequestParam String symbol,
         @RequestParam String start,
@@ -51,6 +73,7 @@ public class PriceRecordController {
             if(null == symbolObject){
                 //TODO invalid argument exception?
                 //TODO create specific exception class?
+                //TODO or create NullSymbol object and remove this if?
                 throw new RuntimeException("Symbol: '" + symbol + "' not found.");
             }
 
@@ -60,8 +83,31 @@ public class PriceRecordController {
             return  priceRecordCondenser.condense(allResults, intervalResolver.resolve(interval));
 
         } catch (DateTimeParseException e){
+            //TODO return 400
             throw new RuntimeException(e.getMessage() + ". Correct date format: " + Format.dateTimeFormatString);
         }
 
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity priceRecords(
+            @RequestParam String symbol,
+            @RequestPart("file") MultipartFile multipartFile
+    ){
+        File convertedFile = null;
+        try {
+            convertedFile = FileHelper.convertMultipartFileToTempFile(multipartFile, tempDir);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
+        Resource dataResource = new FileSystemResource(convertedFile);
+
+        Symbol symbolObject = symbolResolver.resolve(symbol);
+
+        List<PriceRecord> priceRecords = priceRecordCreator.createPriceRecords(dataResource, symbolObject);
+
+        //TODO should return other code if all price records already existed
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 }
