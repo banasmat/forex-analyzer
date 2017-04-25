@@ -3,9 +3,11 @@ package com.jorm.forex.controller;
 import com.jorm.forex.model.*;
 import com.jorm.forex.price_data.*;
 import com.jorm.forex.price_record.PriceRecordCreator;
+import com.jorm.forex.repository.PriceRecordSearchService;
 import com.jorm.forex.trend.TrendFinderFactory;
 import com.jorm.forex.trend.TrendFinderStrategy;
 import com.jorm.forex.util.FileHelper;
+import com.jorm.forex.util.Format;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.*;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 //TODO apply consistent naming
@@ -23,6 +27,8 @@ import java.util.List;
 @RequestMapping("price-data-analysis")
 public class PriceDataAnalysisController {
 
+    private static final DateTimeFormatter dateFormat = Format.dateTimeFormatter;
+
     @Autowired
     private PriceDataAnalyzer priceDataAnalyzer;
 
@@ -30,29 +36,29 @@ public class PriceDataAnalysisController {
     private SymbolResolver symbolResolver;
 
     @Autowired
-    private TrendFinderFactory trendFinderFactory;
+    private PriceRecordSearchService priceRecordSearchService;
 
     @Autowired
-    private PriceRecordCreator priceRecordCreator;
+    private TrendFinderFactory trendFinderFactory;
 
     @Value("${java.io.tmpdir}")
     private String tempDir;
 
-    @RequestMapping(method = RequestMethod.POST, params = {"strategy", "symbol", "minDifference"})
+    @RequestMapping(method = RequestMethod.POST)
     public String priceDataAnalysis(
-            @RequestPart("file") MultipartFile multipartFile,
+            @RequestParam String start,
+            @RequestParam String end,
             @RequestParam String symbol,
             @RequestParam(defaultValue = "HighLowAverage") String strategy,
             @RequestParam(defaultValue = "0.05") Double minDifference
     ) throws IOException {
 
         //TODO probably should run on separate thread
-        //TODO make file optional. Then run analysis on existing data.
-        //TODO Or create PriceRecord POST enpoint. if so remove 'file' and add 'start' and 'end' params here.
+        //TODO decide how to handle IOExceptions
+        //TODO decide if return http codes
 
-        File convertedFile = FileHelper.convertMultipartFileToTempFile(multipartFile, tempDir);
-
-        Resource dataResource = new FileSystemResource(convertedFile);
+        LocalDateTime startDate = LocalDateTime.parse(start, dateFormat);
+        LocalDateTime endDate = LocalDateTime.parse(end, dateFormat);
 
         TrendFinderSettings trendFinderSettings = new TrendFinderSettings(minDifference);
 
@@ -60,28 +66,10 @@ public class PriceDataAnalysisController {
 
         Symbol symbolObject = symbolResolver.resolve(symbol);
 
-        List<PriceRecord> priceRecords = priceRecordCreator.createPriceRecords(dataResource, symbolObject);
+        List<PriceRecord> priceRecords = priceRecordSearchService.findBySymbolBetweenDates(symbolObject, startDate, endDate);
 
         PriceDataAnalysis priceDataAnalysis = priceDataAnalyzer.analyzePriceData(priceRecords, trendFinderStrategy, symbolObject, trendFinderSettings);
 
-        return "Extracted " + priceDataAnalysis.getTrends().size() + " trends from " + dataResource.getFilename() + " with strategy " + priceDataAnalysis.getTrendFinderStrategyName();
+        return "Extracted " + priceDataAnalysis.getTrends().size() + " trends.";
     }
-
-    /*
-    //TODO this actions is supposed to handle url source
-    @RequestMapping(method = RequestMethod.POST, params = {"source", "strategy", "symbol", "minDifference"})
-    public String extractTrends(
-            @RequestParam String source,
-            @RequestParam String symbol,
-            @RequestParam(defaultValue = "HighLowAverage") String strategy,
-            @RequestParam(defaultValue = "0.05") Double minDifference
-    ) throws IOException {
-        ResourceLoader resourceLoader = new DefaultResourceLoader();
-        Resource dataResource = resourceLoader.getResource(source);
-
-        return extractTrends(dataResource, strategy, symbol, minDifference);
-    }*/
-
-
-
 }
