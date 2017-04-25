@@ -125,6 +125,35 @@ public class PriceRecordCreatorTest {
         verify(em, times(0)).flush();
     }
 
-    //FIXME if some price data already exist, save only new
+    @Test
+    public void shouldSaveOnlyNewPriceRecords(){
+        Resource resource = new FileSystemResource("src/test/resources/empty-resource.txt");
 
+        Symbol symbol = new Symbol();
+        String service = "any_service_name";
+        List<PriceRecord> alreadyExistingPriceRecords = newPriceRecords.subList(0, 5);
+
+        when(priceDataProviderServiceResolver.resolveFromResource(resource)).thenReturn(service);
+        when(priceDataProviderFactory.getPriceDataProvider(service)).thenReturn(priceDataProvider);
+        when(priceDataProvider.getData(resource)).thenReturn(newPriceRecords);
+
+        when(priceRecordSearchService.findBySymbolBetweenDates(
+                symbol,
+                newPriceRecords.get(0).getDateTime(),
+                newPriceRecords.get(newPriceRecords.size()-1).getDateTime()
+        )).thenReturn(alreadyExistingPriceRecords);
+
+        assertEquals(newPriceRecords.size(), creator.createPriceRecords(resource, symbol).size());
+
+        for(PriceRecord newPriceRecord : newPriceRecords.subList(0, 5)){
+            verify(em, times(0)).persist(newPriceRecord);
+        }
+
+        for(PriceRecord newPriceRecord : newPriceRecords.subList(5, newPriceRecords.size())){
+            verify(em, times(1)).persist(newPriceRecord);
+        }
+        verify(em, times(1)).flush();
+    }
+
+    //TODO test existing data with gaps
 }

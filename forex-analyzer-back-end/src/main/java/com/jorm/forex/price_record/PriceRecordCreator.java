@@ -9,11 +9,14 @@ import com.jorm.forex.repository.PriceRecordSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.apache.commons.collections4.ListUtils;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
+// TODO rename to factory?
 @Service
 @Transactional
 public class PriceRecordCreator {
@@ -42,20 +45,34 @@ public class PriceRecordCreator {
         String priceDataProviderName = priceDataProviderServiceResolver.resolveFromResource(dataResource);
         PriceDataProvider priceDataProvider = priceDataProviderFactory.getPriceDataProvider(priceDataProviderName);
 
-        // TODO no need to instantiate all objects. Only first and last date should be checked.
         List<PriceRecord> newPriceRecords = priceDataProvider.getData(dataResource);
-
         List<PriceRecord> existingPriceRecords = priceRecordSearchService.findBySymbolBetweenDates(symbol, newPriceRecords.get(0).getDateTime(), newPriceRecords.get(newPriceRecords.size()-1).getDateTime());
 
-        //TODO we should persist only new records
         if(existingPriceRecords.size() != newPriceRecords.size()){
 
-            for(PriceRecord priceRecord : newPriceRecords){
-                priceRecord.setSymbol(symbol);
-                em.persist(priceRecord);
+            List<PriceRecord> newNotYetExistingPriceRecords = new ArrayList<>();
+            Boolean alreadyExists;
+
+            for(PriceRecord newPriceRecord : newPriceRecords){
+
+                alreadyExists = false;
+
+                // Not efficient, but safe way of preventing duplications
+                for(PriceRecord existingPriceRecord : existingPriceRecords){
+                    if(newPriceRecord.getDateTime() == existingPriceRecord.getDateTime()){
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+
+                if(false == alreadyExists){
+                    newPriceRecord.setSymbol(symbol);
+                    em.persist(newPriceRecord);
+                    newNotYetExistingPriceRecords.add(newPriceRecord);
+                }
             }
             em.flush();
-            return newPriceRecords;
+            return ListUtils.union(existingPriceRecords, newNotYetExistingPriceRecords);
         }
 
         return existingPriceRecords;

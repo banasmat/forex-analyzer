@@ -26,7 +26,6 @@ public class CsvPriceDataProvider implements PriceDataProvider {
         try {
             br = new BufferedReader(new FileReader(resource.getFile()));
 
-            //TODO should be able to set separator with parameter or should be auto resolved
             String csvSeparator = resolveSeparator(resource);
 
             while ((line = br.readLine()) != null) {
