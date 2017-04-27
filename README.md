@@ -8,14 +8,15 @@ It's supposed to provide helpful insights on stock and forex exchange fundamenta
 * Finding financial news related to trend turns (TODO)
 * Getting feedback on which data is more relevant and 'learning' patterns from it (TODO)
 
-## Running application
+## Running application (TODO test it)
 * clone or download repository
-* configure database (TODO - move to gitignored file)
+* configure database and other settings in src/main/resources/private.properties (added to .gitignore)
+* start your database
 * navigate to forex-analyzer-back-end `cd forex-analyzer-back-end`
-* run `mvn spring-boot:run`
-* navigate to forex-analyzer-front-end cd `../forex-analyzer-front-end`
-* run `npm install`
-* run `npm start`
+* start back-end application with `mvn spring-boot:run`
+* navigate to forex-analyzer-front-end `cd ../forex-analyzer-front-end`
+* build front-end project `npm install`
+* start front-end application `npm start`
 * navigate in browser to localhost:3000
 
 ## Coding tips

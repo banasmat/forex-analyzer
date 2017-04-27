@@ -4,10 +4,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @ImportResource("applicationContext.xml")
+@PropertySource("private.properties")
 @EnableTransactionManagement
 //@EnableAutoConfiguration()
 //@EnableJpaRepositories(basePackages="com.jorm.forex")
