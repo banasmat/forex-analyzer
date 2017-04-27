@@ -57,7 +57,7 @@ public class PriceRecordController {
 
     @RequestMapping(method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:3000")
-    public @ResponseBody List<PriceRecord> priceRecords(
+    public ResponseEntity priceRecords(
         @RequestParam String symbol,
         @RequestParam String start,
         @RequestParam String end,
@@ -80,34 +80,34 @@ public class PriceRecordController {
             //TODO probably interval can't be applied in sql query. All rows have to be selected anyway according to http://stackoverflow.com/questions/2694429/how-do-i-get-every-nth-row-in-a-table-or-how-do-i-break-up-a-subset-of-a-table
             List<PriceRecord> allResults = priceRecordSearchService.findBySymbolBetweenDates(symbolObject, startDate, endDate);
 
-            return  priceRecordCondenser.condense(allResults, intervalResolver.resolve(interval));
+            return  ResponseEntity.ok(priceRecordCondenser.condense(allResults, intervalResolver.resolve(interval)));
 
         } catch (DateTimeParseException e){
-            //TODO return 400
-            throw new RuntimeException(e.getMessage() + ". Correct date format: " + Format.dateTimeFormatString);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage() + ". Correct date format: " + Format.dateTimeFormatString);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity priceRecords(
+    public ResponseEntity priceRecords(
             @RequestParam String symbol,
             @RequestPart("file") MultipartFile multipartFile
-    ){
-        File convertedFile = null;
+    ) {
         try {
-            convertedFile = FileHelper.convertMultipartFileToTempFile(multipartFile, tempDir);
-        } catch (IOException e) {
+            File convertedFile = FileHelper.convertMultipartFileToTempFile(multipartFile, tempDir);
+
+            Resource dataResource = new FileSystemResource(convertedFile);
+
+            Symbol symbolObject = symbolResolver.resolve(symbol);
+
+            List<PriceRecord> priceRecords = priceRecordCreator.createPriceRecords(dataResource, symbolObject);
+
+            //TODO should return other http code if all price records already existed and none have been created?
+            return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-
-        Resource dataResource = new FileSystemResource(convertedFile);
-
-        Symbol symbolObject = symbolResolver.resolve(symbol);
-
-        List<PriceRecord> priceRecords = priceRecordCreator.createPriceRecords(dataResource, symbolObject);
-
-        //TODO should return other code if all price records already existed
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 }

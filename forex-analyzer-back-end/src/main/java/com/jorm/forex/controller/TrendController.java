@@ -13,6 +13,8 @@ import com.jorm.forex.repository.TrendRepository;
 import com.jorm.forex.repository.TrendSearchService;
 import com.jorm.forex.util.Format;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -50,7 +52,7 @@ public class TrendController {
     private MarginResolver marginResolver;
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody List<Trend> trends(
+    public ResponseEntity trends(
         @RequestParam String symbol,
         @RequestParam String start,
         @RequestParam String end,
@@ -71,7 +73,6 @@ public class TrendController {
 
             List<Trend> trends = trendSearchService.findBySymbolBetweenDates(symbolObject, startDate, endDate);
 
-
             //TODO should be optimized. Get with one query or maybe save a graph picture on front end.
             for(Trend trend : trends){
 
@@ -80,15 +81,19 @@ public class TrendController {
                 setPriceRecords(trend, intervalResolver.resolve(interval), minutesMargin);
             }
 
-            return trends;
+            return ResponseEntity.ok(trends);
+
+            //FIXME got this response: "Index: 0, Size: 0" 400
 
         } catch (DateTimeParseException e){
-            throw new RuntimeException(e.getMessage() + ". Correct date format: " + Format.dateTimeFormatString);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage() + ". Correct date format: " + Format.dateTimeFormatString);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @RequestMapping(method = RequestMethod.GET, path="/{id}")
-    public @ResponseBody Trend trend(
+    public ResponseEntity trend(
             @PathVariable Long id,
             @RequestParam(defaultValue = "1H") String interval,
             @RequestParam(defaultValue = "10") Integer marginPercent
@@ -96,13 +101,12 @@ public class TrendController {
 
         Trend trend = trendRepository.findOne(id);
 
-        Integer minutesMargin = marginResolver.countMinutesMargin(trend.getStart().getDateTime(), trend.getEnd().getDateTime(), marginPercent);
-
         if(null != trend){
+            Integer minutesMargin = marginResolver.countMinutesMargin(trend.getStart().getDateTime(), trend.getEnd().getDateTime(), marginPercent);
             setPriceRecords(trend, intervalResolver.resolve(interval), minutesMargin);
+            return ResponseEntity.ok(trend);
         }
-
-        return trend;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Trend with id: " + id + " not found.");
     }
 
     private Trend setPriceRecords(Trend trend, Interval interval, Integer minutesMargin){

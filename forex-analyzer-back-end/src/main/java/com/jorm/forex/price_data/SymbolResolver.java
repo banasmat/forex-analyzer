@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 //TODO rename to SymbolConverter? SymbolTransformer? SymbolCreator? SymbolLoader?
+//FIXME validate symbol before saving (get some list of accepted symbols). Probably save symbols separately and only retrieve here.
 @Service
 public class SymbolResolver {
 
