@@ -1,18 +1,24 @@
 # Forex Analyzer
-Tool for forex and stocks fundamental analysis (still being developed).
-In it's basic functionality it will present price changing trends and news that might be connected with starting or ending these trends.
+Application based on Java Spring and Angular 2. 
+It's supposed to provide helpful insights on stock and forex exchange fundamental analysis.
 
-## Goals
-Analyzer will be able to process stocks or forex prices retrieved from a file or api (like Yahoo finance).
-It will look for price changing trends.
-Later the application will retrieve financial and political news preceeding trends starting and ending points.
-All these results will be saved and available via api enpoint.
+## Functionality
+* Searching for price trends in stock or forex exchange data
+* Displaying trends as charts
+* Finding financial news related to trend turns (TODO)
+* Getting feedback on which data is more relevant and 'learning' patterns from it (TODO)
 
-## Later goals
-Application will take suggestions: which news are really connected with trends. It will 'learn' to filter news by itself.
+## Running application
+* clone or download repository
+* configure database (TODO - move to gitignored file)
+* navigate to forex-analyzer-back-end `cd forex-analyzer-back-end`
+* run `mvn spring-boot:run`
+* navigate to forex-analyzer-front-end cd `../forex-analyzer-front-end`
+* run `npm install`
+* run `npm start`
+* navigate in browser to localhost:3000
 
 ## Coding tips
-
-Coding style tips: https://github.com/cxxr/better-java
-Structs: https://github.com/cxxr/better-java#structs
-Repositories: https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-four-jpa-criteria-queries/
+* Coding style tips: https://github.com/cxxr/better-java
+* Structs: https://github.com/cxxr/better-java#structs
+* Repositories: https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-four-jpa-criteria-queries/
