@@ -2,6 +2,7 @@ package com.jorm.forex.specification;
 
 import com.jorm.forex.model.*;
 import com.jorm.forex.model.Symbol;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;

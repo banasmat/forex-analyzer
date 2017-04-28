@@ -83,8 +83,6 @@ public class TrendController {
 
             return ResponseEntity.ok(trends);
 
-            //FIXME got this response: "Index: 0, Size: 0" 400
-
         } catch (DateTimeParseException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage() + ". Correct date format: " + Format.dateTimeFormatString);
         }
