@@ -84,8 +84,6 @@ public class PriceRecordController {
 
         } catch (DateTimeParseException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage() + ". Correct date format: " + Format.dateTimeFormatString);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
     }
@@ -106,7 +104,7 @@ public class PriceRecordController {
 
             //TODO should return other http code if all price records already existed and none have been created?
             return ResponseEntity.status(HttpStatus.CREATED).body(null);
-        } catch (Exception e) {
+        } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
