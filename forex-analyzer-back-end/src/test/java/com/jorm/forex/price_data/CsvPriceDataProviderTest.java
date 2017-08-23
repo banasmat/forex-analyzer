@@ -72,8 +72,9 @@ public class CsvPriceDataProviderTest {
 
         List<PriceRecord> result = dataProvider.getData(resource);
 
-        for(int i = 0; i < result.size(); i++)
-        for(PriceRecord priceRecord : result){
+        assertTrue(result.size() == expectedResult.size());
+
+        for(int i = 0; i < result.size(); i++){
             assertEquals(expectedResult.get(i).getOpen(), result.get(i).getOpen());
             assertEquals(expectedResult.get(i).getHigh(), result.get(i).getHigh());
             assertEquals(expectedResult.get(i).getLow(), result.get(i).getLow());
