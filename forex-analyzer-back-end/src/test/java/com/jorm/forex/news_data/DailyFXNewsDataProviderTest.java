@@ -1,30 +1,47 @@
 package com.jorm.forex.news_data;
 
+import com.jorm.forex.http.RestClient;
 import com.jorm.forex.model.News;
 import com.jorm.forex.model.PriceRecord;
 import com.jorm.forex.model.Symbol;
 import com.jorm.forex.util.Format;
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+import org.springframework.core.io.FileSystemResource;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 public class DailyFXNewsDataProviderTest {
 
     private NewsDataProvider newsDataProvider;
 
+    @Mock
+    private RestClient client;
+
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
+
     @Before
     public void setUp() throws Exception {
-        newsDataProvider = new DailyFXNewsDataProvider();
+        newsDataProvider = new DailyFXNewsDataProvider(client);
     }
 
     @Test
-    public void shouldFindNewsBetweenTwoDatetimes(){
+    public void shouldFindNewsBetweenTwoDatetimes() throws IOException {
+
+        String responseContent = FileUtils.readFileToString(new FileSystemResource("src/test/resources/daily-fx-news-html-sample.html").getFile());
 
         List<News> expectedResult = new ArrayList<News>(){
             {
@@ -38,7 +55,7 @@ public class DailyFXNewsDataProviderTest {
             }
         };
 
-//TODO mocks
+        when(client.get("https://www.dailyfx.com/calendar?previous=true&week=2016/0766")).thenReturn(responseContent);
 
         List<News> result = newsDataProvider.getNewsInDateTimeRange(LocalDateTime.parse("06-09-2016 06:00:00", Format.dateTimeFormatter), LocalDateTime.parse("06-09-2016 08:00:00", Format.dateTimeFormatter));
 
