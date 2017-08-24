@@ -16,21 +16,17 @@ public class News {
     @Column(nullable = false)
     private LocalDateTime dateTime;
 
-    @Column(nullable = false)
+    @Column(nullable = false) //TODO change type to Class (save as String)
     private String dataProviderClass;
 
     @Column(nullable = false)
     private String url;
 
-    @Column(nullable = true)
-    private Symbol symbol;
-
-    public News(String title, LocalDateTime dateTime, String dataProviderClass, String url, Symbol symbol) {
+    public News(String title, LocalDateTime dateTime, String dataProviderClass, String url) {
         this.title = title;
         this.dateTime = dateTime;
         this.dataProviderClass = dataProviderClass;
         this.url = url;
-        this.symbol = symbol;
     }
 
     public Long getId() {
@@ -67,13 +63,5 @@ public class News {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public Symbol getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(Symbol symbol) {
-        this.symbol = symbol;
     }
 }

@@ -50,25 +50,24 @@ public class DailyFXNewsDataProviderTest {
         LocalDateTime firstDateTime = LocalDateTime.parse("06-09-2016 06:00:00", Format.dateTimeFormatter);
         LocalDateTime lastDateTime = LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter);
 
+        String url = "http://some-url";
+
         List<News> expectedResult = new ArrayList<News>(){
             {
-                add(new News("EUR German Factory Orders s.a. (MoM) (JUL)", firstDateTime, DailyFXNewsDataProvider.class.toString(), "", new Symbol("EUR")));
-                add(new News("EUR German Factory Orders n.s.a. (YoY) (JUL)", LocalDateTime.parse("06-09-2016 06:00:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), "", new Symbol("EUR")));
-                add(new News("CHF Consumer Price Index (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), "", new Symbol("CHF")));
-                add(new News("CHF Consumer Price Index (YoY) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), "", new Symbol("CHF")));
-                add(new News("CHF Consumer Price Index (YoY) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), "", new Symbol("CHF")));
-                add(new News("CHF CPI EU Harmonized (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), "", new Symbol("CHF")));
-                add(new News("CHF CPI EU Harmonized (YoY) (AUG)", lastDateTime, DailyFXNewsDataProvider.class.toString(), "", new Symbol("CHF")));
+                add(new News("EUR German Factory Orders s.a. (MoM) (JUL)", firstDateTime, DailyFXNewsDataProvider.class.toString(), url));
+                add(new News("EUR German Factory Orders n.s.a. (YoY) (JUL)", LocalDateTime.parse("06-09-2016 06:00:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), url));
+                add(new News("CHF Consumer Price Index (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), url));
+                add(new News("CHF Consumer Price Index (YoY) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), url));
+                add(new News("CHF CPI EU Harmonized (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), url));
+                add(new News("CHF CPI EU Harmonized (YoY) (AUG)", lastDateTime, DailyFXNewsDataProvider.class.toString(), url));
             }
         };
 
-        String url = "http://some-url";
-
         when(urlGenerator.generate(firstDateTime)).thenReturn(url);
-        when(urlGenerator.generate(lastDateTime)).thenReturn(url);
+        //when(urlGenerator.generate(lastDateTime)).thenReturn(url); FIXME range
         when(client.get(url)).thenReturn(responseContent);
 
-        List<News> result = newsDataProvider.getNewsInDateTimeRange(LocalDateTime.parse("06-09-2016 06:00:00", Format.dateTimeFormatter), LocalDateTime.parse("06-09-2016 08:00:00", Format.dateTimeFormatter));
+        List<News> result = newsDataProvider.getNewsInDateTimeRange(firstDateTime, lastDateTime);
 
         assertTrue(result.size() == expectedResult.size());
 
@@ -77,7 +76,6 @@ public class DailyFXNewsDataProviderTest {
             assertEquals(expectedResult.get(i).getDateTime(), result.get(i).getDateTime());
             assertEquals(expectedResult.get(i).getDataProviderClass(), result.get(i).getDataProviderClass());
             assertEquals(expectedResult.get(i).getUrl(), result.get(i).getUrl());
-            assertEquals(expectedResult.get(i).getSymbol().getId(), result.get(i).getSymbol().getId());
         }
     }
 }
