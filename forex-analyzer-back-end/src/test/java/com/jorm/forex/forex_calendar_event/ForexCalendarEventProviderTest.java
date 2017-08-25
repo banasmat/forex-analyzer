@@ -1,12 +1,9 @@
-package com.jorm.forex.news_data;
+package com.jorm.forex.forex_calendar_event;
 
 import com.jorm.forex.http.RestClient;
-import com.jorm.forex.model.News;
-import com.jorm.forex.model.PriceRecord;
-import com.jorm.forex.model.Symbol;
+import com.jorm.forex.model.ForexCalendarEvent;
 import com.jorm.forex.util.Format;
 import org.apache.commons.io.FileUtils;
-import org.apache.tomcat.jni.Local;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,9 +21,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-public class DailyFXNewsDataProviderTest {
+public class ForexCalendarEventProviderTest {
 
-    private NewsDataProvider newsDataProvider;
+    private ForexCalendarEventProvider newsDataProvider;
 
     @Mock
     private RestClient client;
@@ -39,7 +36,7 @@ public class DailyFXNewsDataProviderTest {
 
     @Before
     public void setUp() throws Exception {
-        newsDataProvider = new DailyFXNewsDataProvider(client, urlGenerator);
+        newsDataProvider = new DailyFXForexCalendarEventProvider(client, urlGenerator);
     }
 
     @Test
@@ -52,14 +49,14 @@ public class DailyFXNewsDataProviderTest {
 
         String url = "http://some-url";
 
-        List<News> expectedResult = new ArrayList<News>(){
+        List<ForexCalendarEvent> expectedResult = new ArrayList<ForexCalendarEvent>(){
             {
-                add(new News("EUR German Factory Orders s.a. (MoM) (JUL)", firstDateTime, DailyFXNewsDataProvider.class.toString(), url));
-                add(new News("EUR German Factory Orders n.s.a. (YoY) (JUL)", LocalDateTime.parse("06-09-2016 06:00:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), url));
-                add(new News("CHF Consumer Price Index (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), url));
-                add(new News("CHF Consumer Price Index (YoY) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), url));
-                add(new News("CHF CPI EU Harmonized (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXNewsDataProvider.class.toString(), url));
-                add(new News("CHF CPI EU Harmonized (YoY) (AUG)", lastDateTime, DailyFXNewsDataProvider.class.toString(), url));
+                add(new ForexCalendarEvent("EUR German Factory Orders s.a. (MoM) (JUL)", firstDateTime, DailyFXForexCalendarEventProvider.class.toString(), url));
+                add(new ForexCalendarEvent("EUR German Factory Orders n.s.a. (YoY) (JUL)", LocalDateTime.parse("06-09-2016 06:00:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url));
+                add(new ForexCalendarEvent("CHF Consumer Price Index (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url));
+                add(new ForexCalendarEvent("CHF Consumer Price Index (YoY) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url));
+                add(new ForexCalendarEvent("CHF CPI EU Harmonized (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url));
+                add(new ForexCalendarEvent("CHF CPI EU Harmonized (YoY) (AUG)", lastDateTime, DailyFXForexCalendarEventProvider.class.toString(), url));
             }
         };
 
@@ -67,7 +64,7 @@ public class DailyFXNewsDataProviderTest {
         //when(urlGenerator.generate(lastDateTime)).thenReturn(url); FIXME range
         when(client.get(url)).thenReturn(responseContent);
 
-        List<News> result = newsDataProvider.getNewsInDateTimeRange(firstDateTime, lastDateTime);
+        List<ForexCalendarEvent> result = newsDataProvider.getNewsInDateTimeRange(firstDateTime, lastDateTime);
 
         assertTrue(result.size() == expectedResult.size());
 

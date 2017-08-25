@@ -1,4 +1,4 @@
-package com.jorm.forex.news_data;
+package com.jorm.forex.forex_calendar_event;
 
 import org.springframework.stereotype.Service;
 

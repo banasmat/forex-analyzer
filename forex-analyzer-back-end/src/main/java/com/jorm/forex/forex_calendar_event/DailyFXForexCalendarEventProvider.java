@@ -1,8 +1,7 @@
-package com.jorm.forex.news_data;
+package com.jorm.forex.forex_calendar_event;
 
 import com.jorm.forex.http.RestClient;
-import com.jorm.forex.model.News;
-import com.jorm.forex.util.Format;
+import com.jorm.forex.model.ForexCalendarEvent;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class DailyFXNewsDataProvider implements NewsDataProvider {
+public class DailyFXForexCalendarEventProvider implements ForexCalendarEventProvider {
 
     protected String baseUrl = "https://www.dailyfx.com/calendar";
 
@@ -31,15 +30,15 @@ public class DailyFXNewsDataProvider implements NewsDataProvider {
     @Autowired
     private DailyFXUrlGenerator urlGenerator;
 
-    public DailyFXNewsDataProvider(RestClient client, DailyFXUrlGenerator urlGenerator) {
+    public DailyFXForexCalendarEventProvider(RestClient client, DailyFXUrlGenerator urlGenerator) {
         this.client = client;
         this.urlGenerator = urlGenerator;
     }
 
     @Override
-    public List<News> getNewsInDateTimeRange(LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo) {
+    public List<ForexCalendarEvent> getNewsInDateTimeRange(LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo) {
 
-        List<News> results = new ArrayList<>();
+        List<ForexCalendarEvent> results = new ArrayList<>();
 
         //TODO array_unique of urls for every day between dates
         String url = urlGenerator.generate(dateTimeFrom);
@@ -69,8 +68,10 @@ public class DailyFXNewsDataProvider implements NewsDataProvider {
                 if(find){
                     title = matcher.group(1);
 
+                    //FIXME these news have body when clicked
+
                     // String url FIXME
-                    results.add(new News(title, dateTime, this.getClass().toString(), url));
+                    results.add(new ForexCalendarEvent(title, dateTime, this.getClass().toString(), url));
                 }
             }
         }

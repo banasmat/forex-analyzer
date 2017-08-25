@@ -1,6 +1,6 @@
 package com.jorm.forex.controller;
 
-import com.jorm.forex.news_data.DailyFXNewsDataProvider;
+import com.jorm.forex.forex_calendar_event.DailyFXForexCalendarEventProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class NewsSourceController {
 
     @Autowired
-    private DailyFXNewsDataProvider newsApiOrgClient;
+    private DailyFXForexCalendarEventProvider newsApiOrgClient;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity newsSources() {

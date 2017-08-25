@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class News {
+public class ForexCalendarEvent {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -22,7 +22,7 @@ public class News {
     @Column(nullable = false)
     private String url;
 
-    public News(String title, LocalDateTime dateTime, String dataProviderClass, String url) {
+    public ForexCalendarEvent(String title, LocalDateTime dateTime, String dataProviderClass, String url) {
         this.title = title;
         this.dateTime = dateTime;
         this.dataProviderClass = dataProviderClass;
