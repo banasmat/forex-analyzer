@@ -23,27 +23,27 @@ public class HighLowTrendFinderStrategy implements TrendFinderStrategy {
         return this;
     }
 
+    //TODO weak. what if there's no trend but big high/low differences
+    //FIXME implement trend end
+
     public PriceRecord findTrendStart(List<PriceRecord> data) {
 
         PriceRecord result = null;
 
         Double min = null;
         Double max = null;
-        Double current;
 
         PriceRecord minDateRecord = null;
         PriceRecord maxDateRecord = null;
 
         for(PriceRecord priceRecord : data){
-            current = getAverage(priceRecord);
-
-            if (null == min || current < min){
-                min = current;
+            if (null == min || priceRecord.getLow() < min){
+                min = priceRecord.getLow();
                 minDateRecord = priceRecord;
             }
 
-            if (null == max || current > max){
-                max = current;
+            if (null == max || priceRecord.getHigh() > max){
+                max = priceRecord.getHigh();
                 maxDateRecord = priceRecord;
             }
 
@@ -63,43 +63,46 @@ public class HighLowTrendFinderStrategy implements TrendFinderStrategy {
 
         Double min = null;
         Double max = null;
-        Double current;
 
         PriceRecord minDateRecord = null;
         PriceRecord maxDateRecord = null;
 
         Boolean isUpwards = null;
 
-        Double previousValue = null;
+        Double previousMin = null;
+        Double previousMax = null;
 
         for(PriceRecord priceRecord : data){
-            current = getAverage(priceRecord);
 
-            if(null == previousValue){
-                previousValue = current;
+            if(null == previousMax){
+                previousMax = priceRecord.getHigh();
+            }
+
+            if(null == previousMin){
+                previousMin = priceRecord.getLow();
             } else if (null == isUpwards){
-                if(current > previousValue){
+                if(priceRecord.getLow() > previousMin && priceRecord.getHigh() > previousMax){
                     isUpwards = true;
-                } else if(current < previousValue) {
+                } else if(priceRecord.getHigh() < previousMax && priceRecord.getHigh() < previousMax) {
                     isUpwards = false;
                 }
             }
 
-            if (null == min || current < min){
-                min = current;
+            if (null == min || priceRecord.getLow() < min){
+                min = priceRecord.getLow();
                 minDateRecord = priceRecord;
             }
 
-            if (null == max || current > max){
-                max = current;
+            if (null == max || priceRecord.getHigh() > max){
+                max = priceRecord.getHigh();
                 maxDateRecord = priceRecord;
             }
 
             if(null != isUpwards){
-                if(true == isUpwards && (max - current) >= settings.getMinPriceDifference()){
+                if(isUpwards && (max - priceRecord.getHigh()) >= settings.getMinPriceDifference()){
                     result = maxDateRecord;
                     break;
-                } else if(false == isUpwards && -(min - current) >= settings.getMinPriceDifference()){
+                } else if(!isUpwards && -(min - priceRecord.getLow()) >= settings.getMinPriceDifference()){
                     result = minDateRecord;
                     break;
                 }
@@ -113,7 +116,4 @@ public class HighLowTrendFinderStrategy implements TrendFinderStrategy {
         return "HighLow";
     }
 
-    private Double getAverage(PriceRecord prices){
-        return (prices.getHigh() + prices.getLow()) / 2;
-    }
 }
