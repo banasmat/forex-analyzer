@@ -29,14 +29,14 @@ public class ForexFactoryForexCalendarEventProviderTest {
     private RestClient client;
 
     @Mock
-    private DailyFXUrlGenerator urlGenerator;
+    private ForexCalendarEventProviderUrlGenerator urlGenerator;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Before
     public void setUp() throws Exception {
-        newsDataProvider = new DailyFXForexCalendarEventProvider(client, urlGenerator);
+        newsDataProvider = new ForexFactoryForexCalendarEventProvider(client, urlGenerator);
     }
 
     @Test
@@ -44,25 +44,23 @@ public class ForexFactoryForexCalendarEventProviderTest {
 
         String responseContent = FileUtils.readFileToString(new FileSystemResource("src/test/resources/daily-fx-news-html-sample.html").getFile());
 
-        LocalDateTime firstDateTime = LocalDateTime.parse("06-09-2016 06:00:00", Format.dateTimeFormatter);
-        LocalDateTime lastDateTime = LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter);
+        LocalDateTime firstDateTime = LocalDateTime.parse("11-12-2014 14:00:00", Format.dateTimeFormatter);
+        LocalDateTime lastDateTime = LocalDateTime.parse("12-12-2014 13:00:00", Format.dateTimeFormatter);
 
-        String url = "http://some-url";
+        String url1 = "http://some-url-1";
+        String url2 = "http://some-url-2";
 
         List<ForexCalendarEvent> expectedResult = new ArrayList<ForexCalendarEvent>(){
             {
-                add(new ForexCalendarEvent("EUR German Factory Orders s.a. (MoM) (JUL)", firstDateTime, DailyFXForexCalendarEventProvider.class.toString(), url, "", "", "", "", "", ""));
-                add(new ForexCalendarEvent("EUR German Factory Orders n.s.a. (YoY) (JUL)", LocalDateTime.parse("06-09-2016 06:00:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url, "", "", "", "", "", ""));
-                add(new ForexCalendarEvent("CHF Consumer Price Index (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url, "", "", "", "", "", ""));
-                add(new ForexCalendarEvent("CHF Consumer Price Index (YoY) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url, "", "", "", "", "", ""));
-                add(new ForexCalendarEvent("CHF CPI EU Harmonized (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url, "", "", "", "", "", ""));
-                add(new ForexCalendarEvent("CHF CPI EU Harmonized (YoY) (AUG)", lastDateTime, DailyFXForexCalendarEventProvider.class.toString(), url, "", "", "", "", "", ""));
+                add(new ForexCalendarEvent("30-y Bond Auction", LocalDateTime.parse("11-12-2016 14:01:00", Format.dateTimeFormatter), ForexFactoryForexCalendarEventProvider.class.toString(), url1 + "#detail=49847", "USD", "2.85|2.8", "3.09|2.3", "", Impact.LOW));
+                add(new ForexCalendarEvent("Business NZ Manufacturing Index", LocalDateTime.parse("11-12-2016 17:30:00", Format.dateTimeFormatter), ForexFactoryForexCalendarEventProvider.class.toString(), url1 + "#detail=50513", "NZD", "55.2", "58.9", "", Impact.MEDIUM));
+                add(new ForexCalendarEvent("Revised Industrial Production m/m", LocalDateTime.parse("12-12-2016 12:33:00", Format.dateTimeFormatter), ForexFactoryForexCalendarEventProvider.class.toString(), url2 + "#detail=51240", "JPY", "0.4%", "0.2%", "0.2%", Impact.LOW));
             }
         };
 
-        when(urlGenerator.generate(firstDateTime)).thenReturn(url);
-        //when(urlGenerator.generate(lastDateTime)).thenReturn(url); FIXME range
-        when(client.get(url)).thenReturn(responseContent);
+        when(urlGenerator.generate(firstDateTime)).thenReturn(url1);
+        when(urlGenerator.generate(lastDateTime)).thenReturn(url2);
+        when(client.get(url1)).thenReturn(responseContent);
 
         List<ForexCalendarEvent> result = newsDataProvider.getNewsInDateTimeRange(firstDateTime, lastDateTime);
 

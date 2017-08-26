@@ -1,10 +1,18 @@
 package com.jorm.forex.model;
 
+import com.jorm.forex.forex_calendar_event.Impact;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 public class ForexCalendarEvent {
+
+    //TODO consider adding body / details
+
+    public static final String IMPACT_HIGH = "high";
+    public static final String IMPACT_MEDIUM = "medium";
+    public static final String IMPACT_LOW = "low";
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -31,17 +39,14 @@ public class ForexCalendarEvent {
     @Column(nullable = false)
     private String previous;
 
-    @Column(nullable = false)
-    private String impact;
-
     @Column()
     private String forecast;
 
-    @Lob
-    @Column()
-    private String body;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Impact impact;
 
-    public ForexCalendarEvent(String title, LocalDateTime dateTime, String dataProviderClass, String url, String currency, String actual, String previous, String impact, String forecast, String body) {
+    public ForexCalendarEvent(String title, LocalDateTime dateTime, String dataProviderClass, String url, String currency, String actual, String previous, String forecast, Impact impact) {
         this.title = title;
         this.dateTime = dateTime;
         this.dataProviderClass = dataProviderClass;
@@ -51,7 +56,6 @@ public class ForexCalendarEvent {
         this.previous = previous;
         this.impact = impact;
         this.forecast = forecast;
-        this.body = body;
     }
 
     public Long getId() {
@@ -90,11 +94,11 @@ public class ForexCalendarEvent {
         this.previous = previous;
     }
 
-    public String getImpact() {
+    public Impact getImpact() {
         return impact;
     }
 
-    public void setImpact(String impact) {
+    public void setImpact(Impact impact) {
         this.impact = impact;
     }
 
@@ -128,13 +132,5 @@ public class ForexCalendarEvent {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
     }
 }

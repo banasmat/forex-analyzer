@@ -29,9 +29,9 @@ public class ForexFactoryForexCalendarEventProvider implements ForexCalendarEven
     private RestClient client;
 
     @Autowired
-    private DailyFXUrlGenerator urlGenerator;
+    private ForexCalendarEventProviderUrlGenerator urlGenerator;
 
-    public ForexFactoryForexCalendarEventProvider(RestClient client, DailyFXUrlGenerator urlGenerator) {
+    public ForexFactoryForexCalendarEventProvider(RestClient client, ForexCalendarEventProviderUrlGenerator urlGenerator) {
         this.client = client;
         this.urlGenerator = urlGenerator;
     }
@@ -72,7 +72,7 @@ public class ForexFactoryForexCalendarEventProvider implements ForexCalendarEven
                     //FIXME these news have body when clicked
 
                     // String url FIXME
-                    results.add(new ForexCalendarEvent(title, dateTime, this.getClass().toString(), url, "", "", "", "", "", ""));
+                    //results.add(new ForexCalendarEvent(title, dateTime, this.getClass().toString(), url, "", "", "", "", "", ""));
                 }
             }
         }
