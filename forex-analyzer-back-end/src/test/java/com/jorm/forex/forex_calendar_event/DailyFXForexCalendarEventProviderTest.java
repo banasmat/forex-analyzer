@@ -21,7 +21,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-public class ForexCalendarEventProviderTest {
+/**
+ * TEST NOT FINISHED. We decided not to use this provider for now.
+ */
+public class DailyFXForexCalendarEventProviderTest {
 
     private ForexCalendarEventProvider newsDataProvider;
 
@@ -51,12 +54,12 @@ public class ForexCalendarEventProviderTest {
 
         List<ForexCalendarEvent> expectedResult = new ArrayList<ForexCalendarEvent>(){
             {
-                add(new ForexCalendarEvent("EUR German Factory Orders s.a. (MoM) (JUL)", firstDateTime, DailyFXForexCalendarEventProvider.class.toString(), url));
-                add(new ForexCalendarEvent("EUR German Factory Orders n.s.a. (YoY) (JUL)", LocalDateTime.parse("06-09-2016 06:00:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url));
-                add(new ForexCalendarEvent("CHF Consumer Price Index (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url));
-                add(new ForexCalendarEvent("CHF Consumer Price Index (YoY) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url));
-                add(new ForexCalendarEvent("CHF CPI EU Harmonized (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url));
-                add(new ForexCalendarEvent("CHF CPI EU Harmonized (YoY) (AUG)", lastDateTime, DailyFXForexCalendarEventProvider.class.toString(), url));
+                add(new ForexCalendarEvent("EUR German Factory Orders s.a. (MoM) (JUL)", firstDateTime, DailyFXForexCalendarEventProvider.class.toString(), url, "", "", "", "", "", ""));
+                add(new ForexCalendarEvent("EUR German Factory Orders n.s.a. (YoY) (JUL)", LocalDateTime.parse("06-09-2016 06:00:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url, "", "", "", "", "", ""));
+                add(new ForexCalendarEvent("CHF Consumer Price Index (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url, "", "", "", "", "", ""));
+                add(new ForexCalendarEvent("CHF Consumer Price Index (YoY) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url, "", "", "", "", "", ""));
+                add(new ForexCalendarEvent("CHF CPI EU Harmonized (MoM) (AUG)", LocalDateTime.parse("06-09-2016 07:15:00", Format.dateTimeFormatter), DailyFXForexCalendarEventProvider.class.toString(), url, "", "", "", "", "", ""));
+                add(new ForexCalendarEvent("CHF CPI EU Harmonized (YoY) (AUG)", lastDateTime, DailyFXForexCalendarEventProvider.class.toString(), url, "", "", "", "", "", ""));
             }
         };
 

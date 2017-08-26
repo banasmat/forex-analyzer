@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**\
+ * CLASS NOT FINISHED. We decided not to use this provider for now.
+ */
 @Service
 public class DailyFXForexCalendarEventProvider implements ForexCalendarEventProvider {
 
@@ -71,7 +74,7 @@ public class DailyFXForexCalendarEventProvider implements ForexCalendarEventProv
                     //FIXME these news have body when clicked
 
                     // String url FIXME
-                    results.add(new ForexCalendarEvent(title, dateTime, this.getClass().toString(), url));
+                    results.add(new ForexCalendarEvent(title, dateTime, this.getClass().toString(), url, "", "", "", "", "", ""));
                 }
             }
         }

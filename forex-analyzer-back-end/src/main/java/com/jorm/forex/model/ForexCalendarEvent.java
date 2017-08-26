@@ -22,11 +22,36 @@ public class ForexCalendarEvent {
     @Column(nullable = false)
     private String url;
 
-    public ForexCalendarEvent(String title, LocalDateTime dateTime, String dataProviderClass, String url) {
+    @Column(nullable = false)
+    private String currency;
+
+    @Column(nullable = false)
+    private String actual;
+
+    @Column(nullable = false)
+    private String previous;
+
+    @Column(nullable = false)
+    private String impact;
+
+    @Column()
+    private String forecast;
+
+    @Lob
+    @Column()
+    private String body;
+
+    public ForexCalendarEvent(String title, LocalDateTime dateTime, String dataProviderClass, String url, String currency, String actual, String previous, String impact, String forecast, String body) {
         this.title = title;
         this.dateTime = dateTime;
         this.dataProviderClass = dataProviderClass;
         this.url = url;
+        this.currency = currency;
+        this.actual = actual;
+        this.previous = previous;
+        this.impact = impact;
+        this.forecast = forecast;
+        this.body = body;
     }
 
     public Long getId() {
@@ -39,6 +64,46 @@ public class ForexCalendarEvent {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getActual() {
+        return actual;
+    }
+
+    public void setActual(String actual) {
+        this.actual = actual;
+    }
+
+    public String getPrevious() {
+        return previous;
+    }
+
+    public void setPrevious(String previous) {
+        this.previous = previous;
+    }
+
+    public String getImpact() {
+        return impact;
+    }
+
+    public void setImpact(String impact) {
+        this.impact = impact;
+    }
+
+    public String getForecast() {
+        return forecast;
+    }
+
+    public void setForecast(String forecast) {
+        this.forecast = forecast;
     }
 
     public LocalDateTime getDateTime() {
@@ -63,5 +128,13 @@ public class ForexCalendarEvent {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }
