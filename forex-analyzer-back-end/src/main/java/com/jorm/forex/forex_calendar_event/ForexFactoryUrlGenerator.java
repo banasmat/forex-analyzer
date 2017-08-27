@@ -13,7 +13,7 @@ public class ForexFactoryUrlGenerator implements ForexCalendarEventProviderUrlGe
 
     public String generate(LocalDateTime date){
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMd.YYYY", Locale.UK);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMd.YYYY", Locale.ENGLISH);
         String dateString = date.format(formatter).toLowerCase();
         return baseUrl + dateString;
     }

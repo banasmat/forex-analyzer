@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,41 +44,76 @@ public class ForexFactoryForexCalendarEventProvider implements ForexCalendarEven
 
         List<ForexCalendarEvent> results = new ArrayList<>();
 
-        //TODO array_unique of urls for every day between dates
-        String url = urlGenerator.generate(dateTimeFrom);
+        LocalDateTime currentDateTime = LocalDateTime.of(dateTimeFrom.getYear(), dateTimeFrom.getMonth(), dateTimeFrom.getDayOfMonth(), 0, 0, 0 );
+        LocalDateTime lastDayDateTime = LocalDateTime.of(dateTimeTo.getYear(), dateTimeTo.getMonth(), dateTimeTo.getDayOfMonth(), 0, 0, 0 );
 
-        //TODO for each url make get call
-        String html = client.get(url);
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mma", Locale.ENGLISH);
 
-        Document doc = Jsoup.parse(html);
-        Elements dateTimeElements = doc.select("td[id^=date]");
+        String url;
+        String html;
+        Document doc;
 
-        //TODO get end part of date td id and use it to fetch title
-        for(Element dateTimeElement : dateTimeElements){
+        LocalTime prevTime = null;
 
-            LocalDateTime dateTime = LocalDateTime.parse(dateTimeElement.html());
+        do {
+            url = urlGenerator.generate(currentDateTime);
+            html = client.get(url);
+            doc = Jsoup.parse(html);
 
-            if((dateTime.isAfter(dateTimeFrom) || dateTime.isEqual(dateTimeFrom)) && (dateTime.isBefore(dateTimeTo) || dateTime.isEqual(dateTimeTo))){
+            Elements rows = doc.select(".calendar_row");
 
-                Element titleElement = doc.getElementById(dateTimeElement.id().replace("date", "title"));
+            for(Element row : rows){
 
-                String title = titleElement.outerHtml().replace("\n", "");
+                String timeString = row.getElementsByClass("calendar__time")
+                        .first()
+                        .text()
+                        .replace("am", "AM")
+                        .replace("pm", "PM");
 
-                Pattern titlePattern = Pattern.compile("<td.+?[0-9]{2}:[0-9]{2}.+?</div>(.+?)</td>");
-                Matcher matcher = titlePattern.matcher(title);
+                LocalTime time;
 
-                Boolean find = matcher.find();
-
-                if(find){
-                    title = matcher.group(1);
-
-                    //FIXME these news have body when clicked
-
-                    // String url FIXME
-                    //results.add(new ForexCalendarEvent(title, dateTime, this.getClass().toString(), url, "", "", "", "", "", ""));
+                if(timeString.isEmpty()){
+                    time = prevTime;
+                } else {
+                    time = LocalTime.parse(timeString, timeFormatter);
+                    prevTime = time;
                 }
+
+                if(currentDateTime.getDayOfMonth() == dateTimeFrom.getDayOfMonth()){
+                    if(time.isBefore(dateTimeFrom.toLocalTime())){
+                        continue;
+                    }
+                }
+
+                if(currentDateTime.getDayOfMonth() == dateTimeTo.getDayOfMonth()){
+                    if(time.isAfter(dateTimeTo.toLocalTime())){
+                        break;
+                    }
+                }
+
+                String title = row.getElementsByClass("calendar__event-title").first().text();
+
+                LocalDateTime dateTime = LocalDateTime.of(currentDateTime.toLocalDate(), time);
+
+                String eventId = row.attr("data-eventid");
+                String eventUrl = url + "#detail=" + eventId;
+
+                String currency = row.getElementsByClass("calendar__currency").first().text();
+
+                String actual = row.getElementsByClass("calendar__actual").first().text();
+                String previous = row.getElementsByClass("calendar__previous").first().text();
+                String forecast = row.getElementsByClass("calendar__forecast").first().text();
+
+                String impactClass = row.getElementsByClass("calendar__impact").first()
+                        .getElementsByClass("calendar__impact-icon--screen").first()
+                        .getElementsByAttribute("title").first().className();
+
+                results.add(new ForexCalendarEvent(title, dateTime, this.getClass().toString(), eventUrl, currency, actual, previous, forecast, Impact.fromValue(impactClass)));
             }
-        }
+
+            currentDateTime = currentDateTime.plusDays(1);
+
+        } while(currentDateTime.isBefore(lastDayDateTime) || currentDateTime.isEqual(lastDayDateTime));
 
         return results;
     }

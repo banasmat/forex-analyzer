@@ -30,7 +30,7 @@ public class ForexCalendarEvent {
     @Column(nullable = false)
     private String url;
 
-    @Column(nullable = false)
+    @Column(nullable = false) //TODO should be enum like Impact
     private String currency;
 
     @Column(nullable = false)
