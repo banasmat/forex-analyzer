@@ -4,6 +4,7 @@ import com.jorm.forex.forex_calendar_event.Impact;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class ForexCalendarEvent {
@@ -45,6 +46,9 @@ public class ForexCalendarEvent {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Impact impact;
+
+    @OneToMany(mappedBy = "trend", cascade = CascadeType.PERSIST)
+    private List<ForexCalendarEventTrendAssoc> forexCalendarEventTrendAssocs;
 
     public ForexCalendarEvent(String title, LocalDateTime dateTime, String dataProviderClass, String url, String currency, String actual, String previous, String forecast, Impact impact) {
         this.title = title;
@@ -132,5 +136,13 @@ public class ForexCalendarEvent {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public List<ForexCalendarEventTrendAssoc> getForexCalendarEventTrendAssocs() {
+        return forexCalendarEventTrendAssocs;
+    }
+
+    public void setForexCalendarEventTrendAssocs(List<ForexCalendarEventTrendAssoc> forexCalendarEventTrendAssocs) {
+        this.forexCalendarEventTrendAssocs = forexCalendarEventTrendAssocs;
     }
 }

@@ -15,6 +15,10 @@
 		<property name="serviceLocatorInterface" value="com.jorm.forex.trend.TrendFinderFactory">
 		</property>
 	</bean>
+	<bean class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean" id="forexCalendarEventFactory">
+		<property name="serviceLocatorInterface" value="com.jorm.forex.forex_calendar_event.ForexCalendarEventFactory">
+		</property>
+	</bean>
 
 	<!--<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">-->
 		<!--<property name="persistenceUnitName" value="forex_analyzer" />-->

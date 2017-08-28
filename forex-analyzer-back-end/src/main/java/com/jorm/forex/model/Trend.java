@@ -33,6 +33,9 @@ public class Trend {
     @JoinColumn(nullable = false)
     private PriceDataAnalysis priceDataAnalysis;
 
+    @OneToMany(mappedBy = "trend", cascade = CascadeType.PERSIST)
+    private List<ForexCalendarEventTrendAssoc> forexCalendarEventTrendAssocs;
+
     @Transient
     private List<PriceRecord> priceRecords;
 
@@ -88,5 +91,13 @@ public class Trend {
     public Trend setPriceRecords(List<PriceRecord> priceRecords) {
         this.priceRecords = priceRecords;
         return this;
+    }
+
+    public List<ForexCalendarEventTrendAssoc> getForexCalendarEventTrendAssocs() {
+        return forexCalendarEventTrendAssocs;
+    }
+
+    public void setForexCalendarEventTrendAssocs(List<ForexCalendarEventTrendAssoc> forexCalendarEventTrendAssocs) {
+        this.forexCalendarEventTrendAssocs = forexCalendarEventTrendAssocs;
     }
 }
