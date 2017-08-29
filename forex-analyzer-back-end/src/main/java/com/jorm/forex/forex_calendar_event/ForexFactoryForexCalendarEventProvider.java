@@ -71,6 +71,8 @@ public class ForexFactoryForexCalendarEventProvider implements ForexCalendarEven
 
                 if(timeString.isEmpty()){
                     time = prevTime;
+                } else if(timeString.equals("All Day")){
+                    time = LocalTime.MIDNIGHT; //TODO not sure how to save it. Separate column probably: isAllDay.
                 } else {
                     time = LocalTime.parse(timeString, timeFormatter);
                     prevTime = time;

@@ -20,7 +20,7 @@ public class ForexCalendarEventTrendAssoc {
     @JoinColumn(nullable = false)
     private ForexCalendarEvent forexCalendarEvent;
 
-    @Column(nullable = false)
+    @Column(nullable = false) //FIXME save as String (?)
     private TrendMoment trendMoment;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
