@@ -16,7 +16,7 @@
 		</property>
 	</bean>
 	<bean class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean" id="forexCalendarEventFactory">
-		<property name="serviceLocatorInterface" value="com.jorm.forex.forex_calendar_event.ForexCalendarEventFactory">
+		<property name="serviceLocatorInterface" value="com.jorm.forex.forex_calendar_event.ForexCalendarEventProviderFactory">
 		</property>
 	</bean>
 

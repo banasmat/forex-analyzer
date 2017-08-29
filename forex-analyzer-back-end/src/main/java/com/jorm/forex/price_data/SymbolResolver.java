@@ -23,6 +23,7 @@ public class SymbolResolver {
 
         Symbol existingSymbol = symbolRepository.findOneByName(symbolName);
 
+        //FIXME Symbol shouldn't be saved here
         if(null == existingSymbol){
             Symbol newSymbol = new Symbol(symbolName);
             symbolRepository.save(newSymbol);

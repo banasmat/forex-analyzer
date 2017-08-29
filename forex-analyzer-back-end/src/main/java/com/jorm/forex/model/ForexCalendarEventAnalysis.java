@@ -11,7 +11,7 @@ public class ForexCalendarEventAnalysis {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "forexCalendarEventTrendAssoc", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "forexCalendarEventAnalysis", cascade = CascadeType.PERSIST)
     private List<ForexCalendarEventTrendAssoc> forexCalendarEventTrendAssocs;
 
     //TODO save as entity relation or string?

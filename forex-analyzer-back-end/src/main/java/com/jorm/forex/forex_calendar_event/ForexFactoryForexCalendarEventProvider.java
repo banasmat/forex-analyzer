@@ -19,10 +19,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**\
- * CLASS NOT FINISHED. We decided not to use this provider for now.
- */
-@Service
+@Service("ForexFactory")
 public class ForexFactoryForexCalendarEventProvider implements ForexCalendarEventProvider {
 
     @Value("${newsApiOrgApiKey}")

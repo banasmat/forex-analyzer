@@ -1,7 +1,7 @@
 package com.jorm.forex.trend;
 
 public enum TrendMoment {
-    BEGINNING("beginning"), END("end");
+    START("start"), END("end");
 
     TrendMoment(String trendMoment){
         this.trendMoment = trendMoment;

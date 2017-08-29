@@ -5,6 +5,6 @@ import com.jorm.forex.trend.TrendFinderStrategy;
 /**
  * Inspired by http://kh-yiu.blogspot.com/2013/04/spring-implementing-factory-pattern.html
  */
-public interface ForexCalendarEventFactory {
-    TrendFinderStrategy getTrendFinderStrategy(String finderName);
+public interface ForexCalendarEventProviderFactory {
+    ForexCalendarEventProvider getForexCalendarEventProvider(String providerName);
 }
