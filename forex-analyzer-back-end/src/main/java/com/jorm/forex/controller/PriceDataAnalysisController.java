@@ -6,6 +6,7 @@ import com.jorm.forex.repository.PriceRecordSearchService;
 import com.jorm.forex.trend.TrendFinderFactory;
 import com.jorm.forex.trend.TrendFinderStrategy;
 import com.jorm.forex.util.Format;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -48,7 +49,7 @@ public class PriceDataAnalysisController {
             @RequestParam String symbol,
             @RequestParam(defaultValue = "HighLowAverage") String strategy,
             @RequestParam(defaultValue = "0.05") Double minDifference
-    ) {
+    ) throws InvalidArgumentException {
         //TODO probably should run on separate thread
 
         try {

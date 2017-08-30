@@ -7,6 +7,7 @@ import com.jorm.forex.model.*;
 import com.jorm.forex.price_data.SymbolResolver;
 import com.jorm.forex.repository.TrendSearchService;
 import com.jorm.forex.util.Format;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class ForexCalendarEventAnalysisController {
             @RequestParam String end,
             @RequestParam String symbol,
             @RequestParam(defaultValue ="ForexFactory") String provider
-    ) {
+    ) throws InvalidArgumentException {
         //TODO probably should run on separate thread
 
         try {

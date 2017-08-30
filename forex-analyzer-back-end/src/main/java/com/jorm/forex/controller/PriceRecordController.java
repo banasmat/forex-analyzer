@@ -10,6 +10,7 @@ import com.jorm.forex.repository.PriceRecordSearchService;
 import com.jorm.forex.repository.SymbolRepository;
 import com.jorm.forex.util.FileHelper;
 import com.jorm.forex.util.Format;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -92,7 +93,7 @@ public class PriceRecordController {
     public ResponseEntity priceRecords(
             @RequestParam String symbol,
             @RequestPart("file") MultipartFile multipartFile
-    ) {
+    ) throws InvalidArgumentException {
         try {
             File convertedFile = FileHelper.convertMultipartFileToTempFile(multipartFile, tempDir);
 

@@ -2,6 +2,7 @@ package com.jorm.forex.price_data;
 
 import com.jorm.forex.model.Symbol;
 import com.jorm.forex.repository.SymbolRepository;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,7 +32,7 @@ public class SymbolResolverTest {
     }
 
     @Test
-    public void shouldReturnExistingSymbolIfItExistsInRepository(){
+    public void shouldReturnExistingSymbolIfItExistsInRepository() throws InvalidArgumentException {
         Symbol symbol = new Symbol("SomeName");
 
         when(symbolRepository.findOneByName("SomeName")).thenReturn(symbol);
@@ -39,16 +40,13 @@ public class SymbolResolverTest {
         assertEquals(symbol, resolver.resolve("SomeName"));
     }
 
-    @Test
-    public void shouldInstantiateAndSaveSymbolIfItDoesNotExistsInRepository(){
+    @Test(expected = InvalidArgumentException.class)
+    public void shouldThrowExceptionSymbolIfItDoesNotExistsInRepository() throws InvalidArgumentException {
         Symbol symbol = new Symbol("SomeName");
 
         when(symbolRepository.findOneByName("SomeName")).thenReturn(null);
 
         assertNotEquals(symbol, resolver.resolve("SomeName"));
         assertEquals(symbol.getName(), resolver.resolve("SomeName").getName());
-
-        ArgumentCaptor<Symbol> symbolArgument = ArgumentCaptor.forClass(Symbol.class);
-        verify(symbolRepository, times(2)).save(symbolArgument.capture());
     }
 }

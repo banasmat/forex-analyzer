@@ -14,10 +14,12 @@ public class Symbol {
     @Column(nullable = false, length=6)
     private String name;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 3)
+    @Enumerated(EnumType.STRING)
     private Currency firstCurrency;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 3)
+    @Enumerated(EnumType.STRING)
     private Currency secondCurrency;
 
     public Symbol(){}

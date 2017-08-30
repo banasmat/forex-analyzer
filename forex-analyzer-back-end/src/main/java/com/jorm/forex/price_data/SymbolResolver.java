@@ -2,6 +2,7 @@ package com.jorm.forex.price_data;
 
 import com.jorm.forex.model.Symbol;
 import com.jorm.forex.repository.SymbolRepository;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +20,12 @@ public class SymbolResolver {
         this.symbolRepository = symbolRepository;
     }
 
-    public Symbol resolve(String symbolName){
+    public Symbol resolve(String symbolName) throws InvalidArgumentException {
 
         Symbol existingSymbol = symbolRepository.findOneByName(symbolName);
 
-        //FIXME Symbol shouldn't be saved here
         if(null == existingSymbol){
-            Symbol newSymbol = new Symbol(symbolName);
-            symbolRepository.save(newSymbol);
-            return newSymbol;
+            throw new InvalidArgumentException(new String[]{"Symbol " + symbolName + " does not exist"});
         }
 
         return existingSymbol;
