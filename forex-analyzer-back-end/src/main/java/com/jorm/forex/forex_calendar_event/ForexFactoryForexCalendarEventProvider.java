@@ -37,6 +37,11 @@ public class ForexFactoryForexCalendarEventProvider implements ForexCalendarEven
     }
 
     @Override
+    public String getName() {
+        return "ForexFactory";
+    }
+
+    @Override
     public List<ForexCalendarEvent> getNewsInDateTimeRange(LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo) {
 
         List<ForexCalendarEvent> results = new ArrayList<>();

@@ -22,15 +22,10 @@ public class ForexCalendarEventAnalyzer {
     @Autowired
     private EntityManager em;
 
-    @Autowired
-    private ForexCalendarEventProviderFactory forexCalendarEventFactory;
-
-    public ForexCalendarEventAnalysis findForexCalendarEvents(String provider, List<Trend> trends){
+    public ForexCalendarEventAnalysis findForexCalendarEvents(ForexCalendarEventProvider forexCalendarEventProvider, List<Trend> trends){
         Integer hoursMargin = 12; //TODO should be in some Settings object
 
-        ForexCalendarEventProvider forexCalendarEventProvider = forexCalendarEventFactory.getForexCalendarEventProvider(provider);
-
-        ForexCalendarEventAnalysis analysis = new ForexCalendarEventAnalysis(provider, new Date());
+        ForexCalendarEventAnalysis analysis = new ForexCalendarEventAnalysis(forexCalendarEventProvider, new Date());
 
         for(Trend trend : trends){
 

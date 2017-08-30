@@ -1,6 +1,8 @@
 package com.jorm.forex.controller;
 
 import com.jorm.forex.forex_calendar_event.ForexCalendarEventAnalyzer;
+import com.jorm.forex.forex_calendar_event.ForexCalendarEventProvider;
+import com.jorm.forex.forex_calendar_event.ForexCalendarEventProviderFactory;
 import com.jorm.forex.model.*;
 import com.jorm.forex.price_data.SymbolResolver;
 import com.jorm.forex.repository.TrendSearchService;
@@ -29,6 +31,9 @@ public class ForexCalendarEventAnalysisController {
     private TrendSearchService trendSearchService;
 
     @Autowired
+    private ForexCalendarEventProviderFactory forexCalendarEventProviderFactory;
+
+    @Autowired
     private ForexCalendarEventAnalyzer analyzer;
 
     @RequestMapping(method = RequestMethod.POST)
@@ -48,7 +53,9 @@ public class ForexCalendarEventAnalysisController {
 
             List<Trend> trends = trendSearchService.findBySymbolBetweenDates(symbolObject, startDate, endDate);
 
-            ForexCalendarEventAnalysis analysis = analyzer.findForexCalendarEvents(provider, trends);
+            ForexCalendarEventProvider forexCalendarEventProvider = forexCalendarEventProviderFactory.getForexCalendarEventProvider(provider);
+
+            ForexCalendarEventAnalysis analysis = analyzer.findForexCalendarEvents(forexCalendarEventProvider, trends);
 
             return ResponseEntity.status(HttpStatus.CREATED).body("Found " + analysis.getForexCalendarEventTrendAssocs().size() + " forex calendar events.");
         } catch (DateTimeParseException e){

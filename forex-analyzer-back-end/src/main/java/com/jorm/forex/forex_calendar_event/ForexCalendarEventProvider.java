@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ForexCalendarEventProvider {
 
-    public List<ForexCalendarEvent> getNewsInDateTimeRange(LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo);
+    List<ForexCalendarEvent> getNewsInDateTimeRange(LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo);
+
+    String getName();
 }

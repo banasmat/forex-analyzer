@@ -1,5 +1,7 @@
 package com.jorm.forex.model;
 
+import com.jorm.forex.forex_calendar_event.ForexCalendarEventProvider;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,8 +25,8 @@ public class ForexCalendarEventAnalysis {
     private Date createdAt;
 
     //TODO probalby rename to ForexCalendarEventSearch / MatchSearch
-    public ForexCalendarEventAnalysis(String forexCalendarEventProviderName, Date createdAt) {
-        this.forexCalendarEventProviderName = forexCalendarEventProviderName;
+    public ForexCalendarEventAnalysis(ForexCalendarEventProvider forexCalendarEventProvider, Date createdAt) {
+        this.forexCalendarEventProviderName = forexCalendarEventProvider.getName();
         this.createdAt = createdAt;
         this.forexCalendarEventTrendAssocs = new ArrayList<>();
     }
