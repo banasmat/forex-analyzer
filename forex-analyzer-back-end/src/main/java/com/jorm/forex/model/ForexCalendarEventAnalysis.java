@@ -17,6 +17,9 @@ public class ForexCalendarEventAnalysis {
     @OneToMany(mappedBy = "forexCalendarEventAnalysis", cascade = CascadeType.PERSIST)
     private List<ForexCalendarEventTrendAssoc> forexCalendarEventTrendAssocs;
 
+    @OneToMany(mappedBy = "forexCalendarEventAnalysis", cascade = CascadeType.PERSIST)
+    private List<ForexCalendarEvent> forexCalendarEvents;
+
     //TODO save as entity relation or string? (or Class name)
     @Column(nullable = false)
     private String forexCalendarEventProviderName;
@@ -29,6 +32,7 @@ public class ForexCalendarEventAnalysis {
         this.forexCalendarEventProviderName = forexCalendarEventProvider.getName();
         this.createdAt = createdAt;
         this.forexCalendarEventTrendAssocs = new ArrayList<>();
+        this.forexCalendarEvents = new ArrayList<>();
     }
 
     public Long getId() {
@@ -45,6 +49,18 @@ public class ForexCalendarEventAnalysis {
 
     public void addForexCalendarEventTrendAssoc(ForexCalendarEventTrendAssoc assoc){
         this.forexCalendarEventTrendAssocs.add(assoc);
+    }
+
+    public List<ForexCalendarEvent> getForexCalendarEvents() {
+        return forexCalendarEvents;
+    }
+
+    public void setForexCalendarEvents(List<ForexCalendarEvent> forexCalendarEvents) {
+        this.forexCalendarEvents = forexCalendarEvents;
+    }
+
+    public void addForexCalendarEvent(ForexCalendarEvent assoc){
+        this.forexCalendarEvents.add(assoc);
     }
 
     public String getForexCalendarEventProviderName() {
