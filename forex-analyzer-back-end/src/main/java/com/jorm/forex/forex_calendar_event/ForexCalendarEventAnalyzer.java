@@ -38,6 +38,7 @@ public class ForexCalendarEventAnalyzer {
             for(ForexCalendarEvent startEvent: startEvents){
                 ForexCalendarEventTrendAssoc assoc = createAssoc(startEvent, trend, analysis, TrendMoment.START);
                 analysis.addForexCalendarEventTrendAssoc(assoc);
+                startEvent.setForexCalendarEventAnalysis(analysis);
                 em.persist(startEvent);
                 em.persist(assoc);
             }
@@ -51,6 +52,7 @@ public class ForexCalendarEventAnalyzer {
             for(ForexCalendarEvent endEvent: endEvents){
                 ForexCalendarEventTrendAssoc assoc = createAssoc(endEvent, trend, analysis, TrendMoment.END);
                 analysis.addForexCalendarEventTrendAssoc(assoc);
+                endEvent.setForexCalendarEventAnalysis(analysis);
                 em.persist(endEvent);
                 em.persist(assoc);
             }

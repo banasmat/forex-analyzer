@@ -1,6 +1,7 @@
 package com.jorm.forex.forex_calendar_event;
 
 import com.jorm.forex.http.RestClient;
+import com.jorm.forex.model.Currency;
 import com.jorm.forex.model.ForexCalendarEvent;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -112,7 +113,7 @@ public class ForexFactoryForexCalendarEventProvider implements ForexCalendarEven
                         .getElementsByClass("calendar__impact-icon--screen").first()
                         .getElementsByAttribute("title").first().className();
 
-                results.add(new ForexCalendarEvent(title, dateTime, this.getClass().toString(), eventUrl, currency, actual, previous, forecast, Impact.fromValue(impactClass)));
+                results.add(new ForexCalendarEvent(title, dateTime, eventUrl, Currency.fromValue(currency), actual, previous, forecast, Impact.fromValue(impactClass)));
             }
 
             currentDateTime = currentDateTime.plusDays(1);

@@ -1,6 +1,7 @@
 package com.jorm.forex.forex_calendar_event;
 
 import com.jorm.forex.http.RestClient;
+import com.jorm.forex.model.Currency;
 import com.jorm.forex.model.ForexCalendarEvent;
 import com.jorm.forex.util.Format;
 import org.apache.commons.io.FileUtils;
@@ -58,9 +59,9 @@ public class ForexFactoryForexCalendarEventProviderTest {
 
         List<ForexCalendarEvent> expectedResult = new ArrayList<ForexCalendarEvent>(){
             {
-                add(new ForexCalendarEvent("30-y Bond Auction", LocalDateTime.parse("11-12-2014 14:01:00", Format.dateTimeFormatter), ForexFactoryForexCalendarEventProvider.class.toString(), url1 + "#detail=49847", "USD", "2.85|2.8", "3.09|2.3", "", Impact.LOW));
-                add(new ForexCalendarEvent("Business NZ Manufacturing Index", LocalDateTime.parse("11-12-2014 17:30:00", Format.dateTimeFormatter), ForexFactoryForexCalendarEventProvider.class.toString(), url1 + "#detail=50513", "NZD", "55.2", "58.9", "", Impact.MEDIUM));
-                add(new ForexCalendarEvent("Revised Industrial Production m/m", LocalDateTime.parse("12-12-2014 00:33:00", Format.dateTimeFormatter), ForexFactoryForexCalendarEventProvider.class.toString(), url2 + "#detail=51240", "JPY", "0.4%", "0.2%", "0.2%", Impact.LOW));
+                add(new ForexCalendarEvent("30-y Bond Auction", LocalDateTime.parse("11-12-2014 14:01:00", Format.dateTimeFormatter), url1 + "#detail=49847", Currency.fromValue("USD"), "2.85|2.8", "3.09|2.3", "", Impact.LOW));
+                add(new ForexCalendarEvent("Business NZ Manufacturing Index", LocalDateTime.parse("11-12-2014 17:30:00", Format.dateTimeFormatter), url1 + "#detail=50513", Currency.fromValue("NZD"), "55.2", "58.9", "", Impact.MEDIUM));
+                add(new ForexCalendarEvent("Revised Industrial Production m/m", LocalDateTime.parse("12-12-2014 00:33:00", Format.dateTimeFormatter), url2 + "#detail=51240", Currency.fromValue("JPY"), "0.4%", "0.2%", "0.2%", Impact.LOW));
             }
         };
 
@@ -76,7 +77,6 @@ public class ForexFactoryForexCalendarEventProviderTest {
         for(int i = 0; i < result.size(); i++){
             assertEquals(expectedResult.get(i).getTitle(), result.get(i).getTitle());
             assertEquals(expectedResult.get(i).getDateTime(), result.get(i).getDateTime());
-            assertEquals(expectedResult.get(i).getDataProviderClass(), result.get(i).getDataProviderClass());
             assertEquals(expectedResult.get(i).getUrl(), result.get(i).getUrl());
         }
     }

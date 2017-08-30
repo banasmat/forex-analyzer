@@ -11,10 +11,6 @@ public class ForexCalendarEvent {
 
     //TODO consider adding body / details
 
-    public static final String IMPACT_HIGH = "high";
-    public static final String IMPACT_MEDIUM = "medium";
-    public static final String IMPACT_LOW = "low";
-
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -25,14 +21,12 @@ public class ForexCalendarEvent {
     @Column(nullable = false)
     private LocalDateTime dateTime;
 
-    @Column(nullable = false) //TODO change type to Class (save as String)
-    private String dataProviderClass;
-
     @Column(nullable = false)
     private String url;
 
-    @Column(nullable = false) //TODO should be enum like Impact
-    private String currency;
+    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
 
     @Column(nullable = false)
     private String actual;
@@ -50,10 +44,13 @@ public class ForexCalendarEvent {
     @OneToMany(mappedBy = "trend", cascade = CascadeType.PERSIST)
     private List<ForexCalendarEventTrendAssoc> forexCalendarEventTrendAssocs;
 
-    public ForexCalendarEvent(String title, LocalDateTime dateTime, String dataProviderClass, String url, String currency, String actual, String previous, String forecast, Impact impact) {
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(nullable = false)
+    private ForexCalendarEventAnalysis forexCalendarEventAnalysis;
+
+    public ForexCalendarEvent(String title, LocalDateTime dateTime, String url, Currency currency, String actual, String previous, String forecast, Impact impact) {
         this.title = title;
         this.dateTime = dateTime;
-        this.dataProviderClass = dataProviderClass;
         this.url = url;
         this.currency = currency;
         this.actual = actual;
@@ -74,11 +71,11 @@ public class ForexCalendarEvent {
         this.title = title;
     }
 
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 
@@ -122,14 +119,6 @@ public class ForexCalendarEvent {
         this.dateTime = dateTime;
     }
 
-    public String getDataProviderClass() {
-        return dataProviderClass;
-    }
-
-    public void setDataProviderClass(String dataProviderClass) {
-        this.dataProviderClass = dataProviderClass;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -144,5 +133,13 @@ public class ForexCalendarEvent {
 
     public void setForexCalendarEventTrendAssocs(List<ForexCalendarEventTrendAssoc> forexCalendarEventTrendAssocs) {
         this.forexCalendarEventTrendAssocs = forexCalendarEventTrendAssocs;
+    }
+
+    public ForexCalendarEventAnalysis getForexCalendarEventAnalysis() {
+        return forexCalendarEventAnalysis;
+    }
+
+    public void setForexCalendarEventAnalysis(ForexCalendarEventAnalysis forexCalendarEventAnalysis) {
+        this.forexCalendarEventAnalysis = forexCalendarEventAnalysis;
     }
 }

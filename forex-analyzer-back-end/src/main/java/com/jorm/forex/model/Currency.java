@@ -27,4 +27,16 @@ public enum Currency {
     public String toString() {
         return iso4217Code;
     }
+
+    public static Currency fromValue(String input)
+            throws IllegalArgumentException {
+
+        for (Currency currency : Currency.values()) {
+            if (currency.iso4217Code.equalsIgnoreCase(input)) {
+                return currency;
+            }
+        }
+
+        throw new IllegalArgumentException("Unknown enum value :"+ input);
+    }
 }
