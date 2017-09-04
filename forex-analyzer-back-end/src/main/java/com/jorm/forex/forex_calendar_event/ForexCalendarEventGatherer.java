@@ -32,13 +32,7 @@ public class ForexCalendarEventGatherer {
 
             List<ForexCalendarEvent> startEvents = forexCalendarEventProvider.getNewsInDateTimeRange(trendStart, trendStartWithMargin);
 
-            for(ForexCalendarEvent startEvent: startEvents){
-                ForexCalendarEventTrendAssoc assoc = createAssoc(startEvent, trend, gathering, TrendMoment.START);
-                gathering.addForexCalendarEventTrendAssoc(assoc);
-                startEvent.setForexCalendarEventGathering(gathering);
-                em.persist(startEvent);
-                em.persist(assoc);
-            }
+            createAssocs(startEvents, trend, gathering, TrendMoment.START);
 
             LocalDateTime trendEnd = trend.getEnd().getDateTime();
             LocalDateTime trendEndWithMargin = trendEnd.minusHours(hoursMargin);
@@ -46,19 +40,28 @@ public class ForexCalendarEventGatherer {
 
             List<ForexCalendarEvent> endEvents = forexCalendarEventProvider.getNewsInDateTimeRange(trendEnd, trendEndWithMargin);
 
-            for(ForexCalendarEvent endEvent: endEvents){
-                ForexCalendarEventTrendAssoc assoc = createAssoc(endEvent, trend, gathering, TrendMoment.END);
-                gathering.addForexCalendarEventTrendAssoc(assoc);
-                endEvent.setForexCalendarEventGathering(gathering);
-                em.persist(endEvent);
-                em.persist(assoc);
-            }
+            createAssocs(endEvents, trend, gathering, TrendMoment.END);
         }
 
         em.persist(gathering);
         em.flush();
 
         return gathering;
+    }
+
+    private void createAssocs(List<ForexCalendarEvent> events, Trend trend, ForexCalendarEventGathering gathering, TrendMoment moment){
+        for(ForexCalendarEvent event: events){
+
+            Symbol trendSymbol = trend.getSymbol();
+            if(null != trendSymbol.getFirstCurrency() &&
+                    (event.getCurrency() == trendSymbol.getFirstCurrency() || event.getCurrency() == trendSymbol.getSecondCurrency())){
+                ForexCalendarEventTrendAssoc assoc = createAssoc(event, trend, gathering, moment);
+                gathering.addForexCalendarEventTrendAssoc(assoc);
+                event.setForexCalendarEventGathering(gathering);
+                em.persist(event);
+                em.persist(assoc);
+            }
+        }
     }
 
     private ForexCalendarEventTrendAssoc createAssoc(ForexCalendarEvent event, Trend trend, ForexCalendarEventGathering analysis, TrendMoment moment){
