@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -77,10 +78,12 @@ public class ForexFactoryForexCalendarEventProvider implements ForexCalendarEven
 
                 if(timeString.isEmpty()){
                     time = prevTime;
-                } else if(timeString.equals("All Day")){
-                    time = LocalTime.MIDNIGHT; //TODO not sure how to save it. Separate column probably: isAllDay.
                 } else {
-                    time = LocalTime.parse(timeString, timeFormatter);
+                    try {
+                        time = LocalTime.parse(timeString, timeFormatter);
+                    } catch (DateTimeParseException e){
+                        time = LocalTime.MIDNIGHT; // "All Day" / "Day 1" / "Day 2" etc.  TODO consider saving as whole day some other way //TODO test this scenario
+                    }
                     prevTime = time;
                 }
 

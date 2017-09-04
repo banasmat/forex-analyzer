@@ -35,14 +35,15 @@ public class ForexCalendarEventGatheringController {
     private ForexCalendarEventProviderFactory forexCalendarEventProviderFactory;
 
     @Autowired
-    private ForexCalendarEventGatherer analyzer;
+    private ForexCalendarEventGatherer gatherer;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity ForexCalendarEventGathering(
             @RequestParam String start,
             @RequestParam String end,
             @RequestParam String symbol,
-            @RequestParam(defaultValue ="ForexFactory") String provider
+            @RequestParam(defaultValue ="ForexFactory") String provider,
+            @RequestParam(defaultValue ="4") String margin
     ) throws InvalidArgumentException {
         //TODO probably should run on separate thread
 
@@ -56,9 +57,11 @@ public class ForexCalendarEventGatheringController {
 
             ForexCalendarEventProvider forexCalendarEventProvider = forexCalendarEventProviderFactory.getForexCalendarEventProvider(provider);
 
-            ForexCalendarEventGathering analysis = analyzer.findForexCalendarEvents(forexCalendarEventProvider, trends);
+            ForexCalendarEventGatheringSettings settings = new ForexCalendarEventGatheringSettings(Integer.parseInt(margin));
 
-            return ResponseEntity.status(HttpStatus.CREATED).body("Found " + analysis.getForexCalendarEventTrendAssocs().size() + " forex calendar events.");
+            ForexCalendarEventGathering gathering = gatherer.findForexCalendarEvents(forexCalendarEventProvider, trends, settings);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("Found " + gathering.getForexCalendarEventTrendAssocs().size() + " forex calendar events.");
         } catch (DateTimeParseException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage() + ". Correct date format: " + Format.dateTimeFormatString);
         }

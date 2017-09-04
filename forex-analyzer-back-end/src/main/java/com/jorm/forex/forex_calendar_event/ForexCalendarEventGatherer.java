@@ -1,9 +1,6 @@
 package com.jorm.forex.forex_calendar_event;
 
-import com.jorm.forex.model.ForexCalendarEvent;
-import com.jorm.forex.model.ForexCalendarEventGathering;
-import com.jorm.forex.model.ForexCalendarEventTrendAssoc;
-import com.jorm.forex.model.Trend;
+import com.jorm.forex.model.*;
 import com.jorm.forex.trend.TrendMoment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 //TODO unit test
-//TODO rename EventGatherer ?
 @Service
 @Transactional
 public class ForexCalendarEventGatherer {
@@ -23,10 +19,10 @@ public class ForexCalendarEventGatherer {
     @Autowired
     private EntityManager em;
 
-    public ForexCalendarEventGathering findForexCalendarEvents(ForexCalendarEventProvider forexCalendarEventProvider, List<Trend> trends){
-        Integer hoursMargin = 12; //TODO should be in some Settings object
+    public ForexCalendarEventGathering findForexCalendarEvents(ForexCalendarEventProvider forexCalendarEventProvider, List<Trend> trends, ForexCalendarEventGatheringSettings settings){
+        Integer hoursMargin = settings.getMargin();
 
-        ForexCalendarEventGathering analysis = new ForexCalendarEventGathering(forexCalendarEventProvider, new Date());
+        ForexCalendarEventGathering gathering = new ForexCalendarEventGathering(forexCalendarEventProvider, settings);
 
         for(Trend trend : trends){
 
@@ -37,9 +33,9 @@ public class ForexCalendarEventGatherer {
             List<ForexCalendarEvent> startEvents = forexCalendarEventProvider.getNewsInDateTimeRange(trendStart, trendStartWithMargin);
 
             for(ForexCalendarEvent startEvent: startEvents){
-                ForexCalendarEventTrendAssoc assoc = createAssoc(startEvent, trend, analysis, TrendMoment.START);
-                analysis.addForexCalendarEventTrendAssoc(assoc);
-                startEvent.setForexCalendarEventGathering(analysis);
+                ForexCalendarEventTrendAssoc assoc = createAssoc(startEvent, trend, gathering, TrendMoment.START);
+                gathering.addForexCalendarEventTrendAssoc(assoc);
+                startEvent.setForexCalendarEventGathering(gathering);
                 em.persist(startEvent);
                 em.persist(assoc);
             }
@@ -51,18 +47,18 @@ public class ForexCalendarEventGatherer {
             List<ForexCalendarEvent> endEvents = forexCalendarEventProvider.getNewsInDateTimeRange(trendEnd, trendEndWithMargin);
 
             for(ForexCalendarEvent endEvent: endEvents){
-                ForexCalendarEventTrendAssoc assoc = createAssoc(endEvent, trend, analysis, TrendMoment.END);
-                analysis.addForexCalendarEventTrendAssoc(assoc);
-                endEvent.setForexCalendarEventGathering(analysis);
+                ForexCalendarEventTrendAssoc assoc = createAssoc(endEvent, trend, gathering, TrendMoment.END);
+                gathering.addForexCalendarEventTrendAssoc(assoc);
+                endEvent.setForexCalendarEventGathering(gathering);
                 em.persist(endEvent);
                 em.persist(assoc);
             }
         }
 
-        em.persist(analysis);
+        em.persist(gathering);
         em.flush();
 
-        return analysis;
+        return gathering;
     }
 
     private ForexCalendarEventTrendAssoc createAssoc(ForexCalendarEvent event, Trend trend, ForexCalendarEventGathering analysis, TrendMoment moment){

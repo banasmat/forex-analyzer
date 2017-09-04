@@ -1,7 +1,5 @@
 package com.jorm.forex.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,7 +11,7 @@ public class TrendFinderSettings {
     private Long id;
 
     @OneToMany(mappedBy = "trendFinderSettings")
-    private List<PriceDataAnalysis> priceDataAnalysis;
+    private List<PriceDataAnalysis> priceDataAnalyses;
 
     //TODO these fields will vary. consider using key value instead
     @Column(nullable = false )
@@ -35,7 +33,7 @@ public class TrendFinderSettings {
         return id;
     }
 
-    public List<PriceDataAnalysis> getPriceDataAnalysis() {
-        return priceDataAnalysis;
+    public List<PriceDataAnalysis> getPriceDataAnalyses() {
+        return priceDataAnalyses;
     }
 }

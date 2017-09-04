@@ -24,13 +24,19 @@ public class ForexCalendarEventGathering {
     @Column(nullable = false)
     private String forexCalendarEventProviderName;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(nullable = false)
+    private ForexCalendarEventGatheringSettings forexCalendarEventGatheringSettings;
+
     @Column(nullable = false)
     private Date createdAt;
 
     //TODO probalby rename to ForexCalendarEventSearch / MatchSearch
-    public ForexCalendarEventGathering(ForexCalendarEventProvider forexCalendarEventProvider, Date createdAt) {
+    public ForexCalendarEventGathering(ForexCalendarEventProvider forexCalendarEventProvider, ForexCalendarEventGatheringSettings forexCalendarEventGatheringSettings) {
+        this.forexCalendarEventGatheringSettings = forexCalendarEventGatheringSettings;
+
         this.forexCalendarEventProviderName = forexCalendarEventProvider.getName();
-        this.createdAt = createdAt;
+        this.createdAt = new Date();
         this.forexCalendarEventTrendAssocs = new ArrayList<>();
         this.forexCalendarEvents = new ArrayList<>();
     }
@@ -67,15 +73,11 @@ public class ForexCalendarEventGathering {
         return forexCalendarEventProviderName;
     }
 
-    public void setForexCalendarEventProviderName(String forexCalendarEventProviderName) {
-        this.forexCalendarEventProviderName = forexCalendarEventProviderName;
+    public ForexCalendarEventGatheringSettings getForexCalendarEventGatheringSettings() {
+        return forexCalendarEventGatheringSettings;
     }
 
     public Date getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 }
