@@ -46,7 +46,7 @@ public class ForexCalendarEvent {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(nullable = false)
-    private ForexCalendarEventAnalysis forexCalendarEventAnalysis;
+    private ForexCalendarEventGathering forexCalendarEventGathering;
 
     public ForexCalendarEvent(String title, LocalDateTime dateTime, String url, Currency currency, String actual, String previous, String forecast, Impact impact) {
         this.title = title;
@@ -135,11 +135,11 @@ public class ForexCalendarEvent {
         this.forexCalendarEventTrendAssocs = forexCalendarEventTrendAssocs;
     }
 
-    public ForexCalendarEventAnalysis getForexCalendarEventAnalysis() {
-        return forexCalendarEventAnalysis;
+    public ForexCalendarEventGathering getForexCalendarEventGathering() {
+        return forexCalendarEventGathering;
     }
 
-    public void setForexCalendarEventAnalysis(ForexCalendarEventAnalysis forexCalendarEventAnalysis) {
-        this.forexCalendarEventAnalysis = forexCalendarEventAnalysis;
+    public void setForexCalendarEventGathering(ForexCalendarEventGathering forexCalendarEventGathering) {
+        this.forexCalendarEventGathering = forexCalendarEventGathering;
     }
 }

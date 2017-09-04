@@ -1,6 +1,5 @@
 package com.jorm.forex.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jorm.forex.trend.TrendMoment;
 
 import javax.persistence.*;
@@ -25,7 +24,7 @@ public class ForexCalendarEventTrendAssoc {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(nullable = false)
-    private ForexCalendarEventAnalysis forexCalendarEventAnalysis;
+    private ForexCalendarEventGathering forexCalendarEventGathering;
 
     public Long getId() {
         return id;
@@ -55,11 +54,11 @@ public class ForexCalendarEventTrendAssoc {
         this.trendMoment = trendMoment;
     }
 
-    public ForexCalendarEventAnalysis getForexCalendarEventAnalysis() {
-        return forexCalendarEventAnalysis;
+    public ForexCalendarEventGathering getForexCalendarEventGathering() {
+        return forexCalendarEventGathering;
     }
 
-    public void setForexCalendarEventAnalysis(ForexCalendarEventAnalysis forexCalendarEventAnalysis) {
-        this.forexCalendarEventAnalysis = forexCalendarEventAnalysis;
+    public void setForexCalendarEventGathering(ForexCalendarEventGathering forexCalendarEventGathering) {
+        this.forexCalendarEventGathering = forexCalendarEventGathering;
     }
 }

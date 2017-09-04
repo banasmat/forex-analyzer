@@ -1,6 +1,6 @@
 package com.jorm.forex.controller;
 
-import com.jorm.forex.forex_calendar_event.ForexCalendarEventAnalyzer;
+import com.jorm.forex.forex_calendar_event.ForexCalendarEventGatherer;
 import com.jorm.forex.forex_calendar_event.ForexCalendarEventProvider;
 import com.jorm.forex.forex_calendar_event.ForexCalendarEventProviderFactory;
 import com.jorm.forex.model.*;
@@ -20,8 +20,8 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("forex-calendar-event-analysis")
-public class ForexCalendarEventAnalysisController {
+@RequestMapping("forex-calendar-event-gathering")
+public class ForexCalendarEventGatheringController {
 
     private static final DateTimeFormatter dateFormat = Format.dateTimeFormatter;
 
@@ -35,10 +35,10 @@ public class ForexCalendarEventAnalysisController {
     private ForexCalendarEventProviderFactory forexCalendarEventProviderFactory;
 
     @Autowired
-    private ForexCalendarEventAnalyzer analyzer;
+    private ForexCalendarEventGatherer analyzer;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity ForexCalendarEventAnalysis(
+    public ResponseEntity ForexCalendarEventGathering(
             @RequestParam String start,
             @RequestParam String end,
             @RequestParam String symbol,
@@ -56,7 +56,7 @@ public class ForexCalendarEventAnalysisController {
 
             ForexCalendarEventProvider forexCalendarEventProvider = forexCalendarEventProviderFactory.getForexCalendarEventProvider(provider);
 
-            ForexCalendarEventAnalysis analysis = analyzer.findForexCalendarEvents(forexCalendarEventProvider, trends);
+            ForexCalendarEventGathering analysis = analyzer.findForexCalendarEvents(forexCalendarEventProvider, trends);
 
             return ResponseEntity.status(HttpStatus.CREATED).body("Found " + analysis.getForexCalendarEventTrendAssocs().size() + " forex calendar events.");
         } catch (DateTimeParseException e){

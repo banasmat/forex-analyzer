@@ -1,7 +1,7 @@
 package com.jorm.forex.forex_calendar_event;
 
 import com.jorm.forex.model.ForexCalendarEvent;
-import com.jorm.forex.model.ForexCalendarEventAnalysis;
+import com.jorm.forex.model.ForexCalendarEventGathering;
 import com.jorm.forex.model.ForexCalendarEventTrendAssoc;
 import com.jorm.forex.model.Trend;
 import com.jorm.forex.trend.TrendMoment;
@@ -15,17 +15,18 @@ import java.util.Date;
 import java.util.List;
 
 //TODO unit test
+//TODO rename EventGatherer ?
 @Service
 @Transactional
-public class ForexCalendarEventAnalyzer {
+public class ForexCalendarEventGatherer {
 
     @Autowired
     private EntityManager em;
 
-    public ForexCalendarEventAnalysis findForexCalendarEvents(ForexCalendarEventProvider forexCalendarEventProvider, List<Trend> trends){
+    public ForexCalendarEventGathering findForexCalendarEvents(ForexCalendarEventProvider forexCalendarEventProvider, List<Trend> trends){
         Integer hoursMargin = 12; //TODO should be in some Settings object
 
-        ForexCalendarEventAnalysis analysis = new ForexCalendarEventAnalysis(forexCalendarEventProvider, new Date());
+        ForexCalendarEventGathering analysis = new ForexCalendarEventGathering(forexCalendarEventProvider, new Date());
 
         for(Trend trend : trends){
 
@@ -38,7 +39,7 @@ public class ForexCalendarEventAnalyzer {
             for(ForexCalendarEvent startEvent: startEvents){
                 ForexCalendarEventTrendAssoc assoc = createAssoc(startEvent, trend, analysis, TrendMoment.START);
                 analysis.addForexCalendarEventTrendAssoc(assoc);
-                startEvent.setForexCalendarEventAnalysis(analysis);
+                startEvent.setForexCalendarEventGathering(analysis);
                 em.persist(startEvent);
                 em.persist(assoc);
             }
@@ -52,7 +53,7 @@ public class ForexCalendarEventAnalyzer {
             for(ForexCalendarEvent endEvent: endEvents){
                 ForexCalendarEventTrendAssoc assoc = createAssoc(endEvent, trend, analysis, TrendMoment.END);
                 analysis.addForexCalendarEventTrendAssoc(assoc);
-                endEvent.setForexCalendarEventAnalysis(analysis);
+                endEvent.setForexCalendarEventGathering(analysis);
                 em.persist(endEvent);
                 em.persist(assoc);
             }
@@ -64,11 +65,11 @@ public class ForexCalendarEventAnalyzer {
         return analysis;
     }
 
-    private ForexCalendarEventTrendAssoc createAssoc(ForexCalendarEvent event, Trend trend, ForexCalendarEventAnalysis analysis, TrendMoment moment){
+    private ForexCalendarEventTrendAssoc createAssoc(ForexCalendarEvent event, Trend trend, ForexCalendarEventGathering analysis, TrendMoment moment){
         ForexCalendarEventTrendAssoc assoc = new ForexCalendarEventTrendAssoc();
         assoc.setForexCalendarEvent(event);
         assoc.setTrend(trend);
-        assoc.setForexCalendarEventAnalysis(analysis);
+        assoc.setForexCalendarEventGathering(analysis);
         assoc.setTrendMoment(TrendMoment.START);
 
         return assoc;

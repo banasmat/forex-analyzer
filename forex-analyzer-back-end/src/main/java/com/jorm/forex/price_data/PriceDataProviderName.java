@@ -1,7 +1,7 @@
 package com.jorm.forex.price_data;
 
 /**
- * Enum with string values.
+ * Enum with string values. TODO use enum
  * Values correspond service names of DataProvider implementations.
  */
 public final class

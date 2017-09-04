@@ -8,16 +8,16 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class ForexCalendarEventAnalysis {
+public class ForexCalendarEventGathering {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "forexCalendarEventAnalysis", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "forexCalendarEventGathering", cascade = CascadeType.PERSIST)
     private List<ForexCalendarEventTrendAssoc> forexCalendarEventTrendAssocs;
 
-    @OneToMany(mappedBy = "forexCalendarEventAnalysis", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "forexCalendarEventGathering", cascade = CascadeType.PERSIST)
     private List<ForexCalendarEvent> forexCalendarEvents;
 
     //TODO save as entity relation or string? (or Class name)
@@ -28,7 +28,7 @@ public class ForexCalendarEventAnalysis {
     private Date createdAt;
 
     //TODO probalby rename to ForexCalendarEventSearch / MatchSearch
-    public ForexCalendarEventAnalysis(ForexCalendarEventProvider forexCalendarEventProvider, Date createdAt) {
+    public ForexCalendarEventGathering(ForexCalendarEventProvider forexCalendarEventProvider, Date createdAt) {
         this.forexCalendarEventProviderName = forexCalendarEventProvider.getName();
         this.createdAt = createdAt;
         this.forexCalendarEventTrendAssocs = new ArrayList<>();
