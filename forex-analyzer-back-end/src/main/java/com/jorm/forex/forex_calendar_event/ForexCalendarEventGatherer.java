@@ -19,6 +19,10 @@ public class ForexCalendarEventGatherer {
     @Autowired
     private EntityManager em;
 
+    public ForexCalendarEventGatherer(EntityManager em) {
+        this.em = em;
+    }
+
     public ForexCalendarEventGathering findForexCalendarEvents(ForexCalendarEventProvider forexCalendarEventProvider, List<Trend> trends, ForexCalendarEventGatheringSettings settings){
         Integer hoursMargin = settings.getMargin();
 
@@ -28,7 +32,6 @@ public class ForexCalendarEventGatherer {
 
             LocalDateTime trendStart = trend.getStart().getDateTime();
             LocalDateTime trendStartWithMargin = trendStart.minusHours(hoursMargin);
-            trendStart = trendStart.plusHours(hoursMargin);
 
             List<ForexCalendarEvent> startEvents = forexCalendarEventProvider.getNewsInDateTimeRange(trendStart, trendStartWithMargin);
 
@@ -36,7 +39,6 @@ public class ForexCalendarEventGatherer {
 
             LocalDateTime trendEnd = trend.getEnd().getDateTime();
             LocalDateTime trendEndWithMargin = trendEnd.minusHours(hoursMargin);
-            trendEnd = trendEnd.plusHours(hoursMargin);
 
             List<ForexCalendarEvent> endEvents = forexCalendarEventProvider.getNewsInDateTimeRange(trendEnd, trendEndWithMargin);
 
