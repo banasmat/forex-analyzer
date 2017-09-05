@@ -31,6 +31,8 @@ public class ForexCalendarEventGathering {
     @Column(nullable = false)
     private Date createdAt;
 
+    public ForexCalendarEventGathering() {}
+
     //TODO probalby rename to ForexCalendarEventSearch / MatchSearch
     public ForexCalendarEventGathering(ForexCalendarEventProvider forexCalendarEventProvider, ForexCalendarEventGatheringSettings forexCalendarEventGatheringSettings) {
         this.forexCalendarEventGatheringSettings = forexCalendarEventGatheringSettings;

@@ -17,6 +17,8 @@ public class ForexCalendarEventGatheringSettings {
     @Column(nullable = false )
     private Integer margin;
 
+    public ForexCalendarEventGatheringSettings() {}
+
     public ForexCalendarEventGatheringSettings(Integer margin) {
         this.margin = margin;
         this.forexCalendarEventGatherings = new ArrayList<>();

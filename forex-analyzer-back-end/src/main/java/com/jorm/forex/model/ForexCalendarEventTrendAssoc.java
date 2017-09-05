@@ -1,5 +1,6 @@
 package com.jorm.forex.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jorm.forex.trend.TrendMoment;
 
 import javax.persistence.*;
@@ -9,22 +10,35 @@ public class ForexCalendarEventTrendAssoc {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
     @ManyToOne()
     @JoinColumn(nullable = false)
+    @JsonIgnore
     private Trend trend;
 
     @ManyToOne()
     @JoinColumn(nullable = false)
     private ForexCalendarEvent forexCalendarEvent;
 
-    @Column(nullable = false) //FIXME save as String (?)
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TrendMoment trendMoment;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(nullable = false)
+    @JsonIgnore
     private ForexCalendarEventGathering forexCalendarEventGathering;
+
+    public ForexCalendarEventTrendAssoc() {}
+
+    public ForexCalendarEventTrendAssoc(Trend trend, ForexCalendarEvent forexCalendarEvent, TrendMoment trendMoment, ForexCalendarEventGathering forexCalendarEventGathering) {
+        this.trend = trend;
+        this.forexCalendarEvent = forexCalendarEvent;
+        this.trendMoment = trendMoment;
+        this.forexCalendarEventGathering = forexCalendarEventGathering;
+    }
 
     public Long getId() {
         return id;
@@ -42,23 +56,11 @@ public class ForexCalendarEventTrendAssoc {
         return forexCalendarEvent;
     }
 
-    public void setForexCalendarEvent(ForexCalendarEvent forexCalendarEvent) {
-        this.forexCalendarEvent = forexCalendarEvent;
-    }
-
     public TrendMoment getTrendMoment() {
         return trendMoment;
     }
 
-    public void setTrendMoment(TrendMoment trendMoment) {
-        this.trendMoment = trendMoment;
-    }
-
     public ForexCalendarEventGathering getForexCalendarEventGathering() {
         return forexCalendarEventGathering;
-    }
-
-    public void setForexCalendarEventGathering(ForexCalendarEventGathering forexCalendarEventGathering) {
-        this.forexCalendarEventGathering = forexCalendarEventGathering;
     }
 }

@@ -57,22 +57,12 @@ public class ForexCalendarEventGatherer {
             Symbol trendSymbol = trend.getSymbol();
             if(null != trendSymbol.getFirstCurrency() &&
                     (event.getCurrency() == trendSymbol.getFirstCurrency() || event.getCurrency() == trendSymbol.getSecondCurrency())){
-                ForexCalendarEventTrendAssoc assoc = createAssoc(event, trend, gathering, moment);
+                ForexCalendarEventTrendAssoc assoc = new ForexCalendarEventTrendAssoc(trend, event, moment, gathering);
                 gathering.addForexCalendarEventTrendAssoc(assoc);
                 event.setForexCalendarEventGathering(gathering);
                 em.persist(event);
                 em.persist(assoc);
             }
         }
-    }
-
-    private ForexCalendarEventTrendAssoc createAssoc(ForexCalendarEvent event, Trend trend, ForexCalendarEventGathering analysis, TrendMoment moment){
-        ForexCalendarEventTrendAssoc assoc = new ForexCalendarEventTrendAssoc();
-        assoc.setForexCalendarEvent(event);
-        assoc.setTrend(trend);
-        assoc.setForexCalendarEventGathering(analysis);
-        assoc.setTrendMoment(TrendMoment.START);
-
-        return assoc;
     }
 }

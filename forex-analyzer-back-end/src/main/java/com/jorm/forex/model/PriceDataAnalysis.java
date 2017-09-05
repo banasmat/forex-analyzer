@@ -28,6 +28,8 @@ public class PriceDataAnalysis {
     @Column(nullable = false)
     private Date createdAt;
 
+    public PriceDataAnalysis() {}
+
     public PriceDataAnalysis(List<Trend> trends, TrendFinderStrategy trendFinderStrategy, TrendFinderSettings trendFinderSettings) {
         this.trends = trends;
         this.trendFinderStrategyName = trendFinderStrategy.getName();
