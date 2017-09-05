@@ -28,13 +28,11 @@ public class PriceDataAnalysis {
     @Column(nullable = false)
     private Date createdAt;
 
-    public PriceDataAnalysis(){}
-
-    public PriceDataAnalysis(List<Trend> trends, TrendFinderStrategy trendFinderStrategy, TrendFinderSettings trendFinderSettings, Date createdAt) {
+    public PriceDataAnalysis(List<Trend> trends, TrendFinderStrategy trendFinderStrategy, TrendFinderSettings trendFinderSettings) {
         this.trends = trends;
         this.trendFinderStrategyName = trendFinderStrategy.getName();
         this.trendFinderSettings = trendFinderSettings;
-        this.createdAt = createdAt;
+        this.createdAt = new Date();
     }
 
     public Long getId() {

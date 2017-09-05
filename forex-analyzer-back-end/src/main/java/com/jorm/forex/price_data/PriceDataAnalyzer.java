@@ -40,7 +40,7 @@ public class PriceDataAnalyzer {
 
         List<Trend> trends = trendFinderProcessor.findTrendsInData(priceRecords);
 
-        PriceDataAnalysis priceDataAnalysis = new PriceDataAnalysis(trends, trendFinderStrategy, trendFinderSettings, new Date());
+        PriceDataAnalysis priceDataAnalysis = new PriceDataAnalysis(trends, trendFinderStrategy, trendFinderSettings);
 
         //TODO might pass symbol and analysis to trendFinderProcessor instead.
         for(Trend trend : trends){
