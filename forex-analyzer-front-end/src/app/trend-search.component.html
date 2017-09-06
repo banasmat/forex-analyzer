@@ -21,6 +21,7 @@
     <div class="trend-inner">
       <span class="badge">{{trend.symbol.name}}</span>
       <span class="trend-diff">{{trend.start.open - trend.end.close | number:0}}</span>
+      <!--<span class="trend-diff">{{trend.forexCalendarEventAssocs.length | number:0}}</span>-->
       <candlestick-small-chart [trend]="trend"></candlestick-small-chart>
       <button class="btn btn-info btn-trend-details" [routerLink]="['/trend-detail', trend.id]">Details</button>
     </div>

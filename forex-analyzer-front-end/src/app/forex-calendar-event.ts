@@ -1,5 +1,4 @@
 export class ForexCalendarEvent {
-  id: number;
   title: string;
   dateTime: string;
   url: string;
