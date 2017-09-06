@@ -29,8 +29,8 @@ export class TrendSearchComponent implements OnInit {
     this.trendService.getSymbols().then(symbols => this.symbols = symbols);
 
     this.trendSearchForm = this.formBuilder.group({
-      start: [{date: { year: 2016, month: 6, day: 1}}, Validators.required],
-      end: [{date: { year: 2017, month: 1, day: 1}}, Validators.required],
+      start: [{date: { year: 2015, month: 9, day: 1}}, Validators.required],
+      end: [{date: { year: 2015, month: 10, day: 31}}, Validators.required],
       symbol: ['EURUSD', Validators.required] // TODO get available symbols from api
     });
     this.onSubmitReactiveForms();
@@ -45,15 +45,17 @@ export class TrendSearchComponent implements OnInit {
   }
 
   onSubmitReactiveForms(): void {
+
+    // Months are 0 based... so 9 is October
     this.getTrends(
         new Date(
           this.trendSearchForm.controls['start'].value.date.year,
-          this.trendSearchForm.controls['start'].value.date.month,
+          this.trendSearchForm.controls['start'].value.date.month - 1,
           this.trendSearchForm.controls['start'].value.date.day
         ),
         new Date(
           this.trendSearchForm.controls['end'].value.date.year,
-          this.trendSearchForm.controls['end'].value.date.month,
+          this.trendSearchForm.controls['end'].value.date.month - 1,
           this.trendSearchForm.controls['end'].value.date.day
         ),
         this.trendSearchForm.controls['symbol'].value

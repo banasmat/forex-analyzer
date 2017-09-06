@@ -18,6 +18,7 @@ export class TrendService {
   getTrends(start: Date, end: Date, symbol: string): Promise<Trend[]> {
 
     let params: URLSearchParams = new URLSearchParams();
+
     params.set('start', moment(start).format(AppSettings.DATE_TIME_FORMAT));
     params.set('end', moment(end).format(AppSettings.DATE_TIME_FORMAT));
     params.set('symbol', symbol);
