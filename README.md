@@ -25,12 +25,28 @@ Some of admin actions have to be done manually.
 * start front-end application `npm start`
 * navigate in browser to localhost:3000
 
+## Filling database with price records
+* `POST localhost:8080/price-record`
+example params:
+* symbol: `EURUSD`
+* file: a comma or semicolon separated csv file containing price data
+  example line should contain:
+  date, time, open, high, low, close
+  `2016.01.03,17:00,1.087010,1.087130,1.087010,1.087130`
+
 ## Searching for trends
 `POST localhost:8080/price-data-analysis`
 example params:
 * strategy: `HighLowAverage` (TrendFinderStrategy service name)
-* symbol: `EURUSD`
 * minDifference: `0.05` (min. difference in prices that is needed to detect a trend)
+* symbol: `EURUSD`
+* start: `01-01-2015 00:00:00`
+* end: `01-01-2017 00:00:00`
+
+## Gathering news data
+`localhost:8080/forex-calendar-event-gathering`
+example params:
+* symbol: `EURUSD`
 * start: `01-01-2015 00:00:00`
 * end: `01-01-2017 00:00:00`
 
